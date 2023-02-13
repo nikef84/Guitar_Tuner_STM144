@@ -1,6 +1,4 @@
-#include "ch.h"
-#include "hal.h"
-#include <chprintf.h>
+#include <terminal_write.h>
 
 static const SerialConfig sd_st_cfg = {
   .speed = 115200,
@@ -10,7 +8,7 @@ static const SerialConfig sd_st_cfg = {
 static SerialDriver         *debug_serial = &SD3;
 static BaseSequentialStream *debug_stream = NULL;
 
-void debug_stream_init( void )
+void debugStreamInit( void )
 {
     sdStart( debug_serial, &sd_st_cfg );
     palSetPadMode( GPIOD, 8, PAL_MODE_ALTERNATE(7) );
@@ -19,7 +17,7 @@ void debug_stream_init( void )
     debug_stream = (BaseSequentialStream *)debug_serial;
 }
 
-void dbgprintf( const char* format, ... )
+void dbgPrintf( const char* format, ... )
 {
     if ( !debug_stream )
         return;
@@ -30,18 +28,4 @@ void dbgprintf( const char* format, ... )
     va_end(ap);
 }
 
-int main(void) {
 
-    halInit();
-    chSysInit();
-
-    debug_stream_init();
-    dbgprintf("Test\n\r");
-    uint16_t i = 0;
-    while (true) {
-        chThdSleepMilliseconds(1000);
-        dbgprintf("%d\n\r", i);
-        palToggleLine(LINE_LED2);
-        i++;
-    }
-}
