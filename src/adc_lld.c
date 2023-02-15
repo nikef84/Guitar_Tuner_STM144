@@ -1,4 +1,4 @@
-#include <adc_lld.h>
+#include "adc_lld.h"
 
 /*
  * @brief   Setting the timer configuration to start the adc conversion with some period.
@@ -79,8 +79,8 @@ void adcSimpleUninit(void){
  *              numberOfSamples     Number of the adc conversion which will be write to the array.
  *                                  This number is equal to lenght of input array (buf).
  */
-void adcSimpleRead(uint16_t *buf, uint16_t numberOfSamples){
-    adcConvert(ADC_1, &adc0_conf, buf, numberOfSamples);
+void adcSimpleRead(uint16_t *buf, uint16_t number_of_samples){
+    adcConvert(ADC_1, &adc0_conf, buf, number_of_samples);
 }
 
 

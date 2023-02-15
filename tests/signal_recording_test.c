@@ -4,7 +4,7 @@
 #define ARRAY_LENGTH        5000
 static uint16_t array[ARRAY_LENGTH] = {0};
 
-void signal_recording_test(void) {
+void signalRecordingTest(void) {
 
     halInit();
     chSysInit();

@@ -37,10 +37,10 @@ void adcSimpleUninit(void);
  * @bried       Reads data from the ADC and writes it to the array.
  *
  * @param[in]   buf                 An array in which data will be write from the adc.
- *              numberOfSamples     Number of the adc conversion which will be write to the array.
+ *              number_of_samples   Number of the adc conversion which will be write to the array.
  *                                  This number is equal to lenght of input array (buf).
  */
-void adcSimpleRead(uint16_t *buf, uint16_t numberOfSamples);
+void adcSimpleRead(uint16_t *buf, uint16_t number_of_samples);
 
 
 #endif /* INCLUDE_ADC_LLD_H_ */
