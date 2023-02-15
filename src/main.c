@@ -1,19 +1,19 @@
-#include <common.h>
+#include "common.h"
 
 
 static inline void testRoutines(void) {
 #if(PROGRAM_ROUTINE == BLINK_TEST)
-    blink_test();
+    blinkTest();
 #elif(PROGRAM_ROUTINE == STEPPER_MOTOR_TEST)
-    stepper_motor_test();
+    stepperMotorTest();
 #elif(PROGRAM_ROUTINE == TERMINAL_WRITE_TEST)
-    terminal_write_test();
+    terminalWriteTest();
 #elif(PROGRAM_ROUTINE == ADC_TEST)
-    adc_test();
+    adcTest();
 #elif(PROGRAM_ROUTINE == SIGNAL_RECORDING_TEST)
-    signal_recording_test();
+    signalRecordingTest();
 #elif(PROGRAM_ROUTINE == FFT_TEST)
-    fft_test();
+    fftTest();
 #endif
 }
 

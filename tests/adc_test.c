@@ -4,7 +4,7 @@
 #define ARRAY_LENGTH        5000
 static uint16_t array[ARRAY_LENGTH] = {0};
 
-void adc_test(void) {
+void adcTest(void) {
 
     halInit();
     chSysInit();

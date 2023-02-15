@@ -10,6 +10,7 @@ PROJECT_CSRC 	= 	src/main.c \
 					tests/adc_test.c \
 					tests/signal_recording_test.c \
 					tests/fft_test.c \
+					
 
 
 
