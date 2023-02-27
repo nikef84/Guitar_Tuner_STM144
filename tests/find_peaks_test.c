@@ -11,7 +11,7 @@ static peaksAllParams testParam = {
 
 static float spec[SPEC_LENGTH] = {0, 0.05, 0.001,  0, 0.002, 0, 0, 0, 0, 0, 0.005, 0.07, 0.001};
 
-void findPeaksTest(void) {
+void find_peaks_test(void) {
 
     halInit();
     chSysInit();

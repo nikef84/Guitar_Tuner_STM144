@@ -4,7 +4,7 @@
 #define ARRAY_LENGTH        5
 static uint16_t array[ARRAY_LENGTH] = {0};
 
-void adcTest(void) {
+void adc_test(void) {
     halInit();
     chSysInit();
     debugStreamInit();
@@ -25,6 +25,6 @@ void adcTest(void) {
         dbgPrintf("max = %d\r\n", max);
         dbgPrintf("min = %d\r\n", min);
         begin = chVTGetSystemTime();
-          chThdSleepMilliseconds(1000);
+        chThdSleepMilliseconds(1000);
     }
 }

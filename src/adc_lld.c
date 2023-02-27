@@ -77,11 +77,11 @@ void adcSimpleUninit(void){
  *
  * @param[in]   buf                 An array in which data will be write from the adc.
  *
- * @note        number_of_samples   Number of the adc conversion which will be write to the array.
+ * @note        numberOfSamples   Number of the adc conversion which will be write to the array.
  *                                  This number is equal to lenght of input array (buf).
  */
-void adcSimpleRead(uint16_t *buf, uint16_t number_of_samples){
-    adcConvert(ADC_1, &adc0_conf, buf, number_of_samples);
+void adcSimpleRead(uint16_t *buf, uint16_t numberOfSamples){
+    adcConvert(ADC_1, &adc0_conf, buf, numberOfSamples);
 }
 
 
