@@ -2,23 +2,23 @@
 
 static inline void testRoutines(void) {
 #if(PROGRAM_ROUTINE == BLINK_TEST)
-    blinkTest();
+    blink_test();
 #elif(PROGRAM_ROUTINE == STEPPER_MOTOR_TEST)
-    stepperMotorTest();
+    stepper_motor_test();
 #elif(PROGRAM_ROUTINE == TERMINAL_WRITE_TEST)
-    terminalWriteTest();
+    terminal_write_test();
 #elif(PROGRAM_ROUTINE == ADC_TEST)
-    adcTest();
+    adc_test();
 #elif(PROGRAM_ROUTINE == SIGNAL_RECORDING_TEST)
-    signalRecordingTest();
+    signal_recording_test();
 #elif(PROGRAM_ROUTINE == FFT_TEST)
-    fftTest();
+    fft_test();
 #elif(PROGRAM_ROUTINE == FIND_PEAKS_TEST)
-    findPeaksTest();
+    find_peaks_test();
 #elif(PROGRAM_ROUTINE == SORT_FUNCS_TEST)
-    sortFuncsTest();
+    sort_funcs_test();
 #elif(PROGRAM_ROUTINE == PWM_TEST)
-    pwmTest();
+    pwm_test();
 #endif
 }
 

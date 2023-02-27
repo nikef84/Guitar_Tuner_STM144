@@ -23,7 +23,7 @@ PWMConfig pwm1conf = {
  * E9 - step
  * F13 - dir
  */
-void pwmTest(void)
+void pwm_test(void)
 {
     chSysInit();
     halInit();

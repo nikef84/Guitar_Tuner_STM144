@@ -6,7 +6,7 @@ static uint16_t signal[MAIN_SIGNAL_LENGTH] = {0};
 static float spec[MAIN_SIGNAL_LENGTH / 2] = {0};
 
 
-void fftTest(void) {
+void fft_test(void) {
 
     halInit();
     chSysInit();

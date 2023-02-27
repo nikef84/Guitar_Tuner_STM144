@@ -51,7 +51,7 @@ void second_sort(uint8_t first, uint8_t last){
     }
 }
 
-void sortFuncsTest(void){
+void sort_funcs_test(void){
   halInit();
   chSysInit();
   debugStreamInit();

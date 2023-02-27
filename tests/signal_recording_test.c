@@ -3,7 +3,7 @@
 
 static uint16_t array[MAIN_SIGNAL_LENGTH] = {0};
 
-void signalRecordingTest(void) {
+void signal_recording_test(void) {
 
     halInit();
     chSysInit();

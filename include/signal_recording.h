@@ -12,10 +12,10 @@
 /*
  * @brief   Record main signal after detecting a high amplitude.
  *
- * @param[in]   main_signal_buf         An array in which data will be write from the adc.
+ * @param[in]   mainSignalBuf         An array in which data will be write from the adc.
  *              MAIN_SIGNAL_LENGTH      Number of the adc conversion which will be write to the array.
  *                                      This number is equal to lenght of input array (buf).
  */
-void recordMainSignal(uint16_t *main_signal_buf);
+void recordMainSignal(uint16_t *mainSignalBuf);
 
 #endif /* INCLUDE_SIGNAL_RECORDING_H_ */

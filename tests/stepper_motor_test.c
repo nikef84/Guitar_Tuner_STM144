@@ -1,6 +1,6 @@
 #include "common.h"
 
-void stepperMotorTest(void){
+void stepper_motor_test(void){
   halInit();
   chSysInit();
   palSetGroupMode(GPIOD, 0xF0, 0, PAL_MODE_OUTPUT_PUSHPULL);
