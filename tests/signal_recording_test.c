@@ -1,8 +1,7 @@
 #include "signal_recording.h"
 #include "terminal_write.h"
 
-#define ARRAY_LENGTH        5000
-static uint16_t array[ARRAY_LENGTH] = {0};
+static uint16_t array[MAIN_SIGNAL_LENGTH] = {0};
 
 void signalRecordingTest(void) {
 
@@ -12,8 +11,8 @@ void signalRecordingTest(void) {
     dbgPrintf("Start\r\n");
     adcSimpleInit();
     while (true) {
-        recordMainSignal(array, ARRAY_LENGTH);
-        dbgPrintf("%d\r\n", array[ARRAY_LENGTH - 1]);
+        recordMainSignal(array);
+        dbgPrintf("%d\r\n", array[MAIN_SIGNAL_LENGTH - 1]);
     }
 
 }

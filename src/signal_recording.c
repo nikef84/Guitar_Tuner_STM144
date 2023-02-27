@@ -31,13 +31,12 @@ void waitingForMainSignal(uint16_t *buf, uint16_t number_of_samples){
 /*
  * @brief   Record main signal after detecting a high amplitude.
  *
- * @param[in]   mainSignalBuf       An array in which data will be write from the adc.
- *              numbe_of_samples    Number of the adc conversion which will be write to the array.
- *                                  This number is equal to lenght of input array (buf).
- *                                  This number MUST be less than 7000!
+ * @param[in]   mainSignalBuf           An array in which data will be write from the adc.
+ *              MAIN_SIGNAL_LENGTH      Number of the adc conversion which will be write to the array.
+ *                                      This number is equal to lenght of input array (buf).
  */
-void recordMainSignal(uint16_t *main_signal_buf, uint16_t numbe_of_samples){
+void recordMainSignal(uint16_t *main_signal_buf){
     waitingForMainSignal(wait_signal_buf, WAIT_SIGNAL_NUMBER_OF_SAMLES); // Waits a high amlitude.
 
-    adcSimpleRead(main_signal_buf, numbe_of_samples); // Records the main signal.
+    adcSimpleRead(main_signal_buf, MAIN_SIGNAL_LENGTH); // Records the main signal.
 }

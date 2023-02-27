@@ -10,7 +10,7 @@
  * @note    GPTD3 is used.
  */
 static const GPTConfig tim3_conf = {
-    .frequency = GPT_CONFIG_FREQUENCY, // Sets the timer frequency.
+    .frequency = (gptfreq_t) GPT_CONFIG_FREQUENCY, // Sets the timer frequency.
     .callback = NULL,
     .cr2 = TIM_CR2_MMS_1, // Sets the TRGO events.
     .dier = 0
@@ -57,7 +57,7 @@ void adcSimpleInit(void){
     gptStart(GPT_3, &tim3_conf);
     adcStart(ADC_1, NULL);
     palSetLineMode(PAL_LINE(GPIOC, 0), PAL_MODE_INPUT_ANALOG);
-    gptStartContinuous(GPT_3, 1000);
+    gptStartContinuous(GPT_3, (gptcnt_t) GPT_PERIOD);
 }
 
 /*
@@ -76,7 +76,8 @@ void adcSimpleUninit(void){
  * @bried       Reads data from the ADC and writes it to the array.
  *
  * @param[in]   buf                 An array in which data will be write from the adc.
- *              numberOfSamples     Number of the adc conversion which will be write to the array.
+ *
+ * @note        number_of_samples   Number of the adc conversion which will be write to the array.
  *                                  This number is equal to lenght of input array (buf).
  */
 void adcSimpleRead(uint16_t *buf, uint16_t number_of_samples){

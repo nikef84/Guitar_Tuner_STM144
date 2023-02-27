@@ -7,6 +7,7 @@
 #include "ch.h"
 #include "tests.h"
 #include "chprintf.h"
+#include "settings.h"
 
 // List of all possible programs
 #define MAIN_ROUTINE                        0
@@ -16,10 +17,14 @@
 #define ADC_TEST                            4
 #define SIGNAL_RECORDING_TEST               5
 #define FFT_TEST                            6
+#define FIND_PEAKS_TEST                     7
+#define SORT_FUNCS_TEST                     8
+#define PWM_TEST                            9
+
 
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE FFT_TEST
+#define PROGRAM_ROUTINE FIND_PEAKS_TEST
 
 #endif /* INCLUDE_COMMON_H_ */
