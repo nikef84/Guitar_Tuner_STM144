@@ -1,6 +1,5 @@
 #include "common.h"
 
-
 static inline void testRoutines(void) {
 #if(PROGRAM_ROUTINE == BLINK_TEST)
     blinkTest();
@@ -14,6 +13,12 @@ static inline void testRoutines(void) {
     signalRecordingTest();
 #elif(PROGRAM_ROUTINE == FFT_TEST)
     fftTest();
+#elif(PROGRAM_ROUTINE == FIND_PEAKS_TEST)
+    findPeaksTest();
+#elif(PROGRAM_ROUTINE == SORT_FUNCS_TEST)
+    sortFuncsTest();
+#elif(PROGRAM_ROUTINE == PWM_TEST)
+    pwmTest();
 #endif
 }
 

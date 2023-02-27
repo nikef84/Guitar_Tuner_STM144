@@ -3,9 +3,6 @@
 
 #include "common.h"
 
-// @brief   Timer operation parameters.
-#define GPT_CONFIG_FREQUENCY        2000000
-#define GPT_PERIOD                  1000
 
 // @brief   Which timer and adc is used.
 #define GPT_3                       &GPTD5
@@ -37,7 +34,8 @@ void adcSimpleUninit(void);
  * @bried       Reads data from the ADC and writes it to the array.
  *
  * @param[in]   buf                 An array in which data will be write from the adc.
- *              number_of_samples   Number of the adc conversion which will be write to the array.
+ *
+ * @note        number_of_samples   Number of the adc conversion which will be write to the array.
  *                                  This number is equal to lenght of input array (buf).
  */
 void adcSimpleRead(uint16_t *buf, uint16_t number_of_samples);

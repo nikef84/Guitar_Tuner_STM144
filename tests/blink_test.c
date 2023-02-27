@@ -1,6 +1,6 @@
 #include "common.h"
 
-void blinkTest(){
+void blinkTest(void){
   halInit();
   chSysInit();
   while (true) {

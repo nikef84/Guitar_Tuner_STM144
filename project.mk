@@ -3,22 +3,24 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/terminal_write.c \
 					src/adc_lld.c \
 					src/signal_recording.c \
-					src/fft.c \
+					src/findPeaks/power_fft.c \
+					src/findPeaks/findPeaks.c \
 					tests/blink_test.c \
 					tests/stepper_motor_test.c \
 					tests/terminal_write_test.c \
 					tests/adc_test.c \
 					tests/signal_recording_test.c \
 					tests/fft_test.c \
-					
-
-
+					tests/find_peaks_test.c \
+					tests/sort_funcs_test.c \
+					tests/pwm_test.c \					
 
 # C++ source files
 PROJECT_CPPSRC 	= 
 # Directories to search headers in
 PROJECT_INCDIR	= include \
                   tests \
+                  include/findPeaks \
  
 
 # Additional libraries

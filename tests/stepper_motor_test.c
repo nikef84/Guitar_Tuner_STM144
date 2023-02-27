@@ -3,14 +3,14 @@
 void stepperMotorTest(void){
   halInit();
   chSysInit();
-  palSetGroupMode(GPIOA, 0x0F, 0, PAL_MODE_OUTPUT_PUSHPULL);
-  uint8_t state = 8;
+  palSetGroupMode(GPIOD, 0xF0, 0, PAL_MODE_OUTPUT_PUSHPULL);
+  uint8_t state = 128;
   while (true) {
-    palWriteGroup(GPIOA, 0x0F, 0, state);
+    palWritePort(GPIOD, state);
 
-    if (state == 1) state = 8;
+    if (state == 16) state = 128;
     else state = state >> 1;
 
-    chThdSleepMilliseconds(5);
+    chThdSleepMilliseconds(100);
   }
 }
