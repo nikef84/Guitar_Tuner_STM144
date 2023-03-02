@@ -5,6 +5,7 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/signal_recording.c \
 					src/findPeaks/power_fft.c \
 					src/findPeaks/findPeaks.c \
+					tests/labview_test.c \
 					tests/blink_test.c \
 					tests/stepper_motor_test.c \
 					tests/terminal_write_test.c \
@@ -13,7 +14,10 @@ PROJECT_CSRC 	= 	src/main.c \
 					tests/fft_test.c \
 					tests/find_peaks_test.c \
 					tests/sort_funcs_test.c \
-					tests/pwm_test.c \					
+					tests/pwm_test.c \	
+					
+					
+									
 
 # C++ source files
 PROJECT_CPPSRC 	= 

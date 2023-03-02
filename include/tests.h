@@ -10,5 +10,6 @@ void fft_test(void);
 void find_peaks_test(void);
 void sort_funcs_test(void);
 void pwm_test(void);
+void labview_test(void);
 
 #endif /* INCLUDE_TESTS_H_ */
