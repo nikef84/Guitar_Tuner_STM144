@@ -97,7 +97,7 @@ void compute(float *dataRe, float *dataIm){
  */
 void dataInit(uint16_t *signal){
     for (uint16_t i = 0; i < MAIN_SIGNAL_LENGTH; i++){
-        dataRe[i] = (float)signal[i];
+        dataRe[i] = (float)signal[i] - REDUCE_AVERAGE_LEVEL_TO_ZERO;
         dataIm[i] = 0;
     }
 }
@@ -127,7 +127,7 @@ void dataAbs(float *spectrum, float *dataRe, float *dataIm){
  */
 void likeInLabView(float *spectrum){
     float firstNum = spectrum[0] / MAIN_SIGNAL_LENGTH;
-    for (uint16_t i = 0; i < (SPEC_LENGTH); i++){
+    for (uint16_t i = 1; i < (SPEC_LENGTH); i++){
       spectrum[i] = (spectrum[i] / MAIN_SIGNAL_LENGTH) * sqrt(2);
     }
     spectrum[0] = firstNum;

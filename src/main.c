@@ -19,6 +19,8 @@ static inline void testRoutines(void) {
     sort_funcs_test();
 #elif(PROGRAM_ROUTINE == PWM_TEST)
     pwm_test();
+#elif(PROGRAM_ROUTINE == LABVIEW_TEST)
+    labview_test();
 #endif
 }
 
