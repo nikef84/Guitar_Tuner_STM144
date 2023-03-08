@@ -4,8 +4,7 @@
 #include "common.h"
 #include "math.h"
 
-
-#define REDUCE_AVERAGE_LEVEL_TO_ZERO        1533
+#define REDUCE_AVERAGE_LEVEL_TO_ZERO 1533
 /*
  * @brief   Makes the FFT of the signal and returns the spec of this signal.
  *

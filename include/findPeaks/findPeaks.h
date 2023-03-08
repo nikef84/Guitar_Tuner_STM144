@@ -46,6 +46,8 @@ typedef struct
  */
 float findMinLimit(void);
 
+void peakDataInit(float *spectrum, peaksAllParams *peaksParams);
+
 /*
  * @brief   Finds all required peaks in the spectrum.
  *

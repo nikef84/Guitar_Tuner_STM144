@@ -9,6 +9,7 @@
 #define WAIT_SIGNAL_LOWER_LIMIT             500
 
 
+
 /*
  * @brief   Record main signal after detecting a high amplitude.
  *

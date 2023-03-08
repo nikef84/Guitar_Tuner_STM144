@@ -1,4 +1,5 @@
 #include "findPeaks.h"
+#include "terminal_write.h"
 
 // @brief   The size of the "separations" array.
 #define SEPARATIONS_LENGTH              3
@@ -13,9 +14,9 @@
  *          limit       The minimum value of the limit for finding a peak in a given group.
  */
 static findPeaksSeparations separations[] = {
-    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 100          , .limit = 0.01  },
-    {.minFreq = 100          , .maxFreq = 250          , .limit = 0.012 },
-    {.minFreq = 250          , .maxFreq = SPEC_FREQ_MAX, .limit = 0.005 }
+    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 150          , .limit = 50.0 },
+    {.minFreq = 150          , .maxFreq = 500          , .limit = 30.0 },
+    {.minFreq = 500          , .maxFreq = SPEC_FREQ_MAX, .limit = 40.0 }
 };
 
 /*
@@ -76,7 +77,12 @@ float findSpecMaxAmp(float *spectrum){
  *
  * @notapi
  */
-void peakDataInit(peaksAllParams *peaksParams){
+void peakDataInit(float *spectrum, peaksAllParams *peaksParams){
+    // Clear area from 0 to 50 Hz and from 900 to 1000 Hz. There are a lot of trash data.
+    for (uint16_t i = 0; i < SPEC_LENGTH; i++){
+        if ((i * SPEC_DF) < 50 || (i * SPEC_DF) > 900) spectrum[i] = 0;
+    }
+    // Inits peaksParams
     for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) {
         peaksParams->indicesOfFreqs[i] = 0;
         peaksParams->ampOfFreqs[i] = 0;
@@ -270,7 +276,7 @@ void countFreqs(peaksAllParams *peaksParams){
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
  */
 void searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams){
-    peakDataInit(peaksParams);
+    peakDataInit(spectrum, peaksParams);
     findIndicesOfPeaks(spectrum, peaksParams);
     sortAmpsByFreqs(peaksParams);
     countFreqs(peaksParams);
