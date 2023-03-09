@@ -8,6 +8,8 @@
 #include "tests.h"
 #include "chprintf.h"
 #include "settings.h"
+#include "stdlib.h"
+#include "math.h"
 
 // List of all possible programs
 #define MAIN_ROUTINE                        0
@@ -21,10 +23,11 @@
 #define SORT_FUNCS_TEST                     8
 #define PWM_TEST                            9
 #define LABVIEW_TEST                        10
+#define ONE_STRING_MODE_TEST                11
 
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE LABVIEW_TEST
+#define PROGRAM_ROUTINE ONE_STRING_MODE_TEST
 
 #endif /* INCLUDE_COMMON_H_ */

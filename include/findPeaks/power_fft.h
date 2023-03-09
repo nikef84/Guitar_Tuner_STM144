@@ -2,7 +2,6 @@
 #define INCLUDE_FINDPEAKS_POWER_FFT_H_
 
 #include "common.h"
-#include "math.h"
 
 
 #define REDUCE_AVERAGE_LEVEL_TO_ZERO        1533

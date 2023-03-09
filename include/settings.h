@@ -38,6 +38,12 @@ typedef struct{
     float freqs[PEAKS_MAX_LENGTH];
 } peaksAllParams;
 
+typedef struct{
+    float sixStringFreqs[6];
+    float oneStringFreq;
+    bool Error;
+} stringFreqsParams;
+
 
 
 

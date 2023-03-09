@@ -5,6 +5,8 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/signal_recording.c \
 					src/findPeaks/power_fft.c \
 					src/findPeaks/findPeaks.c \
+					src/modes/one_string_mode.c \
+					tests/one_string_mode_test.c \
 					tests/labview_test.c \
 					tests/blink_test.c \
 					tests/stepper_motor_test.c \
@@ -25,6 +27,7 @@ PROJECT_CPPSRC 	=
 PROJECT_INCDIR	= include \
                   tests \
                   include/findPeaks \
+                  include/modes \
  
 
 # Additional libraries
