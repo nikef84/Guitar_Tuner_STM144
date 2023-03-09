@@ -145,10 +145,16 @@ void find_real_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParams
  *              stringParams    The pointer to the structure in which all data of strings are stored.
  */
 void oneStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
-    init_freqs_params(stringParams);
-    multiplicity_check(peaksParams, stringParams);
-    nearest_freqs_diff(peaksParams, stringParams);
-    multiply_noise_check(peaksParams, stringParams);
-    find_real_freq(peaksParams, stringParams);
+    if (peaksParams->lengthOfArrays > 1){
+        init_freqs_params(stringParams);
+        multiplicity_check(peaksParams, stringParams);
+        nearest_freqs_diff(peaksParams, stringParams);
+        multiply_noise_check(peaksParams, stringParams);
+        find_real_freq(peaksParams, stringParams);
+    }
+    else {
+        stringParams->Error = true;
+        stringParams->oneStringFreq = 0;
+    }
 }
 

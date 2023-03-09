@@ -6,7 +6,9 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/findPeaks/power_fft.c \
 					src/findPeaks/findPeaks.c \
 					src/modes/one_string_mode.c \
+					src/modes/six_string_mode.c \
 					tests/one_string_mode_test.c \
+					tests/six_string_mode_test.c \
 					tests/labview_test.c \
 					tests/blink_test.c \
 					tests/stepper_motor_test.c \

@@ -33,8 +33,6 @@ static findPeaksFindMaxFreq specMaxAmp = {
  * @brief   Finds the smallest "limit" value in the "separations".
  *
  * @param[out]  minLimit    The smallest "limit" value in the "separations".
- *
- * @notapi
  */
 float findMinLimit(void){
     float minLimit = separations[0].limit;
