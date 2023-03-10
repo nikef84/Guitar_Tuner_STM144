@@ -7,7 +7,7 @@
 
 #define DIFF_FREQS_LENGTH               PEAKS_MAX_LENGTH - 1
 // Margins to check if some value is in some range.
-#define MULTIPLICITY_CHECK_MARGIN       0.1 // Abs
+#define MULT_CHECK_ONE_STR_MARGIN       0.1 // Abs
 #define FIND_REAL_FREQ_MARGIN           5 // Hz
 /* @brief   Limit to check if we have a multiply noise.
  *

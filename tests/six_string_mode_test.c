@@ -3,7 +3,7 @@
 
 static peaksAllParams peaksParams = {
     .lengthOfArrays = 3,
-    .freqs = {100, 150, 400}
+    .freqs = {50, 200, 400}
 };
 
 static stringFreqsParams stringParams = {
@@ -17,9 +17,11 @@ void six_string_mode_test(void) {
     halInit();
     chSysInit();
     debugStreamInit();
-    functionality_check(&peaksParams, &stringParams);
+    dbgPrintf("Start\r\n");
+    sixStringMode(&peaksParams, &stringParams);
     while (true) {
-        dbgPrintf("%d\r\n", stringParams.Error);
-        chThdSleepMilliseconds(1000000);
+        dbgPrintf("error = %d\r\n", stringParams.Error);
+        for (uint8_t i = 0; i < 6; i++) dbgPrintf("%0.1f\r\n", stringParams.sixStringFreqs[i]);
+        chThdSleepMilliseconds(100000);
     }
 }
