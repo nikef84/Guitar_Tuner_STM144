@@ -2,8 +2,8 @@
 #include "six_string_mode.h"
 
 static peaksAllParams peaksParams = {
-    .lengthOfArrays = 3,
-    .freqs = {50, 200, 400}
+    .lengthOfArrays = 14,
+    .freqs = {82, 109.4, 146.4, 164, 196.4, 219.2, 247.4, 255, 292, 340, 391.6, 440, 510, 680}
 };
 
 static stringFreqsParams stringParams = {

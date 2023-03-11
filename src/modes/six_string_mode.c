@@ -2,9 +2,10 @@
 
 static float freqsDecomposition[6][10];
 static uint8_t numOfElemInColom[6] = {0};
+static uint8_t numOfFirstZeroElem = 0;
 
 static sixStringLimitsParams sixStringLimits[] = {
-    {.lowerLimit = 50   , .upperLimit = 96.2 }, // 65
+    {.lowerLimit = 65   , .upperLimit = 96.2 },
     {.lowerLimit = 96.3 , .upperLimit = 128.4},
     {.lowerLimit = 128.5, .upperLimit = 171.4},
     {.lowerLimit = 171.5, .upperLimit = 221.5},
@@ -12,13 +13,29 @@ static sixStringLimitsParams sixStringLimits[] = {
     {.lowerLimit = 288.4, .upperLimit = 385  }
 };
 
+static uint8_t tempLimitsLength = 0;
+
+static sixStringLimitsParams tempLimits[] = {
+    {.lowerLimit = 0, .upperLimit = 0},
+    {.lowerLimit = 0, .upperLimit = 0},
+    {.lowerLimit = 0, .upperLimit = 0},
+    {.lowerLimit = 0, .upperLimit = 0},
+    {.lowerLimit = 0, .upperLimit = 0},
+    {.lowerLimit = 0, .upperLimit = 0}
+};
+
 void init_params_six_string(stringFreqsParams *stringParams){
     stringParams->Error = false;
-    for (uint8_t colom = 0; colom < 6; colom++){
+    numOfFirstZeroElem = 0;
+    tempLimitsLength = 0;
+    tempLimitsLength = 0;
+    for (uint8_t string = 0; string < 6; string++){
         for (uint8_t row = 0; row < 10; row++){
-            freqsDecomposition[colom][row] = 0;
+            freqsDecomposition[string][row] = 0;
         }
-        numOfElemInColom[colom] = 0;
+        numOfElemInColom[string] = 0;
+        tempLimits[string].lowerLimit = 0;
+        tempLimits[string].upperLimit = 0;
     }
 }
 
@@ -48,11 +65,10 @@ void freqs_decomposition_by_limits(peaksAllParams *peaksParams){
 }
 
 void multiplicity_check_six_string(peaksAllParams *peaksParams, stringFreqsParams *stringParams, float investigatedFreq){
-    for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++){
-        investigatedFreq = peaksParams->freqs[i] / investigatedFreq;
-        if (investigatedFreq <= (round(investigatedFreq) + 0.05) &&
-            investigatedFreq >= (round(investigatedFreq) - 0.05) &&
-            (investigatedFreq > 1.1) && (investigatedFreq < 2.1)){
+    investigatedFreq = investigatedFreq * 2;
+    for (uint8_t peak = 0; peak < peaksParams->lengthOfArrays; peak++){
+        if ((peaksParams->freqs[peak] <= investigatedFreq + 5) &&
+            (peaksParams->freqs[peak] >= investigatedFreq - 5)){
 
             stringParams->Error = false;
             break;
@@ -62,6 +78,7 @@ void multiplicity_check_six_string(peaksAllParams *peaksParams, stringFreqsParam
         }
     }
 }
+
 
 void find_first_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     bool flag = false;
@@ -73,9 +90,10 @@ void find_first_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParam
         case 1:
             multiplicity_check_six_string(peaksParams, stringParams, freqsDecomposition[string][0]);
             if (stringParams->Error == false){
-                flag = true;
                 stringParams->sixStringFreqs[string] =  freqsDecomposition[string][0];
+                numOfFirstZeroElem = string;
             }
+            flag = true;
             break;
         default:
             stringParams->Error = true;
@@ -83,7 +101,72 @@ void find_first_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParam
             break;
         }
     }
-    if (stringParams->Error == true) writes_zeros_to_six_string_array(stringParams);
+}
+
+bool check_if_freqs_were_lost(float investigatedFreq){
+    bool freqsWereLost = false;
+    for (uint8_t i = 0; (i < tempLimitsLength) && !freqsWereLost; i++){
+        for (uint8_t multiplier = 1; multiplier <= 5; multiplier++){
+            if ((investigatedFreq <= tempLimits[i].upperLimit * multiplier) &&
+               (investigatedFreq >= tempLimits[i].upperLimit * multiplier)){
+
+                freqsWereLost = true;
+                break;
+            }
+        }
+    }
+    return freqsWereLost;
+}
+
+
+void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
+    bool flag = false;
+    float potentialFreq, investigatedFreqAbs;
+    uint8_t numOfPotentialFreq ;
+    for (uint8_t string = 1; (string < 6 - numOfFirstZeroElem) && !flag; string++){
+        potentialFreq = 0;
+        numOfPotentialFreq = 0;
+        for (uint8_t i = 0; i < numOfElemInColom[numOfFirstZeroElem + string]; i++){
+            // ok
+            numOfPotentialFreq += 1;
+            if (check_if_freqs_were_lost(freqsDecomposition[numOfFirstZeroElem + string][i]) == false){
+                for (uint8_t j = 0; j < numOfFirstZeroElem + string; j++){
+                    if (stringParams->sixStringFreqs[j] != 0){
+                        investigatedFreqAbs = freqsDecomposition[numOfFirstZeroElem + string][i] / stringParams->sixStringFreqs[j];
+                        if ((investigatedFreqAbs <= round(investigatedFreqAbs) + 0.05) &&
+                            (investigatedFreqAbs >= round(investigatedFreqAbs) - 0.05)){
+                            numOfPotentialFreq -= 1;
+
+                            break;
+                        }
+                        potentialFreq = freqsDecomposition[numOfFirstZeroElem + string][i];
+                    }
+                }
+            }
+        }
+        switch (numOfPotentialFreq){
+        case 0:
+            tempLimits[tempLimitsLength] = sixStringLimits[numOfFirstZeroElem + string];
+            tempLimitsLength += 1;
+            break;
+        case 1:
+            multiplicity_check_six_string(peaksParams, stringParams, potentialFreq);
+            if (stringParams->Error == false){
+                stringParams->sixStringFreqs[numOfFirstZeroElem + string] = potentialFreq;
+                dbgPrintf("q\r\n");
+            }
+            else {
+                writes_zeros_to_six_string_array(stringParams);
+                flag = true;
+            }
+            break;
+        default:
+            stringParams->Error = true;
+            writes_zeros_to_six_string_array(stringParams);
+            flag = true;
+            break;
+        }
+    }
 }
 
 void print_freqs_decomosition(void){
@@ -103,8 +186,12 @@ void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
     functionality_check(peaksParams, stringParams);
     if (stringParams->Error == false){
         freqs_decomposition_by_limits(peaksParams);
-        print_freqs_decomosition();
+//        print_freqs_decomosition();
         find_first_freq(peaksParams, stringParams);
+        if (stringParams->Error == false){
+            find_all_freqs_exept_first(peaksParams, stringParams);
+        }
+        else writes_zeros_to_six_string_array(stringParams);
     }
     else{
         writes_zeros_to_six_string_array(stringParams);
