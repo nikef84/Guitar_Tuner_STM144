@@ -23,6 +23,8 @@ static inline void testRoutines(void) {
     labview_test();
 #elif(PROGRAM_ROUTINE == ONE_STRING_MODE_TEST)
     one_string_mode_test();
+#elif(PROGRAM_ROUTINE == SIX_STRING_MODE_TEST)
+    six_string_mode_test();
 #endif
 }
 

@@ -15,7 +15,7 @@ static uint8_t diffFreqsLength = 0;
  *
  * @notapi
  */
-void init_freqs_params(stringFreqsParams *stringParams){
+void init_params_one_string(stringFreqsParams *stringParams){
     for (uint8_t i = 0; i < (DIFF_FREQS_LENGTH); i++) diffFreqs[i] = 0;
     stringParams->oneStringFreq = 0;
     stringParams->Error = false;
@@ -29,13 +29,13 @@ void init_freqs_params(stringFreqsParams *stringParams){
  *
  * @notapi
  */
-void multiplicity_check(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
+void multiplicity_check_one_string(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     float halfOfFirstPeak = peaksParams->freqs[0] / 2;
     float investigatedFreqAbs;
     for (uint8_t i = 1; i < peaksParams->lengthOfArrays; i++){
         investigatedFreqAbs = peaksParams->freqs[i] / halfOfFirstPeak;
-        if (investigatedFreqAbs <= (round(investigatedFreqAbs) + MULTIPLICITY_CHECK_MARGIN) &&
-            investigatedFreqAbs >= (round(investigatedFreqAbs) - MULTIPLICITY_CHECK_MARGIN)){
+        if (investigatedFreqAbs <= (round(investigatedFreqAbs) + MULT_CHECK_ONE_STR_MARGIN) &&
+            investigatedFreqAbs >= (round(investigatedFreqAbs) - MULT_CHECK_ONE_STR_MARGIN)){
             stringParams->Error = false; // Evrything is OK.
         }
         else {
@@ -145,10 +145,16 @@ void find_real_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParams
  *              stringParams    The pointer to the structure in which all data of strings are stored.
  */
 void oneStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
-    init_freqs_params(stringParams);
-    multiplicity_check(peaksParams, stringParams);
-    nearest_freqs_diff(peaksParams, stringParams);
-    multiply_noise_check(peaksParams, stringParams);
-    find_real_freq(peaksParams, stringParams);
+    if (peaksParams->lengthOfArrays > 1){
+        init_params_one_string(stringParams);
+        multiplicity_check_one_string(peaksParams, stringParams);
+        nearest_freqs_diff(peaksParams, stringParams);
+        multiply_noise_check(peaksParams, stringParams);
+        find_real_freq(peaksParams, stringParams);
+    }
+    else {
+        stringParams->Error = true;
+        stringParams->oneStringFreq = 0;
+    }
 }
 
