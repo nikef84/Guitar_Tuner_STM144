@@ -4,11 +4,12 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/adc_lld.c \
 					src/signal_recording.c \
 					src/findPeaks/power_fft.c \
-					src/findPeaks/findPeaks.c \
+					src/findPeaks/find_peaks.c \
 					src/modes/one_string_mode.c \
 					src/modes/six_string_mode.c \
 					tests/one_string_mode_test.c \
 					tests/six_string_mode_test.c \
+					tests/servo_test.c \
 					tests/labview_test.c \
 					tests/blink_test.c \
 					tests/stepper_motor_test.c \

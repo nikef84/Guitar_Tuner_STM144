@@ -25,10 +25,11 @@
 #define LABVIEW_TEST                        10
 #define ONE_STRING_MODE_TEST                11
 #define SIX_STRING_MODE_TEST                12
+#define SERVO_TEST                          13
 
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE SIX_STRING_MODE_TEST
+#define PROGRAM_ROUTINE SERVO_TEST
 
 #endif /* INCLUDE_COMMON_H_ */

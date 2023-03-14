@@ -13,5 +13,6 @@ void pwm_test(void);
 void labview_test(void);
 void one_string_mode_test(void);
 void six_string_mode_test(void);
+void servo_test(void);
 
 #endif /* INCLUDE_TESTS_H_ */

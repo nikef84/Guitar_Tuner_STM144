@@ -1,4 +1,4 @@
-#include "findPeaks.h"
+#include "find_peaks.h"
 
 // @brief   The size of the "separations" array.
 #define SEPARATIONS_LENGTH              3

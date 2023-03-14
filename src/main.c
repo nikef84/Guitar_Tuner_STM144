@@ -25,6 +25,8 @@ static inline void testRoutines(void) {
     one_string_mode_test();
 #elif(PROGRAM_ROUTINE == SIX_STRING_MODE_TEST)
     six_string_mode_test();
+#elif(PROGRAM_ROUTINE == SERVO_TEST)
+    servo_test();
 #endif
 }
 
