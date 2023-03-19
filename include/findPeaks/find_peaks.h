@@ -9,7 +9,9 @@
 #define SPEC_FREQ_MIN                   0
 
 // It is added to investigated frequency to find if they are located nearby. In Hz.
-#define NEAREST_FREQS_PLUS_RANGE        4
+// Depends on operating mode.
+#define NEAREST_FREQS_RANGE_SIX_STR     5
+#define NEAREST_FREQS_RANGE_ONE_STR     30
 
 // In the range from 0 to "this limit", there is a lot of incorrect data.
 #define TRASH_DATA_LIMIT                50 // Hz.

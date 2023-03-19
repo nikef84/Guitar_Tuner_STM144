@@ -3,7 +3,9 @@
 // @brief   The size of the "separations" array.
 #define SEPARATIONS_LENGTH              4
 // @brief   The smallest "limit" value in the "separations".
-float separationsLimitMin;
+static float separationsLimitMin;
+// It is added to investigated frequency to find if they are located nearby. In Hz.
+static uint8_t nearestFreqRange;
 
 /*
  * @brief   Splits the spectrum into groups, which has its own limit.
@@ -103,8 +105,14 @@ void peak_data_init(float *spectrum, peaksAllParams *peaksParams){
     for (uint16_t i = 0; (i * SPEC_DF) < TRASH_DATA_LIMIT; i++)spectrum[i] = 0;
 
     // Finds minimum of separation limits depending on the operating mode.
-    if (MODE == SIX_STRING_MODE) separationsLimitMin = find_min_limit(separatSixStr);
-    else if (MODE == ONE_STRING_MODE) separationsLimitMin = find_min_limit(separatOneStr);
+    if (MODE == SIX_STRING_MODE) {
+        separationsLimitMin = find_min_limit(separatSixStr);
+        nearestFreqRange = NEAREST_FREQS_RANGE_SIX_STR;
+    }
+    else if (MODE == ONE_STRING_MODE) {
+        separationsLimitMin = find_min_limit(separatOneStr);
+        nearestFreqRange = NEAREST_FREQS_RANGE_ONE_STR;
+    }
 
     // Inits peaksParams
     for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) {
@@ -267,7 +275,7 @@ void delete_nearest_freqs(peaksAllParams *peaksParams){
         if (peaksParams->lengthOfArrays > (i + 1)){
             // If peaks are located nearby.
             if (peaksParams->freqs[i + 1] > peaksParams->freqs[i] &&
-                peaksParams->freqs[i + 1] < peaksParams->freqs[i] + NEAREST_FREQS_PLUS_RANGE){
+                peaksParams->freqs[i + 1] < peaksParams->freqs[i] + nearestFreqRange){
                 // Takes into account the amplitude of peaks.
                 if (peaksParams->ampOfFreqs[i] > peaksParams->ampOfFreqs[i + 1]){
                     delete_one_freq(peaksParams, (i + 1));
