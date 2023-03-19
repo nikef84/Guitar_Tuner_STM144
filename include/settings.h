@@ -17,7 +17,7 @@
  *
  * @note    It is used in signal_recording.h and fft.h.
  */
-#define MAIN_SIGNAL_LENGTH                  2048 // 8192
+#define MAIN_SIGNAL_LENGTH                  8192 // 8192
 #define SPEC_LENGTH                         MAIN_SIGNAL_LENGTH / 2
 #define MAIN_SIGNAL_DT                      GPT_PERIOD / GPT_CONFIG_FREQUENCY
 #define SPEC_DF                             1 / (MAIN_SIGNAL_DT * MAIN_SIGNAL_LENGTH)
@@ -44,8 +44,11 @@ typedef struct{
     bool Error;
 } stringFreqsParams;
 
+// @brief   Possible operating modes of the program.
+#define SIX_STRING_MODE                     0
+#define ONE_STRING_MODE                     1
 
-
-
+// The current operating mode of the program.
+#define MODE                                SIX_STRING_MODE
 
 #endif /* INCLUDE_SETTINGS_H_ */

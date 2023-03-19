@@ -1,21 +1,40 @@
 #include "find_peaks.h"
 
 // @brief   The size of the "separations" array.
-#define SEPARATIONS_LENGTH              3
+#define SEPARATIONS_LENGTH              4
 // @brief   The smallest "limit" value in the "separations".
-#define SEPARATIONS_LIMIT_MIN           find_min_limit()
+float separationsLimitMin;
 
 /*
  * @brief   Splits the spectrum into groups, which has its own limit.
+ *
+ * @note    For one string mode!
  *
  * @note    minFreq     The start frequency of group. In Hz.
  *          maxFreq     The last frequency of group. In Hz.
  *          limit       The minimum value of the limit for finding a peak in a given group.
  */
-static findPeaksSeparations separations[] = {
-    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 100          , .limit = 0.01  },
-    {.minFreq = 100          , .maxFreq = 250          , .limit = 0.012 },
-    {.minFreq = 250          , .maxFreq = SPEC_FREQ_MAX, .limit = 0.005 }
+static findPeaksSeparat separatOneStr[] = {
+    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 170          , .limit = 50 },
+    {.minFreq = 170          , .maxFreq = 270          , .limit = 20 },
+    {.minFreq = 270          , .maxFreq = 400          , .limit = 30 },
+    {.minFreq = 400          , .maxFreq = SPEC_FREQ_MAX, .limit = 40 } //35
+};
+
+/*
+ * @brief   Splits the spectrum into groups, which has its own limit.
+ *
+ * @note    For six string mode!
+ *
+ * @note    minFreq     The start frequency of group. In Hz.
+ *          maxFreq     The last frequency of group. In Hz.
+ *          limit       The minimum value of the limit for finding a peak in a given group.
+ */
+static findPeaksSeparat separatSixStr[] = {
+    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 150          , .limit = 50 },
+    {.minFreq = 150          , .maxFreq = 500          , .limit = 30 },
+    {.minFreq = 500          , .maxFreq = 700          , .limit = 60 },
+    {.minFreq = 700          , .maxFreq = SPEC_FREQ_MAX, .limit = 60 }
 };
 
 /*
@@ -32,11 +51,13 @@ static findMaxFreq specMaxAmp = {
 /*
  * @brief   Finds the smallest "limit" value in the "separations".
  *
- * @param[out]  minLimit    The smallest "limit" value in the "separations".
+ * @param[in]   separations     Spectrum separation params depending on the operating mode.
+ *
+ * @param[out]  minLimit        The smallest "limit" value in the "separations".
  *
  * @notapi
  */
-float find_min_limit(void){
+float find_min_limit(findPeaksSeparat *separations){
     float minLimit = separations[0].limit;
     for (uint8_t i = 1; i < SEPARATIONS_LENGTH; i++){
         if (separations[i].limit < minLimit) minLimit = separations[i].limit; // Finds the smalest one.
@@ -72,11 +93,20 @@ float find_spec_max_amp(float *spectrum){
  *
  * @note    "peaksParams" structure stores their data in a static format.
  *
- * @param[in]   peaksParams     The pointer to the structure in which all data of peaks are stored.
+ * @param[in]   spectrum        The pointer to the spectrum.
+ *              peaksParams     The pointer to the structure in which all data of peaks are stored.
  *
  * @notapi
  */
-void peak_data_init(peaksAllParams *peaksParams){
+void peak_data_init(float *spectrum, peaksAllParams *peaksParams){
+    // Clear area from 0 to 50 Hz. There are a lot of trash data.
+    for (uint16_t i = 0; (i * SPEC_DF) < TRASH_DATA_LIMIT; i++)spectrum[i] = 0;
+
+    // Finds minimum of separation limits depending on the operating mode.
+    if (MODE == SIX_STRING_MODE) separationsLimitMin = find_min_limit(separatSixStr);
+    else if (MODE == ONE_STRING_MODE) separationsLimitMin = find_min_limit(separatOneStr);
+
+    // Inits peaksParams
     for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) {
         peaksParams->indicesOfFreqs[i] = 0;
         peaksParams->ampOfFreqs[i] = 0;
@@ -88,16 +118,17 @@ void peak_data_init(peaksAllParams *peaksParams){
 /*
  * @brief   Removes bluring of the spectrum to the right and left of the found peak.
  *
- * @note    It may not work close to start/end separations group.
+ * @note    It may not work close to start/end separations section.
  *
  * @note    Takes into account in which group of "separations" investigated frequency is.
  *
- * @param[in]   spectrum        The pointer to the spectrum.
- *              peaksParams     The pointer to the structure in which all data of peaks are stored.
+ * @param[in]   spectrum            The pointer to the spectrum.
+ *              separations         Spectrum separation params depending on the operating mode.
+ *              separationsIndex    The index of the section from "separations" in which the peak is located.
  *
  * @notapi
  */
-void remove_bluring_of_spec(float *spectrum, uint8_t separationsIndex){
+void remove_bluring_of_spec(float *spectrum, findPeaksSeparat *separations, uint8_t separationsIndex){
     // It is added to the index of the hieghest peak in the spectrum.
     // Can be positive and negative. Pos - steps to the right of the peak.
     //                               Neg - steps to the left of the peak.
@@ -129,18 +160,19 @@ void remove_bluring_of_spec(float *spectrum, uint8_t separationsIndex){
  *
  * @param[in]   spectrum        The pointer to the spectrum.
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
+ *              separations     Spectrum separation params depending on the operating mode.
  *
  * @notapi
  */
-void find_indices_of_peaks(float *spectrum, peaksAllParams *peaksParams){
+void find_indices_of_peaks(float *spectrum, peaksAllParams *peaksParams, findPeaksSeparat *separations){
     float investigatedFreq; // The index of the hieghest peak in the spectrum times SPEC_DF
     // If max amplitude of the spectrum is higher than minimal limit in "separations".
-    while (find_spec_max_amp(spectrum) > SEPARATIONS_LIMIT_MIN){
+    while (find_spec_max_amp(spectrum) > separationsLimitMin){
         investigatedFreq = specMaxAmp.index * SPEC_DF;
         for (uint8_t i = 0; i < SEPARATIONS_LENGTH; i++){
             // Cheaks in which group of "separations" investigated frequency is located.
             if ((investigatedFreq > separations[i].minFreq) && (investigatedFreq < separations[i].maxFreq)){
-                remove_bluring_of_spec(spectrum, i); // Removes bluring of the spectrum to the right and left of the found peak.
+                remove_bluring_of_spec(spectrum, separations, i); // Removes bluring of the spectrum to the right and left of the found peak.
                 // If this peak is the required one, adds it into the structure.
                 if (specMaxAmp.amplitude >= separations[i].limit){
                     peaksParams->indicesOfFreqs[peaksParams->lengthOfArrays] = specMaxAmp.index;
@@ -270,8 +302,9 @@ void count_freqs(peaksAllParams *peaksParams){
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
  */
 void searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams){
-    peak_data_init(peaksParams);
-    find_indices_of_peaks(spectrum, peaksParams);
+    peak_data_init(spectrum, peaksParams);
+    if (MODE == SIX_STRING_MODE) find_indices_of_peaks(spectrum, peaksParams, separatSixStr);
+    else if (MODE == ONE_STRING_MODE) find_indices_of_peaks(spectrum, peaksParams, separatOneStr);
     sort_amps_by_freqs(peaksParams);
     count_freqs(peaksParams);
     delete_nearest_freqs(peaksParams);

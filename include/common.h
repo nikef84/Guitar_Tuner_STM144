@@ -25,10 +25,11 @@
 #define LABVIEW_TEST                        10
 #define ONE_STRING_MODE_TEST                11
 #define SIX_STRING_MODE_TEST                12
+#define FIND_STRING_FREQS_TEST              13
 
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE ADC_TEST
+#define PROGRAM_ROUTINE FIND_STRING_FREQS_TEST
 
 #endif /* INCLUDE_COMMON_H_ */

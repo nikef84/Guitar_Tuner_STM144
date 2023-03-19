@@ -7,8 +7,10 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/findPeaks/find_peaks.c \
 					src/modes/one_string_mode.c \
 					src/modes/six_string_mode.c \
+					src/modes/find_string_freqs.c \
 					tests/one_string_mode_test.c \
 					tests/six_string_mode_test.c \
+					tests/find_string_freqs_test.c \
 					tests/labview_test.c \
 					tests/blink_test.c \
 					tests/stepper_motor_test.c \
