@@ -1,5 +1,5 @@
-#ifndef INCLUDE_FINDPEAKS_FINDPEAKS_H_
-#define INCLUDE_FINDPEAKS_FINDPEAKS_H_
+#ifndef INCLUDE_FINDPEAKS_FIND_PEAKS_H_
+#define INCLUDE_FINDPEAKS_FIND_PEAKS_H_
 
 #include "common.h"
 
@@ -35,7 +35,7 @@ typedef struct
 {
     uint16_t index;
     float amplitude;
-} findPeaksFindMaxFreq;
+} findMaxFreq;
 
 /*
  * @brief   Finds the smallest "limit" value in the "separations".
@@ -44,7 +44,7 @@ typedef struct
  *
  * @notapi
  */
-float findMinLimit(void);
+float find_min_limit(void);
 
 /*
  * @brief   Finds all required peaks in the spectrum.
@@ -56,4 +56,4 @@ float findMinLimit(void);
  */
 void searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams);
 
-#endif /* INCLUDE_FINDPEAKS_FINDPEAKS_H_ */
+#endif /* INCLUDE_FINDPEAKS_FIND_PEAKS_H_ */

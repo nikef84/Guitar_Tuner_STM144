@@ -1,4 +1,4 @@
-#include "findPeaks.h"
+#include "find_peaks.h"
 #include "terminal_write.h"
 
 

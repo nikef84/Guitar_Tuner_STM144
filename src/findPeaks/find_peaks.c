@@ -1,9 +1,9 @@
-#include "findPeaks.h"
+#include "find_peaks.h"
 
 // @brief   The size of the "separations" array.
 #define SEPARATIONS_LENGTH              3
 // @brief   The smallest "limit" value in the "separations".
-#define SEPARATIONS_LIMIT_MIN           findMinLimit()
+#define SEPARATIONS_LIMIT_MIN           find_min_limit()
 
 /*
  * @brief   Splits the spectrum into groups, which has its own limit.
@@ -24,7 +24,7 @@ static findPeaksSeparations separations[] = {
  * @note    index       The position in the spectrum at which the amplitude is highest.
  *          amplitude   The value of highest peak in the spectrum.
  */
-static findPeaksFindMaxFreq specMaxAmp = {
+static findMaxFreq specMaxAmp = {
   .index = 0 ,
   .amplitude = 0.0
 };
@@ -33,8 +33,10 @@ static findPeaksFindMaxFreq specMaxAmp = {
  * @brief   Finds the smallest "limit" value in the "separations".
  *
  * @param[out]  minLimit    The smallest "limit" value in the "separations".
+ *
+ * @notapi
  */
-float findMinLimit(void){
+float find_min_limit(void){
     float minLimit = separations[0].limit;
     for (uint8_t i = 1; i < SEPARATIONS_LENGTH; i++){
         if (separations[i].limit < minLimit) minLimit = separations[i].limit; // Finds the smalest one.
@@ -53,7 +55,7 @@ float findMinLimit(void){
  *
  * @notapi
  */
-float findSpecMaxAmp(float *spectrum){
+float find_spec_max_amp(float *spectrum){
     specMaxAmp.index = 0;
     specMaxAmp.amplitude = spectrum[0];
     for (uint16_t i = 1; i < SPEC_LENGTH; i++){
@@ -74,7 +76,7 @@ float findSpecMaxAmp(float *spectrum){
  *
  * @notapi
  */
-void peakDataInit(peaksAllParams *peaksParams){
+void peak_data_init(peaksAllParams *peaksParams){
     for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) {
         peaksParams->indicesOfFreqs[i] = 0;
         peaksParams->ampOfFreqs[i] = 0;
@@ -95,7 +97,7 @@ void peakDataInit(peaksAllParams *peaksParams){
  *
  * @notapi
  */
-void removeBluringOfSpec(float *spectrum, uint8_t separationsIndex){
+void remove_bluring_of_spec(float *spectrum, uint8_t separationsIndex){
     // It is added to the index of the hieghest peak in the spectrum.
     // Can be positive and negative. Pos - steps to the right of the peak.
     //                               Neg - steps to the left of the peak.
@@ -130,15 +132,15 @@ void removeBluringOfSpec(float *spectrum, uint8_t separationsIndex){
  *
  * @notapi
  */
-void findIndicesOfPeaks(float *spectrum, peaksAllParams *peaksParams){
+void find_indices_of_peaks(float *spectrum, peaksAllParams *peaksParams){
     float investigatedFreq; // The index of the hieghest peak in the spectrum times SPEC_DF
     // If max amplitude of the spectrum is higher than minimal limit in "separations".
-    while (findSpecMaxAmp(spectrum) > SEPARATIONS_LIMIT_MIN){
+    while (find_spec_max_amp(spectrum) > SEPARATIONS_LIMIT_MIN){
         investigatedFreq = specMaxAmp.index * SPEC_DF;
         for (uint8_t i = 0; i < SEPARATIONS_LENGTH; i++){
             // Cheaks in which group of "separations" investigated frequency is located.
             if ((investigatedFreq > separations[i].minFreq) && (investigatedFreq < separations[i].maxFreq)){
-                removeBluringOfSpec(spectrum, i); // Removes bluring of the spectrum to the right and left of the found peak.
+                remove_bluring_of_spec(spectrum, i); // Removes bluring of the spectrum to the right and left of the found peak.
                 // If this peak is the required one, adds it into the structure.
                 if (specMaxAmp.amplitude >= separations[i].limit){
                     peaksParams->indicesOfFreqs[peaksParams->lengthOfArrays] = specMaxAmp.index;
@@ -178,7 +180,7 @@ int cmp(const void *a, const void *b) {
  *
  * @notapi
  */
-void sortAmpsByFreqs(peaksAllParams *peaksParams){
+void sort_amps_by_freqs(peaksAllParams *peaksParams){
     uint16_t temp_index[peaksParams->lengthOfArrays];
     float temp_amp[peaksParams->lengthOfArrays];
     // Writes data from real arrays to temp.
@@ -204,7 +206,7 @@ void sortAmpsByFreqs(peaksAllParams *peaksParams){
  *
  * @notapi
  */
-void deleteOneFreq(peaksAllParams *peaksParams, uint8_t deletedFreqIndex){
+void delete_one_freq(peaksAllParams *peaksParams, uint8_t deletedFreqIndex){
     // Shifting the array to the place of deleted index.
     for ( ; deletedFreqIndex < (peaksParams->lengthOfArrays - 1); deletedFreqIndex++){
         peaksParams->indicesOfFreqs[deletedFreqIndex] = peaksParams->indicesOfFreqs[deletedFreqIndex + 1];
@@ -227,7 +229,7 @@ void deleteOneFreq(peaksAllParams *peaksParams, uint8_t deletedFreqIndex){
  *
  * @notapi
  */
-void deleteNearestFreqs(peaksAllParams *peaksParams){
+void delete_nearest_freqs(peaksAllParams *peaksParams){
     for (uint8_t i = 0; i < peaksParams->lengthOfArrays;){
 
         if (peaksParams->lengthOfArrays > (i + 1)){
@@ -236,9 +238,9 @@ void deleteNearestFreqs(peaksAllParams *peaksParams){
                 peaksParams->freqs[i + 1] < peaksParams->freqs[i] + NEAREST_FREQS_PLUS_RANGE){
                 // Takes into account the amplitude of peaks.
                 if (peaksParams->ampOfFreqs[i] > peaksParams->ampOfFreqs[i + 1]){
-                    deleteOneFreq(peaksParams, (i + 1));
+                    delete_one_freq(peaksParams, (i + 1));
                 }
-                else deleteOneFreq(peaksParams, i);
+                else delete_one_freq(peaksParams, i);
             }
             else i++;
         }
@@ -253,7 +255,7 @@ void deleteNearestFreqs(peaksAllParams *peaksParams){
  *
  * @notapi
  */
-void countFreqs(peaksAllParams *peaksParams){
+void count_freqs(peaksAllParams *peaksParams){
     for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) {
         peaksParams->freqs[i] = peaksParams->indicesOfFreqs[i] * SPEC_DF;
     }
@@ -268,9 +270,9 @@ void countFreqs(peaksAllParams *peaksParams){
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
  */
 void searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams){
-    peakDataInit(peaksParams);
-    findIndicesOfPeaks(spectrum, peaksParams);
-    sortAmpsByFreqs(peaksParams);
-    countFreqs(peaksParams);
-    deleteNearestFreqs(peaksParams);
+    peak_data_init(peaksParams);
+    find_indices_of_peaks(spectrum, peaksParams);
+    sort_amps_by_freqs(peaksParams);
+    count_freqs(peaksParams);
+    delete_nearest_freqs(peaksParams);
 }

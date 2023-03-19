@@ -15,7 +15,7 @@ static msg_t flag;
  *
  * @notapi
  */
-void waitingForMainSignal(uint16_t *buf, uint16_t numberOfSamples){
+void waiting_for_main_signal(uint16_t *buf, uint16_t numberOfSamples){
     flag = MSG_TIMEOUT; // Shows if it catch a high amplitude.
 
     while (flag == MSG_TIMEOUT){
@@ -36,7 +36,7 @@ void waitingForMainSignal(uint16_t *buf, uint16_t numberOfSamples){
  *                                      This number is equal to lenght of input array (buf).
  */
 void recordMainSignal(uint16_t *waitSignalBuf){
-    waitingForMainSignal(waitSignaBuf, WAIT_SIGNAL_NUMBER_OF_SAMLES); // Waits a high amlitude.
+    waiting_for_main_signal(waitSignaBuf, WAIT_SIGNAL_NUMBER_OF_SAMLES); // Waits a high amlitude.
 
     adcSimpleRead(waitSignalBuf, MAIN_SIGNAL_LENGTH); // Records the main signal.
 }
