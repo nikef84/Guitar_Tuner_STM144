@@ -95,7 +95,7 @@ void compute(float *dataRe, float *dataIm){
  *
  * @notapi
  */
-void dataInit(uint16_t *signal){
+void data_init(uint16_t *signal){
     for (uint16_t i = 0; i < MAIN_SIGNAL_LENGTH; i++){
         dataRe[i] = (float)signal[i] - REDUCE_AVERAGE_LEVEL_TO_ZERO;
         dataIm[i] = 0;
@@ -110,7 +110,7 @@ void dataInit(uint16_t *signal){
  *              dataIm     Imaginary part of the signal.
  * @notapi
  */
-void dataAbs(float *spectrum, float *dataRe, float *dataIm){
+void data_abs(float *spectrum, float *dataRe, float *dataIm){
     for (uint16_t i = 0; i < (SPEC_LENGTH); i++){
       spectrum[i] = sqrt(pow(dataRe[i], 2) + pow(dataIm[i], 2));
     }
@@ -125,7 +125,7 @@ void dataAbs(float *spectrum, float *dataRe, float *dataIm){
  *
  * @notapi
  */
-void likeInLabView(float *spectrum){
+void like_in_labview(float *spectrum){
     float firstNum = spectrum[0] / MAIN_SIGNAL_LENGTH;
     for (uint16_t i = 1; i < (SPEC_LENGTH); i++){
       spectrum[i] = (spectrum[i] / MAIN_SIGNAL_LENGTH) * sqrt(2);
@@ -144,9 +144,9 @@ void likeInLabView(float *spectrum){
  *              signal      Array of real numbers with which we will calculate the FFT.
  */
 void fft(float *spectrum, uint16_t *signal){
-    dataInit(signal);
+    data_init(signal);
     rearrange(dataRe, dataIm);
     compute(dataRe, dataIm);
-    dataAbs(spectrum, dataRe, dataIm);
-    likeInLabView(spectrum);
+    data_abs(spectrum, dataRe, dataIm);
+    like_in_labview(spectrum);
 }
