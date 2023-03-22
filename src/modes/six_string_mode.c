@@ -309,9 +309,14 @@ void print_freqs_decomosition(void){
 void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     init_params_six_string(stringParams);
     functionality_check(peaksParams, stringParams);
+    for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) dbgPrintf("%0.3f\r\n", peaksParams->freqs[i]);
+    dbgPrintf("===================\r\n");
     if (stringParams->Error == false){
         freqs_decomposition_by_limits(peaksParams);
+        print_freqs_decomosition();
         find_first_freq(peaksParams, stringParams);
+        //dbgPrintf("Error = %d\r\n", stringParams->Error);
+        //for (uint8_t i = 0; i < 6; i++) dbgPrintf("%d     %0.3f\r\n", (6 - i), stringParams->sixStringFreqs[i]);
         if (stringParams->Error == false){
             find_all_freqs_exept_first(peaksParams, stringParams);
         }

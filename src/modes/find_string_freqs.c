@@ -30,7 +30,15 @@ static peaksAllParams peaksParams = {
 void findStringParams(stringFreqsParams *stringParams){
     recordMainSignal(mainSignalBuf); // Records the signal from the sensor.
     fft(specBuf, mainSignalBuf); // Finds the spectrum of the signal.
+    uint16_t period = SPEC_LENGTH / 4;
+
     searchForRequiredPeaks(specBuf, &peaksParams); // Finds all possible peaks.
+    for (uint8_t j = 0; j < 4; j++){
+        for (uint16_t i = j*period; i < (j + 1) * period; i++){
+           dbgPrintf("%0.3f\r\n", specBuf[i]);
+        }
+        chThdSleepMilliseconds(15000);
+    }
     // Finds real string freqs.
     if (MODE == SIX_STRING_MODE) sixStringMode(&peaksParams, stringParams);
     else if (MODE == ONE_STRING_MODE) oneStringMode(&peaksParams, stringParams);

@@ -33,10 +33,10 @@ static findPeaksSeparat separatOneStr[] = {
  *          limit       The minimum value of the limit for finding a peak in a given group.
  */
 static findPeaksSeparat separatSixStr[] = {
-    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 150          , .limit = 50 },
-    {.minFreq = 150          , .maxFreq = 500          , .limit = 30 },
-    {.minFreq = 500          , .maxFreq = 700          , .limit = 60 },
-    {.minFreq = 700          , .maxFreq = SPEC_FREQ_MAX, .limit = 60 }
+    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 170          , .limit = 40 },
+    {.minFreq = 170          , .maxFreq = 280          , .limit = 25 },
+    {.minFreq = 280          , .maxFreq = 500          , .limit = 35 },
+    {.minFreq = 500          , .maxFreq = SPEC_FREQ_MAX, .limit = 15 }
 };
 
 /*
