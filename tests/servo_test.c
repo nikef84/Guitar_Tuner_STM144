@@ -19,6 +19,7 @@ PWMConfig pwm3conf = {
     .dier       = 0
 };
 
+
 /*
  * E9 - step
  * F13 - dir
@@ -29,7 +30,9 @@ void servo_test(void)
     halInit();
     palSetLineMode( PAL_LINE( GPIOB, 4 ),  PAL_MODE_ALTERNATE(2) );
     pwmStart( pwm3Driver, &pwm3conf );
-    pwmEnableChannel( pwm3Driver, 0,400);
+    pwmEnableChannel( pwm3Driver, 0,500);
 
-    while (true);
+    while (true){
+        chThdSleepMilliseconds(100);
+    }
 }
