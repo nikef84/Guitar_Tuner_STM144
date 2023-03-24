@@ -29,7 +29,7 @@ void servo_test(void)
     halInit();
     palSetLineMode( PAL_LINE( GPIOB, 4 ),  PAL_MODE_ALTERNATE(2) );
     pwmStart( pwm3Driver, &pwm3conf );
-    pwmEnableChannel( pwm3Driver, 0,200);
+    pwmEnableChannel( pwm3Driver, 0,400);
 
     while (true);
 }
