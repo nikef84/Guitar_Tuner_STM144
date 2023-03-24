@@ -122,6 +122,7 @@ void freqs_decomposition_by_limits(peaksAllParams *peaksParams){
 void multiplicity_check_six_string(peaksAllParams *peaksParams, stringFreqsParams *stringParams,
                                    float investigatedFreq){
     investigatedFreq = investigatedFreq * 2; // Double it.
+    dbgPrintf("%0.3f\r\n", investigatedFreq);
     for (uint8_t peak = 0; peak < peaksParams->lengthOfArrays; peak++){ // Checks all freqs.
         if ((peaksParams->freqs[peak] <= investigatedFreq + MULT_CHECK_SIX_STR_MARGIN) &&
             (peaksParams->freqs[peak] >= investigatedFreq - MULT_CHECK_SIX_STR_MARGIN)){
@@ -259,12 +260,14 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
             break;
         case 1: // We found a potential freq.
             // Check if possible freq has doubled freq.
+            //dbgPrintf("%d   %d\r\n", stringParams->Error, string);
             multiplicity_check_six_string(peaksParams, stringParams, potentialFreq);
             if (stringParams->Error == false){ // We found a real freq of investigated string.
                 stringParams->sixStringFreqs[numOfFirstZeroElem + string] = potentialFreq;
             }
             else { // We found a noise or we lost some necessary freqs.
                 writes_zeros_to_six_string_array(stringParams);
+                //dbgPrintf("%d   %d\r\n", stringParams->Error, string);
                 error = true;
             }
             break;
@@ -309,8 +312,8 @@ void print_freqs_decomosition(void){
 void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     init_params_six_string(stringParams);
     functionality_check(peaksParams, stringParams);
-    for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) dbgPrintf("%0.3f\r\n", peaksParams->freqs[i]);
-    dbgPrintf("===================\r\n");
+//    for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) dbgPrintf("%0.3f\r\n", peaksParams->freqs[i]);
+//    dbgPrintf("===================\r\n");
     if (stringParams->Error == false){
         freqs_decomposition_by_limits(peaksParams);
         print_freqs_decomosition();

@@ -115,7 +115,7 @@ void peak_data_init(float *spectrum, peaksAllParams *peaksParams){
     }
 
     // Inits peaksParams
-    for (uint8_t i = 0; i < peaksParams->lengthOfArrays; i++) {
+    for (uint8_t i = 0; i < PEAKS_MAX_LENGTH; i++) {
         peaksParams->indicesOfFreqs[i] = 0;
         peaksParams->ampOfFreqs[i] = 0;
         peaksParams->freqs[i] = 0;
@@ -149,7 +149,7 @@ void remove_bluring_of_spec(float *spectrum, findPeaksSeparat *separations, uint
             if (i == 0) indexStep += 1; // To the right.
             else indexStep -= 1; // To the left.
             investigatedIndex = specMaxAmp.index + indexStep;
-            if (investigatedIndex > SPEC_FREQ_MAX || investigatedIndex < 0) break; //Steps is out of the spectrum range.
+            if (investigatedIndex > SPEC_LENGTH || investigatedIndex < 0) break; //Steps is out of the spectrum range.
 
             if (spectrum[investigatedIndex] >= separations[separationsIndex].limit){ // Resets amplitude.
                 spectrum[investigatedIndex] = 0;

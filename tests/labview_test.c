@@ -15,10 +15,10 @@ void labview_test(void) {
     adcSimpleInit();
     findStringParams(&stringParams);
     while (true) {
-//       for (uint16_t i = 0; i < 6; i++){
-//           dbgPrintf("%0.3f\r\n", stringParams.sixStringFreqs[i]);
-//       }
-//       dbgPrintf("%d\r\n", stringParams.Error);
+       for (uint16_t i = 0; i < 6; i++){
+           dbgPrintf("%0.3f\r\n", stringParams.sixStringFreqs[i]);
+       }
+       dbgPrintf("%d\r\n", stringParams.Error);
        chThdSleepMilliseconds(1000000);
     }
 }
