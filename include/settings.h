@@ -49,6 +49,6 @@ typedef struct{
 #define ONE_STRING_MODE                     1
 
 // The current operating mode of the program.
-#define MODE                                SIX_STRING_MODE
+#define MODE                                ONE_STRING_MODE
 
 #endif /* INCLUDE_SETTINGS_H_ */
