@@ -7,7 +7,7 @@
  * @note    It is used in adc_lld.h.
  */
 #define GPT_CONFIG_FREQUENCY                2000000.0
-#define GPT_PERIOD                          1000.0
+#define GPT_PERIOD                          500.0
 
 
 /*
@@ -49,6 +49,6 @@ typedef struct{
 #define ONE_STRING_MODE                     1
 
 // The current operating mode of the program.
-#define MODE                                ONE_STRING_MODE
+#define MODE                                SIX_STRING_MODE
 
 #endif /* INCLUDE_SETTINGS_H_ */

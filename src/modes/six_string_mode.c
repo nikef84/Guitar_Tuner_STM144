@@ -316,7 +316,7 @@ void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
 //    dbgPrintf("===================\r\n");
     if (stringParams->Error == false){
         freqs_decomposition_by_limits(peaksParams);
-        print_freqs_decomosition();
+        //print_freqs_decomosition();
         find_first_freq(peaksParams, stringParams);
         //dbgPrintf("Error = %d\r\n", stringParams->Error);
         //for (uint8_t i = 0; i < 6; i++) dbgPrintf("%d     %0.3f\r\n", (6 - i), stringParams->sixStringFreqs[i]);
