@@ -1,22 +1,25 @@
 #include "terminal_write.h"
-#include "power_fft.h"
-#include "adc_lld.h"
+#include "find_string_freqs.h"
 
-static uint16_t signal[MAIN_SIGNAL_LENGTH] = {0};
-static float spec[SPEC_LENGTH] = {0};
+static stringFreqsParams stringParams = {
+    .oneStringFreq = 0,
+    .Error = false,
+    .sixStringFreqs = {0}
+};
 
+// Change branch to "labview_test"!!! And run serial_test_v2.vi
 void labview_test(void) {
 
     halInit();
     chSysInit();
     debugStreamInit();
     adcSimpleInit();
-    adcSimpleRead(signal, MAIN_SIGNAL_LENGTH);
-    fft(spec, signal);
+    findStringParams(&stringParams);
     while (true) {
-        for (uint16_t i = 0; i < SPEC_LENGTH; i++){
-            dbgPrintf("%0.5f\r\n", spec[i]);
-        }
+        sdWrite(&SD3, (uint8_t *)&stringParams.oneStringFreq, 4);
+        sdWrite(&SD3, (uint8_t *)stringParams.sixStringFreqs, 24);
+        chThdSleepMilliseconds(1000);
+        sdWrite(&SD3, (uint8_t *)&stringParams.Error, 1);
         chThdSleepMilliseconds(1000000);
     }
 }

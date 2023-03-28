@@ -5,11 +5,16 @@
 
 
 // The beginning and the end of the spectrum. In Hz.
-#define SPEC_FREQ_MAX               (GPT_CONFIG_FREQUENCY / GPT_PERIOD) / 2
-#define SPEC_FREQ_MIN               0
+#define SPEC_FREQ_MAX                   (GPT_CONFIG_FREQUENCY / GPT_PERIOD) / 2
+#define SPEC_FREQ_MIN                   0
 
 // It is added to investigated frequency to find if they are located nearby. In Hz.
-#define NEAREST_FREQS_PLUS_RANGE    4
+// Depends on operating mode.
+#define NEAREST_FREQS_RANGE_SIX_STR     6
+#define NEAREST_FREQS_RANGE_ONE_STR     30
+
+// In the range from 0 to "this limit", there is a lot of incorrect data.
+#define TRASH_DATA_LIMIT                50 // Hz.
 
 /*
  * @brief   Splits the spectrum into groups, which has its own limit.
@@ -23,7 +28,7 @@ typedef struct
     uint16_t minFreq;
     uint16_t maxFreq;
     float limit;
-} findPeaksSeparations;
+} findPeaksSeparat;
 
 /*
  * @brief   The maximum value of the amplitude in the spectrum.
@@ -37,14 +42,6 @@ typedef struct
     float amplitude;
 } findMaxFreq;
 
-/*
- * @brief   Finds the smallest "limit" value in the "separations".
- *
- * @param[out]  minLimit    The smallest "limit" value in the "separations".
- *
- * @notapi
- */
-float find_min_limit(void);
 
 /*
  * @brief   Finds all required peaks in the spectrum.
@@ -53,7 +50,10 @@ float find_min_limit(void);
  *
  * @param[in]   spectrum        The pointer to the spectrum.
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
+ *
+ * @param[out]  true  - We found more peaks than it should be. (PEAKS_MAX_LENGTH)
+ *              false - Everything is OK. We found less peaks than it should be.
  */
-void searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams);
+bool searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams);
 
 #endif /* INCLUDE_FINDPEAKS_FIND_PEAKS_H_ */

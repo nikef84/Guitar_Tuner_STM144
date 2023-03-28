@@ -75,10 +75,14 @@ void adcSimpleUninit(void){
 /*
  * @bried       Reads data from the ADC and writes it to the array.
  *
+ * @note    ADC1 is used.
+ *
+ * @note    GPTD3 is used.
+ *
  * @param[in]   buf                 An array in which data will be write from the adc.
  *
  * @note        numberOfSamples   Number of the adc conversion which will be write to the array.
- *                                  This number is equal to lenght of input array (buf).
+ *                                This number is equal to lenght of input array (buf).
  */
 void adcSimpleRead(uint16_t *buf, uint16_t numberOfSamples){
     adcConvert(ADC_1, &adc0_conf, buf, numberOfSamples);

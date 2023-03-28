@@ -36,8 +36,6 @@ static sixStringLimitsParams tempLimits[] = {
  * @note    Always used when some error has occurred.
  *
  * @param[in]   stringParams    The pointer to the structure in which all data of strings are stored.
- *
- * @notapi
  */
 void writes_zeros_to_six_string_array(stringFreqsParams *stringParams){
     for (uint8_t string = 0; string < NUM_OF_STRINGS; string++){
@@ -311,13 +309,12 @@ void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
     functionality_check(peaksParams, stringParams);
     if (stringParams->Error == false){
         freqs_decomposition_by_limits(peaksParams);
+        //print_freqs_decomosition();
         find_first_freq(peaksParams, stringParams);
         if (stringParams->Error == false){
             find_all_freqs_exept_first(peaksParams, stringParams);
         }
         else writes_zeros_to_six_string_array(stringParams);
     }
-    else{
-        writes_zeros_to_six_string_array(stringParams);
-    }
+    else writes_zeros_to_six_string_array(stringParams);
 }

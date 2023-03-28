@@ -12,6 +12,6 @@ void terminal_write_test(void){
         if (num < 100) dbgPrintf("NUM = %d\r\n", num);
         palToggleLine(LINE_LED2);
         num = num + 1;
-        chThdSleepMilliseconds(1000);
+        chThdSleepMilliseconds(100000);
     }
 }

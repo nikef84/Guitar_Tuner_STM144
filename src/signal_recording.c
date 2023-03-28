@@ -35,8 +35,8 @@ void waiting_for_main_signal(uint16_t *buf, uint16_t numberOfSamples){
  *              MAIN_SIGNAL_LENGTH      Number of the adc conversion which will be write to the array.
  *                                      This number is equal to lenght of input array (buf).
  */
-void recordMainSignal(uint16_t *waitSignalBuf){
+void recordMainSignal(uint16_t *mainSignalBuf){
     waiting_for_main_signal(waitSignaBuf, WAIT_SIGNAL_NUMBER_OF_SAMLES); // Waits a high amlitude.
 
-    adcSimpleRead(waitSignalBuf, MAIN_SIGNAL_LENGTH); // Records the main signal.
+    adcSimpleRead(mainSignalBuf, MAIN_SIGNAL_LENGTH); // Records the main signal.
 }
