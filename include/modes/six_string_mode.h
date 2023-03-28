@@ -23,6 +23,16 @@ typedef struct{
 
 
 /*
+ * @brief   Writes zeros to "stringParams.sixStringFreqs".
+ *
+ * @note    Always used when some error has occurred.
+ *
+ * @param[in]   stringParams    The pointer to the structure in which all data of strings are stored.
+ */
+void writes_zeros_to_six_string_array(stringFreqsParams *stringParams);
+
+
+/*
  * @brief   Checks if the received data is correct and finds real freqs of six strings.
  *
  * @note    If the "stringParams->sixStringFreq" is {0}, then we had an error.

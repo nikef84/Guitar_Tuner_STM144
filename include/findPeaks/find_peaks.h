@@ -10,7 +10,7 @@
 
 // It is added to investigated frequency to find if they are located nearby. In Hz.
 // Depends on operating mode.
-#define NEAREST_FREQS_RANGE_SIX_STR     5
+#define NEAREST_FREQS_RANGE_SIX_STR     6
 #define NEAREST_FREQS_RANGE_ONE_STR     30
 
 // In the range from 0 to "this limit", there is a lot of incorrect data.
@@ -50,7 +50,10 @@ typedef struct
  *
  * @param[in]   spectrum        The pointer to the spectrum.
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
+ *
+ * @param[out]  true  - We found more peaks than it should be. (PEAKS_MAX_LENGTH)
+ *              false - Everything is OK. We found less peaks than it should be.
  */
-void searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams);
+bool searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams);
 
 #endif /* INCLUDE_FINDPEAKS_FIND_PEAKS_H_ */

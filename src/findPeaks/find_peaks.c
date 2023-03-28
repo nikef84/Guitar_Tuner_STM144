@@ -1,7 +1,7 @@
 #include "find_peaks.h"
 
 // @brief   The size of the "separations" array.
-#define SEPARATIONS_LENGTH              4
+#define SEPARATIONS_LENGTH              6
 // @brief   The smallest "limit" value in the "separations".
 static float separationsLimitMin;
 // It is added to investigated frequency to find if they are located nearby. In Hz.
@@ -17,10 +17,13 @@ static uint8_t nearestFreqRange;
  *          limit       The minimum value of the limit for finding a peak in a given group.
  */
 static findPeaksSeparat separatOneStr[] = {
-    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 170          , .limit = 50 },
-    {.minFreq = 170          , .maxFreq = 270          , .limit = 20 },
-    {.minFreq = 270          , .maxFreq = 400          , .limit = 30 },
-    {.minFreq = 400          , .maxFreq = SPEC_FREQ_MAX, .limit = 40 } //35
+    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 95           , .limit = 50 },
+    {.minFreq = 95           , .maxFreq = 215          , .limit = 60 },
+    {.minFreq = 215          , .maxFreq = 270          , .limit = 30 },
+    // Just for length(separatOneStr) = length(separatSixString)
+    {.minFreq = 270          , .maxFreq = 700          , .limit = 30 },
+    {.minFreq = 700          , .maxFreq = 800          , .limit = 30 },
+    {.minFreq = 800          , .maxFreq = SPEC_FREQ_MAX, .limit = 30 } //35
 };
 
 /*
@@ -33,10 +36,12 @@ static findPeaksSeparat separatOneStr[] = {
  *          limit       The minimum value of the limit for finding a peak in a given group.
  */
 static findPeaksSeparat separatSixStr[] = {
-    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 170          , .limit = 40 },
-    {.minFreq = 170          , .maxFreq = 280          , .limit = 25 },
-    {.minFreq = 280          , .maxFreq = 500          , .limit = 35 },
-    {.minFreq = 500          , .maxFreq = SPEC_FREQ_MAX, .limit = 15 }
+    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 95           , .limit = 40 },
+    {.minFreq = 95           , .maxFreq = 180          , .limit = 80 },
+    {.minFreq = 180          , .maxFreq = 220          , .limit = 40 },
+    {.minFreq = 220          , .maxFreq = 280          , .limit = 25 },
+    {.minFreq = 280          , .maxFreq = 450          , .limit = 40 },
+    {.minFreq = 450          , .maxFreq = SPEC_FREQ_MAX, .limit = 50 }
 };
 
 /*
@@ -100,9 +105,13 @@ float find_spec_max_amp(float *spectrum){
  *
  * @notapi
  */
+
+#include "terminal_write.h"
 void peak_data_init(float *spectrum, peaksAllParams *peaksParams){
     // Clear area from 0 to 50 Hz. There are a lot of trash data.
     for (uint16_t i = 0; (i * SPEC_DF) < TRASH_DATA_LIMIT; i++)spectrum[i] = 0;
+    // Clear area from 800 to SPEC_LENGTH Hz. There are a lot of trash data.
+    for (uint16_t i = SPEC_LENGTH; i * SPEC_DF > 800; i--) spectrum[i] = 0;
 
     // Finds minimum of separation limits depending on the operating mode.
     if (MODE == SIX_STRING_MODE) {
@@ -170,9 +179,12 @@ void remove_bluring_of_spec(float *spectrum, findPeaksSeparat *separations, uint
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
  *              separations     Spectrum separation params depending on the operating mode.
  *
+ * @param[out]  true  - We found more peaks than it should be. (PEAKS_MAX_LENGTH)
+ *              false - Everything is OK. We found less peaks than it should be.
+ *
  * @notapi
  */
-void find_indices_of_peaks(float *spectrum, peaksAllParams *peaksParams, findPeaksSeparat *separations){
+bool find_indices_of_peaks(float *spectrum, peaksAllParams *peaksParams, findPeaksSeparat *separations){
     float investigatedFreq; // The index of the hieghest peak in the spectrum times SPEC_DF
     // If max amplitude of the spectrum is higher than minimal limit in "separations".
     while (find_spec_max_amp(spectrum) > separationsLimitMin){
@@ -186,11 +198,13 @@ void find_indices_of_peaks(float *spectrum, peaksAllParams *peaksParams, findPea
                     peaksParams->indicesOfFreqs[peaksParams->lengthOfArrays] = specMaxAmp.index;
                     peaksParams->ampOfFreqs[peaksParams->lengthOfArrays] = specMaxAmp.amplitude;
                     peaksParams->lengthOfArrays = peaksParams->lengthOfArrays + 1;
+                    if (peaksParams->lengthOfArrays == PEAKS_MAX_LENGTH) return true;
                 }
                 break;
             }
         }
     }
+    return false;
 }
 
 /*
@@ -308,12 +322,20 @@ void count_freqs(peaksAllParams *peaksParams){
  *
  * @param[in]   spectrum        The pointer to the spectrum.
  *              peaksParams     The pointer to the structure in which all data of peaks are stored.
+ *
+ * @param[out]  true  - We found more peaks than it should be. (PEAKS_MAX_LENGTH)
+ *              false - Everything is OK. We found less peaks than it should be.
  */
-void searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams){
+bool searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams){
+    bool flag;
     peak_data_init(spectrum, peaksParams);
-    if (MODE == SIX_STRING_MODE) find_indices_of_peaks(spectrum, peaksParams, separatSixStr);
-    else if (MODE == ONE_STRING_MODE) find_indices_of_peaks(spectrum, peaksParams, separatOneStr);
-    sort_amps_by_freqs(peaksParams);
-    count_freqs(peaksParams);
-    delete_nearest_freqs(peaksParams);
+    if (MODE == SIX_STRING_MODE) flag = find_indices_of_peaks(spectrum, peaksParams, separatSixStr);
+    else if (MODE == ONE_STRING_MODE) flag = find_indices_of_peaks(spectrum, peaksParams, separatOneStr);
+
+    if (flag == false){
+        sort_amps_by_freqs(peaksParams);
+        count_freqs(peaksParams);
+        delete_nearest_freqs(peaksParams);
+    }
+    return flag;
 }

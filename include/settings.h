@@ -28,7 +28,7 @@
  *
  * @note    It is used in findPeaks.h.
  */
-#define PEAKS_MAX_LENGTH                    50
+#define PEAKS_MAX_LENGTH                    100
 
 
 typedef struct{

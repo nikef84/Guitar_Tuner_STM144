@@ -30,6 +30,6 @@
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE LABVIEW_TEST
+#define PROGRAM_ROUTINE FIND_STRING_FREQS_TEST
 
 #endif /* INCLUDE_COMMON_H_ */

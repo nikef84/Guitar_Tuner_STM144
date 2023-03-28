@@ -94,17 +94,16 @@ void nearest_freqs_diff(peaksAllParams *peaksParams, stringFreqsParams *stringPa
  */
 void multiply_noise_check(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     if (stringParams->Error == false){ // Evrything is OK.
-        if (diffFreqsLength != 1){ // Length is more than 1.
-            if ((diffFreqs[diffFreqsLength - 1] / peaksParams->freqs[0]) >= MULTIPLY_NOISE_CHECK_LIMIT){
-                // We caught a noise.
-                stringParams->oneStringFreq = 0;
-                stringParams->Error = true;
-            }
-            else { // Evrything is OK.
-                stringParams->oneStringFreq = diffFreqs[0];
-                stringParams->Error = false;
-            }
+        if ((diffFreqs[diffFreqsLength - 1] / peaksParams->freqs[0]) >= MULTIPLY_NOISE_CHECK_LIMIT){
+            // We caught a noise.
+            stringParams->oneStringFreq = 0;
+            stringParams->Error = true;
         }
+        else { // Evrything is OK.
+            stringParams->oneStringFreq = diffFreqs[0];
+            stringParams->Error = false;
+        }
+
     }
     else stringParams->oneStringFreq = 0; // We got an error before.
 }

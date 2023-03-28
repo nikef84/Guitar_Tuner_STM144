@@ -7,6 +7,7 @@ static stringFreqsParams stringParams = {
     .sixStringFreqs = {0}
 };
 
+// Change branch to "labview_test"!!! And run serial_test_v2.vi
 void labview_test(void) {
 
     halInit();
@@ -15,10 +16,10 @@ void labview_test(void) {
     adcSimpleInit();
     findStringParams(&stringParams);
     while (true) {
-       for (uint16_t i = 0; i < 6; i++){
-           dbgPrintf("%0.3f\r\n", stringParams.sixStringFreqs[i]);
-       }
-       dbgPrintf("%d\r\n", stringParams.Error);
-       chThdSleepMilliseconds(1000000);
+        sdWrite(&SD3, (uint8_t *)&stringParams.oneStringFreq, 4);
+        sdWrite(&SD3, (uint8_t *)stringParams.sixStringFreqs, 24);
+        chThdSleepMilliseconds(1000);
+        sdWrite(&SD3, (uint8_t *)&stringParams.Error, 1);
+        chThdSleepMilliseconds(1000000);
     }
 }

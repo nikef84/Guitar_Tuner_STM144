@@ -17,12 +17,15 @@ void find_string_freqs_test(void) {
     dbgPrintf("Start\r\n");
     while (true) {
         findStringParams(&stringParams);
-        dbgPrintf("\r\n");
-        dbgPrintf("error = %d\r\n", stringParams.Error);
+        dbgPrintf("Error = %d\r\n", stringParams.Error);
         if (MODE == SIX_STRING_MODE) {
+            dbgPrintf("Six strings mode\r\n");
             for (uint8_t i = 0; i < 6; i++) dbgPrintf("%d     %0.3f\r\n", (6 - i), stringParams.sixStringFreqs[i]);
         }
-        else if (MODE == ONE_STRING_MODE) dbgPrintf("%0.3f\r\n", stringParams.oneStringFreq);
+        else if (MODE == ONE_STRING_MODE) {
+            dbgPrintf("One string mode\r\n");
+            dbgPrintf("%0.3f\r\n", stringParams.oneStringFreq);
+        }
 
         chThdSleepMilliseconds(10000);
     }
