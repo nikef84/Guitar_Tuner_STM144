@@ -1,7 +1,7 @@
-#ifndef INCLUDE_SIGNAL_RECORDING_H_
-#define INCLUDE_SIGNAL_RECORDING_H_
+#ifndef INCLUDE_MICRO_SIGNAL_RECORDING_H_
+#define INCLUDE_MICRO_SIGNAL_RECORDING_H_
 
-#include "adc_lld.h"
+#include "micro/adc_lld.h"
 
 
 // @note ADC gives values approximatly from 0 to 3300.
@@ -18,4 +18,4 @@
  */
 void recordMainSignal(uint16_t *mainSignalBuf);
 
-#endif /* INCLUDE_SIGNAL_RECORDING_H_ */
+#endif /* INCLUDE_MICRO_SIGNAL_RECORDING_H_ */

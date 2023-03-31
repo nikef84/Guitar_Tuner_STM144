@@ -1,4 +1,5 @@
-#include "signal_recording.h"
+#include "../include/micro/signal_recording.h"
+
 #include "terminal_write.h"
 
 static uint16_t array[MAIN_SIGNAL_LENGTH] = {0};

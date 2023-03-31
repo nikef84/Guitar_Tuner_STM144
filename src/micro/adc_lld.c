@@ -1,4 +1,4 @@
-#include "adc_lld.h"
+#include "../include/micro/adc_lld.h"
 
 /*
  * @brief   Setting the timer configuration to start the adc conversion with some period.

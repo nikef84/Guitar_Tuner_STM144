@@ -1,5 +1,5 @@
-#ifndef INCLUDE_ADC_LLD_H_
-#define INCLUDE_ADC_LLD_H_
+#ifndef INCLUDE_MICRO_ADC_LLD_H_
+#define INCLUDE_MICRO_ADC_LLD_H_
 
 #include "common.h"
 
@@ -45,4 +45,4 @@ void adcSimpleUninit(void);
 void adcSimpleRead(uint16_t *buf, uint16_t numberOfSamples);
 
 
-#endif /* INCLUDE_ADC_LLD_H_ */
+#endif /* INCLUDE_MICRO_ADC_LLD_H_ */

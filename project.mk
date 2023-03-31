@@ -1,8 +1,8 @@
 # C source files
 PROJECT_CSRC 	= 	src/main.c \
 					src/terminal_write.c \
-					src/adc_lld.c \
-					src/signal_recording.c \
+					src/micro/adc_lld.c \
+					src/micro/signal_recording.c \
 					src/findPeaks/power_fft.c \
 					src/findPeaks/find_peaks.c \
 					src/modes/one_string_mode.c \
@@ -23,15 +23,15 @@ PROJECT_CSRC 	= 	src/main.c \
 					tests/pwm_test.c \	
 					
 					
-									
+							
 
 # C++ source files
 PROJECT_CPPSRC 	= 
 # Directories to search headers in
 PROJECT_INCDIR	= include \
-                  tests \
                   include/findPeaks \
                   include/modes \
+                  include/micro \
  
 
 # Additional libraries

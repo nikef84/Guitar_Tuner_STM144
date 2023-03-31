@@ -1,4 +1,4 @@
-#include "signal_recording.h"
+#include "../include/micro/signal_recording.h"
 
 // @brief   An array for recording a waiting signal before the main signal.
 static uint16_t waitSignaBuf[WAIT_SIGNAL_NUMBER_OF_SAMLES] = {0};

@@ -1,10 +1,10 @@
 #ifndef INCLUDE_MODES_FIND_STRING_FREQS_H_
 #define INCLUDE_MODES_FIND_STRING_FREQS_H_
 
+#include "../micro/signal_recording.h"
 #include "common.h"
 #include "six_string_mode.h"
 #include "one_string_mode.h"
-#include "signal_recording.h"
 #include "power_fft.h"
 #include "find_peaks.h"
 
