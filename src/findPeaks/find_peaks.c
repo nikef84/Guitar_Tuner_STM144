@@ -111,6 +111,11 @@ void peak_data_init(float *spectrum, peaksAllParams *peaksParams){
     // Clear area from 800 to SPEC_LENGTH Hz. There are a lot of trash data.
     for (uint16_t i = SPEC_LENGTH; i * SPEC_DF > 800; i--) spectrum[i] = 0;
 
+    for (uint8_t j = 0; j < 4; j++){
+        sdWrite(&SD3, (uint8_t *)spectrum + j*SPEC_LENGTH, SPEC_LENGTH);
+        chThdSleepMilliseconds(7000);
+    }
+
     // Finds minimum of separation limits depending on the operating mode.
     if (MODE == SIX_STRING_MODE) {
         separationsLimitMin = find_min_limit(sixStrSeparation);

@@ -25,6 +25,6 @@
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE SERVO_SIMPLE_TEST
+#define PROGRAM_ROUTINE LABVIEW_TEST
 
 #endif /* INCLUDE_COMMON_H_ */

@@ -30,6 +30,10 @@ void findStringParams(stringFreqsParams *stringParams){
     recordMainSignal(mainSignalBuf); // Records the signal from the sensor.
     fft(specBuf, mainSignalBuf); // Finds the spectrum of the signal.
     stringParams->Error = searchForRequiredPeaks(specBuf, &peaksParams); // Finds all possible peaks.
+
+    sdWrite(&SD3, (uint8_t *)peaksParams.freqs, 400);
+    chThdSleepMilliseconds(1000);
+
     // Finds real string freqs.
     if (stringParams->Error == false){
         if (MODE == SIX_STRING_MODE) sixStringMode(&peaksParams, stringParams);
