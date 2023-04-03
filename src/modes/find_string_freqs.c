@@ -7,7 +7,6 @@ static float specBuf[SPEC_LENGTH] = {0};
 
 // A structure that stores all data of peaks.
 static peaksAllParams peaksParams = {
-    .indicesOfFreqs = {0}, // Peak freq indices in the main signal array.
     .freqs = {0}, // Peak freqs.
     .ampOfFreqs = {0}, // The amplitudes of the found peaks.
     .lengthOfArrays = 0 // The number of found peaks.

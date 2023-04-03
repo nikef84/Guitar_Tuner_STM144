@@ -7,8 +7,6 @@ static uint8_t diffFreqsLength = 0;
 /*
  * @brief   Resets "stringParams" data before starting a new cycle.
  *
- * @note    Resets data, which is only needed for one string mode.
- *
  * @note    "stringParams" structure stores their data in a static format.
  *
  * @param[in]   stringParams    The pointer to the structure in which all data of strings are stored.
@@ -17,6 +15,7 @@ static uint8_t diffFreqsLength = 0;
  */
 void init_params_one_string(stringFreqsParams *stringParams){
     for (uint8_t i = 0; i < (DIFF_FREQS_LENGTH); i++) diffFreqs[i] = 0;
+    writes_zeros_to_six_string_array(stringParams);
     stringParams->oneStringFreq = 0;
     stringParams->Error = false;
 }
@@ -53,8 +52,11 @@ void multiplicity_check_one_string(peaksAllParams *peaksParams, stringFreqsParam
  *
  * @notapi
  */
-static int cmp(const void *a, const void *b) {
-    return *(uint16_t*)a - *(uint16_t*)b;
+static int qfloat(const void *pa, const void *pb) {
+    float a = *(float*)pa, b = *(float*)pb;
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
 }
 
 /*
@@ -71,7 +73,7 @@ void nearest_freqs_diff(peaksAllParams *peaksParams, stringFreqsParams *stringPa
             diffFreqs[i] = peaksParams->freqs[i + 1] - peaksParams->freqs[i];
             diffFreqsLength = diffFreqsLength + 1;
         }
-        qsort(diffFreqs, diffFreqsLength, sizeof(float), cmp); // Sorts an array.
+        qsort(diffFreqs, diffFreqsLength, sizeof(float), qfloat); // Sorts an array.
     }
     else stringParams->oneStringFreq = 0; // We got an error before.
 }

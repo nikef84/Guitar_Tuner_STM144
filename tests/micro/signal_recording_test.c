@@ -1,3 +1,4 @@
+#include "tests.h"
 #include "signal_recording.h"
 #include "terminal_write.h"
 

@@ -2,13 +2,14 @@
 #define INCLUDE_MODES_ONE_STRING_MODE_H_
 
 #include "common.h"
-#include "terminal_write.h"
+#include "six_string_mode.h"
 
 
 #define DIFF_FREQS_LENGTH               PEAKS_MAX_LENGTH - 1
 // Margins to check if some value is in some range.
 #define MULT_CHECK_ONE_STR_MARGIN       0.1 // Abs
 #define FIND_REAL_FREQ_MARGIN           5 // Hz
+
 /* @brief   Limit to check if we have a multiply noise.
  *
  * @Example     array = {100, 300, 600}

@@ -1,5 +1,5 @@
-#ifndef INCLUDE_ADC_LLD_H_
-#define INCLUDE_ADC_LLD_H_
+#ifndef INCLUDE_MICRO_ADC_LLD_H_
+#define INCLUDE_MICRO_ADC_LLD_H_
 
 #include "common.h"
 
@@ -37,7 +37,7 @@ void adcSimpleUninit(void);
  *
  * @note    GPTD3 is used.
  *
- * @param[in]   buf                 An array in which data will be write from the adc.
+ * @param[in]   buf               An array in which data will be write from the adc.
  *
  * @note        numberOfSamples   Number of the adc conversion which will be write to the array.
  *                                This number is equal to lenght of input array (buf).
@@ -45,4 +45,4 @@ void adcSimpleUninit(void);
 void adcSimpleRead(uint16_t *buf, uint16_t numberOfSamples);
 
 
-#endif /* INCLUDE_ADC_LLD_H_ */
+#endif /* INCLUDE_MICRO_ADC_LLD_H_ */

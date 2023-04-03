@@ -4,7 +4,7 @@
 #include "common.h"
 
 
-#define REDUCE_AVERAGE_LEVEL_TO_ZERO        1533
+#define ADC_AVERAGE_LEVEL           1533
 /*
  * @brief   Makes the FFT of the signal and returns the spec of this signal.
  *

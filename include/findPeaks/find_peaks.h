@@ -10,8 +10,8 @@
 
 // It is added to investigated frequency to find if they are located nearby. In Hz.
 // Depends on operating mode.
-#define NEAREST_FREQS_RANGE_SIX_STR     6
-#define NEAREST_FREQS_RANGE_ONE_STR     30
+#define NEAREST_FREQS_RANGE_SIX_STR     6  // Hz.
+#define NEAREST_FREQS_RANGE_ONE_STR     30 // Hz.
 
 // In the range from 0 to "this limit", there is a lot of incorrect data.
 #define TRASH_DATA_LIMIT                50 // Hz.

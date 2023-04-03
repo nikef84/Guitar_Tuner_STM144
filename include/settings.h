@@ -21,7 +21,7 @@
 #define SPEC_LENGTH                         MAIN_SIGNAL_LENGTH / 2
 #define MAIN_SIGNAL_DT                      GPT_PERIOD / GPT_CONFIG_FREQUENCY
 #define SPEC_DF                             1 / (MAIN_SIGNAL_DT * MAIN_SIGNAL_LENGTH)
-#define WAIT_SIGNAL_NUMBER_OF_SAMLES        50
+#define WAIT_SIGNAL_SAMPLES                 50
 
 /*
  * @brief   Peaks parametres.
@@ -32,7 +32,6 @@
 
 
 typedef struct{
-    uint16_t indicesOfFreqs[PEAKS_MAX_LENGTH];
     float ampOfFreqs[PEAKS_MAX_LENGTH];
     uint8_t lengthOfArrays;
     float freqs[PEAKS_MAX_LENGTH];

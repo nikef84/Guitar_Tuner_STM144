@@ -1,3 +1,4 @@
+#include "tests.h"
 #include "adc_lld.h"
 #include "terminal_write.h"
 
