@@ -97,7 +97,7 @@ void compute(float *dataRe, float *dataIm){
  */
 void data_init(uint16_t *signal){
     for (uint16_t i = 0; i < MAIN_SIGNAL_LENGTH; i++){
-        dataRe[i] = (float)signal[i] - REDUCE_AVERAGE_LEVEL_TO_ZERO;
+        dataRe[i] = (float)signal[i] - ADC_AVERAGE_LEVEL;
         dataIm[i] = 0;
     }
 }

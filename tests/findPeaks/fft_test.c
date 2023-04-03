@@ -1,6 +1,8 @@
-#include "../include/micro/adc_lld.h"
+#include "tests.h"
+#include "micro/adc_lld.h"
 #include "terminal_write.h"
 #include "power_fft.h"
+
 
 static uint16_t signal[MAIN_SIGNAL_LENGTH] = {0};
 static float spec[MAIN_SIGNAL_LENGTH / 2] = {0};

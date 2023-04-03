@@ -58,6 +58,7 @@ void init_params_six_string(stringFreqsParams *stringParams){
     numOfFirstZeroElem = 0;
     tempLimitsLength = 0;
     writes_zeros_to_six_string_array(stringParams); // Writes zeros to stringParams.sixStringFreqs.
+    stringParams->oneStringFreq = 0;
     for (uint8_t string = 0; string < NUM_OF_STRINGS; string++){
         for (uint8_t colom = 0; colom < NUM_OF_FREQS_IN_SEPARATION; colom++){
             freqsDecomposition[string][colom] = 0;
@@ -92,7 +93,7 @@ void functionality_check(peaksAllParams *peaksParams, stringFreqsParams *stringP
  * notapi
  */
 void freqs_decomposition_by_limits(peaksAllParams *peaksParams){
-    for (uint8_t string = 0; string < NUM_OF_STRINGS; string++){ // For every string.
+    for (uint8_t string = 0; string < NUM_OF_STRINGS; string++){ // For each string.
         for (uint8_t peak = 0; peak < peaksParams->lengthOfArrays; peak++){ // Check all freqs.
             // In range of some separation.
             if ((peaksParams->freqs[peak] >= sixStringLimits[string].lowerLimit) &&

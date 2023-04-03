@@ -1,4 +1,4 @@
-#include "../include/micro/adc_lld.h"
+#include "adc_lld.h"
 
 /*
  * @brief   Setting the timer configuration to start the adc conversion with some period.
@@ -79,7 +79,7 @@ void adcSimpleUninit(void){
  *
  * @note    GPTD3 is used.
  *
- * @param[in]   buf                 An array in which data will be write from the adc.
+ * @param[in]   buf               An array in which data will be write from the adc.
  *
  * @note        numberOfSamples   Number of the adc conversion which will be write to the array.
  *                                This number is equal to lenght of input array (buf).

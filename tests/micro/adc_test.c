@@ -1,4 +1,5 @@
-#include "../include/micro/adc_lld.h"
+#include "tests.h"
+#include "adc_lld.h"
 #include "terminal_write.h"
 
 #define ARRAY_LENGTH        3000

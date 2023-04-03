@@ -1,5 +1,7 @@
-#include "terminal_write.h"
+#include "tests.h"
 #include "find_string_freqs.h"
+#include "terminal_write.h"
+
 
 
 static stringFreqsParams stringParams = {

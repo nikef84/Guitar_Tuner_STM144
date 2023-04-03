@@ -1,5 +1,6 @@
-#include "terminal_write.h"
+#include "tests.h"
 #include "six_string_mode.h"
+#include "terminal_write.h"
 
 static peaksAllParams peaksParams = {
     .lengthOfArrays = 27,

@@ -1,37 +1,35 @@
 # C source files
 PROJECT_CSRC 	= 	src/main.c \
-					src/terminal_write.c \
+					src/findPeaks/find_peaks.c \
+					src/findPeaks/power_fft.c \
 					src/micro/adc_lld.c \
 					src/micro/signal_recording.c \
-					src/findPeaks/power_fft.c \
-					src/findPeaks/find_peaks.c \
+					src/modes/find_string_freqs.c \
 					src/modes/one_string_mode.c \
 					src/modes/six_string_mode.c \
-					src/modes/find_string_freqs.c \
-					tests/one_string_mode_test.c \
-					tests/six_string_mode_test.c \
-					tests/find_string_freqs_test.c \
-					tests/labview_test.c \
-					tests/blink_test.c \
-					tests/stepper_motor_test.c \
-					tests/terminal_write_test.c \
-					tests/adc_test.c \
-					tests/signal_recording_test.c \
-					tests/fft_test.c \
-					tests/find_peaks_test.c \
-					tests/sort_funcs_test.c \
-					tests/pwm_test.c \	
+					src/terminal_write/terminal_write.c \
 					
 					
-							
+					
+TESTSRC 	= 		tests/findPeaks/fft_test.c \
+					tests/findPeaks/find_peaks_test.c \
+					tests/micro/adc_test.c \
+					tests/micro/signal_recording_test.c \
+					tests/modes/find_string_freqs_test.c \
+					tests/modes/labview_test.c \
+					tests/modes/one_string_mode_test.c \
+					tests/modes/six_string_mode_test.c \
+					
+					
 
 # C++ source files
 PROJECT_CPPSRC 	= 
 # Directories to search headers in
 PROJECT_INCDIR	= include \
                   include/findPeaks \
-                  include/modes \
                   include/micro \
+                  include/modes \
+                  include/terminal_write \
  
 
 # Additional libraries
