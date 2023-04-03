@@ -4,9 +4,9 @@
 #include "adc_lld.h"
 
 
-// @note ADC gives values approximatly from 0 to 3300.
-#define WAIT_SIGNAL_UPPER_LIMIT             2500
-#define WAIT_SIGNAL_LOWER_LIMIT             500
+// @note ADC gives values approximatly from 0 to 3100.
+#define WAIT_SIGNAL_UPPER_LIMIT             3000
+#define WAIT_SIGNAL_LOWER_LIMIT             50
 
 
 /*
