@@ -19,6 +19,7 @@ TESTSRC 	= 		tests/findPeaks/fft_test.c \
 					tests/modes/labview_test.c \
 					tests/modes/one_string_mode_test.c \
 					tests/modes/six_string_mode_test.c \
+					tests/servo/servo_simple_test.c \
 					
 					
 
@@ -29,6 +30,7 @@ PROJECT_INCDIR	= include \
                   include/findPeaks \
                   include/micro \
                   include/modes \
+                  include/servo \
                   include/terminal_write \
  
 
