@@ -7,9 +7,9 @@
  *
  * @note    It helps starting the adc conversion with some frequency.
  *
- * @note    GPTD3 is used.
+ * @note    GPTD5 is used.
  */
-static const GPTConfig tim3_conf = {
+static const GPTConfig tim5_conf = {
     .frequency = (gptfreq_t) GPT_CONFIG_FREQUENCY, // Sets the timer frequency.
     .callback = NULL,
     .cr2 = TIM_CR2_MMS_1, // Sets the TRGO events.
@@ -51,13 +51,13 @@ static ADCConversionGroup adc0_conf = {
  *
  * @note    The channel 0 from the ADC1 is used.
  *
- * @note    GPTD3 is used.
+ * @note    GPTD5 is used.
  */
 void adcSimpleInit(void){
-    gptStart(GPT_3, &tim3_conf);
+    gptStart(GPT_5, &tim5_conf);
     adcStart(ADC_1, NULL);
     palSetLineMode(PAL_LINE(GPIOC, 0), PAL_MODE_INPUT_ANALOG);
-    gptStartContinuous(GPT_3, (gptcnt_t) GPT_PERIOD);
+    gptStartContinuous(GPT_5, (gptcnt_t) GPT_PERIOD);
 }
 
 /*
@@ -65,10 +65,10 @@ void adcSimpleInit(void){
  *
  * @note    ADC1 is used.
  *
- * @note    GPTD3 is used.
+ * @note    GPTD5 is used.
  */
 void adcSimpleUninit(void){
-    gptStop(GPT_3);
+    gptStop(GPT_5);
     adcStop(ADC_1);
 }
 
@@ -77,7 +77,7 @@ void adcSimpleUninit(void){
  *
  * @note    ADC1 is used.
  *
- * @note    GPTD3 is used.
+ * @note    GPTD5 is used.
  *
  * @param[in]   buf               An array in which data will be write from the adc.
  *

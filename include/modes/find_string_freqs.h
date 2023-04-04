@@ -12,7 +12,7 @@
  * @brief   Records the signal from the sensor, finds its spectrum and uses it
  *          to find the real freqs of the strings.
  *
- * @note    ADC1 is used. GPTD3 is used.
+ * @note    ADC1 is used. GPTD5 is used.
  *
  * @note    May not find all string frequencies.
  *

@@ -5,7 +5,7 @@
 
 
 // @brief   Which timer and adc is used.
-#define GPT_3                       &GPTD5
+#define GPT_5                       &GPTD5
 #define ADC_1                       &ADCD1
 #define ADC_LINE_CH0                PAL_LINE(GPIOA, 0)
 
@@ -16,7 +16,7 @@
  *
  * @note    The channel 0 from the ADC1 is used.
  *
- * @note    GPTD3 is used.
+ * @note    GPTD5 is used.
  */
 void adcSimpleInit(void);
 
@@ -25,7 +25,7 @@ void adcSimpleInit(void);
  *
  * @note    ADC1 is used.
  *
- * @note    GPTD3 is used.
+ * @note    GPTD5 is used.
  */
 void adcSimpleUninit(void);
 
@@ -35,7 +35,7 @@ void adcSimpleUninit(void);
  *
  * @note    ADC1 is used.
  *
- * @note    GPTD3 is used.
+ * @note    GPTD5 is used.
  *
  * @param[in]   buf               An array in which data will be write from the adc.
  *

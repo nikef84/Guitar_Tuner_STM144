@@ -7,6 +7,7 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/modes/find_string_freqs.c \
 					src/modes/one_string_mode.c \
 					src/modes/six_string_mode.c \
+					src/servo/servo_lld.c \
 					src/terminal_write/terminal_write.c \
 					
 					
