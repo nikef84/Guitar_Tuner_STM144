@@ -47,12 +47,12 @@ static PWMConfig pwm4cfg = {
 };
 
 /*
-* @brief    Inits pwms and sets legs to the operating mode.
-*
-* @note     PWMD3 is used (TIM3).
-*           PWMD4 is used (TIM4).
-*
-*/
+ * @brief   Inits pwms and sets legs to the operating mode.
+ *
+ * @note    PWMD3 is used (TIM3).
+ *          PWMD4 is used (TIM4).
+ *
+ */
 void servoSimpleInit(void){
     palSetLineMode(PWM3_LINE_CH1,  PWM3_MODE_CH1); // PB4  - SERVO_1
     palSetLineMode(PWM3_LINE_CH2,  PWM3_MODE_CH2); // PB5  - SERVO_2
@@ -70,38 +70,71 @@ void servoSimpleInit(void){
  *
  * @note    Possible voltages:
  *              Clockwise rotation          - (min = 710; max = 510);
- *              Counterclockwise rotation   - (min = 770; max = 790);
+ *              Counterclockwise rotation   - (min = 770; max = 790).
  *          These values may differ for defferent servos.
  *
-* @note     PWMD3 is used (TIM3).
-*           PWMD4 is used (TIM4).
-*
-* @param[in]    numOfServo  The number of the servo to which we want
-*                           to set the voltage.
-*               voltage
+ * @note    PWMD3 is used (TIM3).
+ *          PWMD4 is used (TIM4).
+ *
+ * @param[in]    numOfServo  The number of the servo to which we want
+ *                           to set the voltage.
+ *
+ *               voltage     A coefficient that sets the length of
+ *                           a high signal relative to the signal period.
+ *                           Max value - 10000.
+ *
  */
 void servoSetVoltage(uint8_t numOfServo, int16_t voltage){
+    // Control of the first four servos.
     if (numOfServo <= PWM_MAX_CHANNEL && numOfServo > 0) {
         pwmEnableChannel(PWMD3, numOfServo - 1, voltage);
     }
+    // Control of the last two servos.
     else if (numOfServo <= NUM_OF_SERVOS){
         pwmEnableChannel(PWMD4, numOfServo - (NUM_OF_SERVOS - 1), voltage);
     }
 }
 
+/*
+ * @brief   Stops the servo.
+ *
+ * @note    PWMD3 is used (TIM3).
+ *          PWMD4 is used (TIM4).
+ *
+ * @param[in]   numOfServo  The number of the servo to which we want
+ *                          to set the voltage.
+ *
+ */
 void servoStop(uint8_t numOfServo){
+    // Control of the first four servos.
     if (numOfServo <= PWM_MAX_CHANNEL && numOfServo > 0) {
         pwmDisableChannel(PWMD3, numOfServo - 1);
     }
+    // Control of the last two servos.
     else if (numOfServo <= NUM_OF_SERVOS){
         pwmDisableChannel(PWMD4, numOfServo - (NUM_OF_SERVOS - 1));
     }
 }
 
+/*
+ * @brief   Stops all servos.
+ *
+ * @note    PWMD3 is used (TIM3).
+ *          PWMD4 is used (TIM4).
+ */
 void servoAllStop(void){
     for (uint8_t i = 1; i <= NUM_OF_SERVOS; i++) servoStop(i);
 }
 
+/*
+ * @brief   Stops all servos and PWMs.
+ *
+ * @note   Setting a safe state for used leg.
+ *
+ * @note    PWMD3 is used (TIM3).
+ *          PWMD4 is used (TIM4).
+ *
+ */
 void servoSimpleUninit(void){
     servoAllStop();
     pwmStop(PWMD3);
