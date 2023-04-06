@@ -20,7 +20,10 @@ static inline void testRoutines(void) {
     signal_recording_test();
 #elif(PROGRAM_ROUTINE == SIX_STRING_MODE_TEST)
     six_string_mode_test();
-
+#elif(PROGRAM_ROUTINE == GPT_TEST)
+    gpt_test();
+#elif(PROGRAM_ROUTINE == MAILBOX_TEST)
+    mailbox_test();
 #endif
 }
 
