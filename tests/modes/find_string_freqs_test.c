@@ -5,6 +5,7 @@
 
 
 static stringFreqsParams stringParams = {
+	.result = {0},
     .oneStringFreq = 0,
     .Error = false,
     .sixStringFreqs = {0}

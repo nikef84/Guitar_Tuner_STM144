@@ -24,6 +24,8 @@ static inline void testRoutines(void) {
     gpt_test();
 #elif(PROGRAM_ROUTINE == MAILBOX_TEST)
     mailbox_test();
+#elif(PROGRAM_ROUTINE == SERVO_CONTROL_TEST)
+    servo_control_test();
 #endif
 }
 

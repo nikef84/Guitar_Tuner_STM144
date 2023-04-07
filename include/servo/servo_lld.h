@@ -29,15 +29,6 @@
 // They are necessary for splitting all servos into two timers.
 // Do NOT touch these values!!!
 #define PWM_MAX_CHANNEL             4 // Max num of channels in one timer.
-#define NUM_OF_SERVOS               6 // The number of servos.
-
-// The numbering of servos depends on the string they rotate.
-#define SERVO_1                     1
-#define SERVO_2                     2
-#define SERVO_3                     3
-#define SERVO_4                     4
-#define SERVO_5                     5
-#define SERVO_6                     6
 
 
 

@@ -5,7 +5,6 @@
 #include "terminal_write.h"
 
 // Dimensions of "freqsDecomposition".
-#define NUM_OF_STRINGS                      6 // Number of strings.
 #define NUM_OF_FREQS_IN_SEPARATION          10 // Number of possible freqs for each string.
 
 // Margins to check if some value is in some range.

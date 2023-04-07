@@ -38,6 +38,7 @@ typedef struct{
 } peaksAllParams;
 
 typedef struct{
+	float result[6];
     float sixStringFreqs[6];
     float oneStringFreq;
     bool Error;
@@ -49,5 +50,19 @@ typedef struct{
 
 // The current operating mode of the program.
 #define MODE                                SIX_STRING_MODE
+
+// Number of strings.
+#define NUM_OF_STRINGS                      6
+
+// String numbers.
+#define STRING_1							1
+#define STRING_2							2
+#define STRING_3							3
+#define STRING_4							4
+#define STRING_5							5
+#define STRING_6							6
+
+// The string that we are tuning in ONE_STRING_MODE.
+#define STRING								STRING_2
 
 #endif /* INCLUDE_SETTINGS_H_ */

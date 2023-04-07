@@ -90,8 +90,8 @@ void servoSetVoltage(uint8_t numOfServo, int16_t voltage){
         pwmEnableChannel(PWMD3, numOfServo - 1, voltage);
     }
     // Control of the last two servos.
-    else if (numOfServo <= NUM_OF_SERVOS){
-        pwmEnableChannel(PWMD4, numOfServo - (NUM_OF_SERVOS - 1), voltage);
+    else if (numOfServo <= NUM_OF_STRINGS){
+        pwmEnableChannel(PWMD4, numOfServo - (NUM_OF_STRINGS - 1), voltage);
     }
 }
 
@@ -111,8 +111,8 @@ void servoStop(uint8_t numOfServo){
         pwmDisableChannel(PWMD3, numOfServo - 1);
     }
     // Control of the last two servos.
-    else if (numOfServo <= NUM_OF_SERVOS){
-        pwmDisableChannel(PWMD4, numOfServo - (NUM_OF_SERVOS - 1));
+    else if (numOfServo <= NUM_OF_STRINGS){
+        pwmDisableChannel(PWMD4, numOfServo - (NUM_OF_STRINGS - 1));
     }
 }
 
@@ -123,7 +123,7 @@ void servoStop(uint8_t numOfServo){
  *          PWMD4 is used (TIM4).
  */
 void servoAllStop(void){
-    for (uint8_t i = 1; i <= NUM_OF_SERVOS; i++) servoStop(i);
+    for (uint8_t i = 1; i <= NUM_OF_STRINGS; i++) servoStop(i);
 }
 
 /*

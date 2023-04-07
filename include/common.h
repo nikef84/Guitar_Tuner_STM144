@@ -23,9 +23,11 @@
 #define SIX_STRING_MODE_TEST                9
 #define GPT_TEST                			10
 #define MAILBOX_TEST                		11
+#define SERVO_CONTROL_TEST                	12
+
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE MAILBOX_TEST
+#define PROGRAM_ROUTINE SERVO_CONTROL_TEST
 
 #endif /* INCLUDE_COMMON_H_ */
