@@ -16,10 +16,9 @@ void one_string_mode_test(void);
 void six_string_mode_test(void);
 
 //servo:
-void servo_simple_test(void);
-void gpt_test(void);
 void mailbox_test(void);
 void servo_control_test(void);
+void servo_simple_test(void);
 
 
 #endif /* INCLUDE_TESTS_H_ */

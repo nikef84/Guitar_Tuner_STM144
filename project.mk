@@ -21,7 +21,6 @@ TESTSRC 	= 		tests/findPeaks/fft_test.c \
 					tests/modes/labview_test.c \
 					tests/modes/one_string_mode_test.c \
 					tests/modes/six_string_mode_test.c \
-					tests/servo/gpt_test.c \
 					tests/servo/mailbox_test.c \
 					tests/servo/servo_control_test.c \
 					tests/servo/servo_simple_test.c \

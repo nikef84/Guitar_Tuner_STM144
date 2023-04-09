@@ -12,10 +12,7 @@ void palcb_button(void* args){
 #define SPEED1          900
 #define SPEED2          0
 
-/*
- * E9 - step
- * F13 - dir
- */
+
 void servo_simple_test(void)
 {
     chSysInit();

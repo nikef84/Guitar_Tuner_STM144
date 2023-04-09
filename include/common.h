@@ -12,18 +12,17 @@
 
 // List of all possible programs
 #define MAIN_ROUTINE                        0
-#define ADC_TEST                            1
-#define FFT_TEST                            2
-#define FIND_PEAKS_TEST                     3
-#define FIND_STRING_FREQS_TEST              4
-#define LABVIEW_TEST                        5
-#define ONE_STRING_MODE_TEST                6
-#define SERVO_SIMPLE_TEST                   7
-#define SIGNAL_RECORDING_TEST               8
-#define SIX_STRING_MODE_TEST                9
-#define GPT_TEST                			10
-#define MAILBOX_TEST                		11
-#define SERVO_CONTROL_TEST                	12
+#define FFT_TEST                            1
+#define FIND_PEAKS_TEST                     2
+#define ADC_TEST                            3
+#define SIGNAL_RECORDING_TEST               4
+#define FIND_STRING_FREQS_TEST              5
+#define LABVIEW_TEST                        6
+#define ONE_STRING_MODE_TEST                7
+#define SIX_STRING_MODE_TEST                8
+#define MAILBOX_TEST                		9
+#define SERVO_CONTROL_TEST                	10
+#define SERVO_SIMPLE_TEST                   11
 
 
 
