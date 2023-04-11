@@ -10,8 +10,8 @@ void indication_test(void)
     debugStreamInit();
     dbgPrintf("Start\r\n");
     indicationInit();
-
     while (true){
+
         chThdSleepMilliseconds(1000);
     }
 }
