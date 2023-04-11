@@ -1,5 +1,9 @@
 #include "indication.h"
 
+static bool potentPermission = true;
+static uint8_t operatingMode = ONE_STRING_MODE;
+static uint8_t currentString = 1;
+
 ADCConversionGroup adc1_conf_13 = {
 
     .circular = FALSE,
@@ -41,6 +45,7 @@ static uint16_t adc_buffer[1] = {0};
  * 		7 - six_string_mode
  */
 static uint8_t diodeBuf[8] = {DIODE_NOT_ACTIVE};
+static uint8_t diodeNewString[6] = {0};
 
 static thread_t *tp_potentiometer;
 static THD_WORKING_AREA(wa_potentiometer, 256);
@@ -52,23 +57,25 @@ static THD_FUNCTION(potentiometer, arg){
 	uint32_t potent_mode_prev = 100; // Random. Just to set initial value.
 	uint32_t potent_mode_current;
 	while (!chThdShouldTerminateX()){
-		 adcConvert(ADC_1, &adc1_conf_13, adc_buffer, 1);
+		if (potentPermission == true){
+			adcConvert(ADC_1, &adc1_conf_13, adc_buffer, 1);
 
-		 for (uint8_t i = 0; i < POTENT_NUM_OF_MODES; i++){
-			 if (adc_buffer[0] >= i * POTENT_MODE_ADC_STEP &&
-				 adc_buffer[0] < (i + 1) * POTENT_MODE_ADC_STEP){
+			for (uint8_t i = 0; i < POTENT_NUM_OF_MODES; i++){
+				if (adc_buffer[0] >= i * POTENT_MODE_ADC_STEP &&
+						adc_buffer[0] < (i + 1) * POTENT_MODE_ADC_STEP){
 
-				 potent_mode_current = i;
-				 break;
-			 }
-		 }
+					potent_mode_current = i;
+					break;
+				}
+			}
 
-		 if (potent_mode_current != potent_mode_prev){
-			 potent_mode_prev = potent_mode_current;
-			 chMBPostTimeout(&mb_indication, (msg_t) potent_mode_current, TIME_IMMEDIATE);
-		 }
+			if (potent_mode_current != potent_mode_prev){
+				potent_mode_prev = potent_mode_current;
+				chMBPostTimeout(&mb_indication, (msg_t) potent_mode_current, TIME_IMMEDIATE);
+			}
+		}
 
-		 chThdSleepMilliseconds(500);
+		chThdSleepMilliseconds(100);
 	}
 	chThdExit(MSG_OK);
 }
@@ -186,6 +193,7 @@ void light_diodes(void){
 void simple_one_string_init(void){
 	set_not_active_state();
 	diodeBuf[DIODE_ONE_STRING_MODE] = DIODE_GREEN_LIGHT;
+	operatingMode = ONE_STRING_MODE;
 }
 
 static thread_t *tp_indication;
@@ -204,26 +212,32 @@ static THD_FUNCTION(indication, arg){
 			case DIODE_STRING_1:
 				simple_one_string_init();
 				diodeBuf[DIODE_STRING_1] = DIODE_RED_LIGHT;
+				currentString = DIODE_STRING_1 + 1;
 				break;
 			case DIODE_STRING_2:
 				simple_one_string_init();
 				diodeBuf[DIODE_STRING_2] = DIODE_RED_LIGHT;
+				currentString = DIODE_STRING_2 + 1;
 				break;
 			case DIODE_STRING_3:
 				simple_one_string_init();
 				diodeBuf[DIODE_STRING_3] = DIODE_RED_LIGHT;
+				currentString = DIODE_STRING_3 + 1;
 				break;
 			case DIODE_STRING_4:
 				simple_one_string_init();
 				diodeBuf[DIODE_STRING_4] = DIODE_RED_LIGHT;
+				currentString = DIODE_STRING_4 + 1;
 				break;
 			case DIODE_STRING_5:
 				simple_one_string_init();
 				diodeBuf[DIODE_STRING_5] = DIODE_RED_LIGHT;
+				currentString = DIODE_STRING_5 + 1;
 				break;
 			case DIODE_STRING_6:
 				simple_one_string_init();
 				diodeBuf[DIODE_STRING_6] = DIODE_RED_LIGHT;
+				currentString = DIODE_STRING_6 + 1;
 				break;
 			case DIODE_SIX_STRING_MODE:
 				for (uint8_t i = 0; i < 6; i++){
@@ -231,12 +245,42 @@ static THD_FUNCTION(indication, arg){
 				}
 				diodeBuf[DIODE_ONE_STRING_MODE] = DIODE_NOT_ACTIVE;
 				diodeBuf[DIODE_SIX_STRING_MODE] = DIODE_GREEN_LIGHT;
+				operatingMode = SIX_STRING_MODE;
+				currentString = 0;
+				break;
+			case DIODE_NEW_STRING_VALUE:
+				if (operatingMode == SIX_STRING_MODE){
+					for (uint8_t i = 0; i < 6; i++){
+						if (diodeBuf[i] != DIODE_GREEN_LIGHT){
+							diodeBuf[i] = diodeNewString[i];
+						}
+					}
+				}
+				else if (operatingMode == ONE_STRING_MODE){
+					for (uint8_t i = 0; i < 6; i++){
+						diodeBuf[i] = diodeNewString[i];
+					}
+				}
+				break;
+			case DIODE_RESET:
+				if (operatingMode == SIX_STRING_MODE){
+					for (uint8_t i = 0; i < 6; i++){
+						diodeBuf[i] = DIODE_RED_LIGHT;
+					}
+				}
+				else if (operatingMode == ONE_STRING_MODE){
+					for (uint8_t i = 0; i < 6; i++){
+						diodeBuf[i] = DIODE_NOT_ACTIVE;
+					}
+					diodeBuf[currentString] = DIODE_RED_LIGHT;
+				}
 				break;
 			default:
 				set_not_active_state();
 			}
+			light_diodes();
 		}
-		chThdSleepMilliseconds(500);
+		chThdSleepMilliseconds(100);
 	}
 	chThdExit(MSG_OK);
 }
@@ -265,4 +309,54 @@ void indicationInit(void){
 
 	tp_potentiometer = chThdCreateStatic(wa_potentiometer, sizeof(wa_potentiometer), NORMALPRIO, potentiometer, NULL);
 	tp_indication = chThdCreateStatic(wa_indication, sizeof(wa_indication), NORMALPRIO, indication, NULL);
+}
+
+void setPotentPermission(bool permission){
+	potentPermission = permission;
+}
+
+bool getPotentPermission(void){
+	return potentPermission;
+}
+
+void setDiodStrings(uint8_t *newValue){
+	for (uint8_t i = 0; i < 6; i++){
+		diodeNewString[i] = newValue[i];
+	}
+	chMBPostTimeout(&mb_indication, (msg_t) DIODE_NEW_STRING_VALUE, TIME_IMMEDIATE);
+}
+
+uint8_t getOperatingMode(void){
+	return operatingMode;
+}
+
+uint8_t getCurrentString(void){
+	return currentString;
+}
+
+void resetsDiods(void){
+	chMBPostTimeout(&mb_indication, (msg_t) DIODE_RESET, TIME_IMMEDIATE);
+}
+
+bool checkNeedToResetDiodes(void){
+	bool flag;
+	if (operatingMode == SIX_STRING_MODE){
+		for (uint8_t i = 0; i < 6; i++){
+			if (diodeBuf[i] != DIODE_GREEN_LIGHT){
+				flag = false;
+				break;
+			}
+			else flag = true;
+		}
+	}
+	else if (operatingMode == ONE_STRING_MODE){
+		for (uint8_t i = 0; i < 6; i++){
+			if (diodeBuf[i] == DIODE_GREEN_LIGHT){
+				flag = true;
+				break;
+			}
+			else flag = false;
+		}
+	}
+	return flag;
 }

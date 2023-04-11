@@ -38,8 +38,18 @@
 #define DIODE_STRING_6					5
 #define DIODE_SIX_STRING_MODE			6
 #define DIODE_ONE_STRING_MODE			7
+#define DIODE_NEW_STRING_VALUE			10
+#define DIODE_RESET						25
 
 
 void indicationInit(void);
+
+void setPotentPermission(bool permission);
+bool getPotentPermission(void);
+void setDiodStrings(uint8_t *newValue);
+uint8_t getOperatingMode(void);
+uint8_t getCurrentString(void);
+void resetsDiods(void);
+bool checkNeedToResetDiodes(void);
 
 #endif /* INCLUDE_INDICATION_INDICATION_H_ */
