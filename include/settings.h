@@ -50,4 +50,6 @@ typedef struct{
 // The current operating mode of the program.
 #define MODE                         		SIX_STRING_MODE
 
+#define NUM_OF_STRING						6
+
 #endif /* INCLUDE_SETTINGS_H_ */

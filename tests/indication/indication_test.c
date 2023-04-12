@@ -2,7 +2,7 @@
 #include "indication.h"
 #include "terminal_write.h"
 
-static uint8_t newVal[6] = {DIODE_NOT_ACTIVE};
+static uint8_t newVal[6] = {LED_NOT_ACTIVE};
 void indication_test(void)
 {
     chSysInit();
@@ -19,24 +19,25 @@ void indication_test(void)
 		if (getOperatingMode() == ONE_STRING_MODE){
 			uint8_t string = getCurrentString();
 			for (uint8_t i = 0; i < 6; i++){
-				newVal[i] = DIODE_NOT_ACTIVE;
+				newVal[i] = LED_NOT_ACTIVE;
 			}
-			newVal[string - 1] = DIODE_GREEN_LIGHT;
+			newVal[string - 1] = LED_GREEN_LIGHT;
+			num = 0;
 		}
 		else{
 			for (uint8_t i = 0; i < 6; i++){
-				newVal[i] = DIODE_RED_LIGHT;
+				newVal[i] = LED_RED_LIGHT;
 			}
-			newVal[num] = DIODE_GREEN_LIGHT;
-			newVal[5-num] = DIODE_GREEN_LIGHT;
+			newVal[num] = LED_GREEN_LIGHT;
+			newVal[5-num] = LED_GREEN_LIGHT;
 
 			num += 1;
 		}
-		setDiodStrings(newVal);
+		setStringLeds(newVal);
 		chThdSleepMilliseconds(500);
-		if (checkNeedToResetDiodes() == true){
+		if (checkNeedToResetLeds() == true){
 			chThdSleepMilliseconds(5000);
-			resetsDiods();
+			resetsLeds();
 			num = 0;
 
 		}
