@@ -8,6 +8,8 @@ static inline void testRoutines(void) {
     fft_test();
 #elif(PROGRAM_ROUTINE == FIND_PEAKS_TEST)
     find_peaks_test();
+#elif(PROGRAM_ROUTINE == INDICATION_TEST)
+    indication_test();
 #elif(PROGRAM_ROUTINE == FIND_STRING_FREQS_TEST)
     find_string_freqs_test();
 #elif(PROGRAM_ROUTINE == LABVIEW_TEST)

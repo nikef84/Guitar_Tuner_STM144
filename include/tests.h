@@ -5,6 +5,9 @@
 void fft_test(void);
 void find_peaks_test(void);
 
+// indication
+void indication_test(void);
+
 // micro:
 void adc_test(void);
 void signal_recording_test(void);

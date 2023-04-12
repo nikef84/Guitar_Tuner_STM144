@@ -21,10 +21,11 @@
 #define SERVO_SIMPLE_TEST                   7
 #define SIGNAL_RECORDING_TEST               8
 #define SIX_STRING_MODE_TEST                9
+#define INDICATION_TEST						10
 
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE SERVO_SIMPLE_TEST
+#define PROGRAM_ROUTINE INDICATION_TEST
 
 #endif /* INCLUDE_COMMON_H_ */
