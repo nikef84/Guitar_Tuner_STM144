@@ -212,6 +212,7 @@ bool check_if_freqs_were_lost(float investigatedFreq){
  */
 void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     bool error = false; // If we need to stop a search.
+    bool findPossibleFreq = true; // Flag to save possible freq.
     float potentialFreq, investigatedFreqAbs;
     // If this number is greater than 2, then this is an error.
     uint8_t numOfPotentialFreq;
@@ -225,6 +226,7 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
         // Explores all possible freqs for investigated string.
         for (uint8_t i = 0; i < numOfElemInColom[numOfFirstZeroElem + string]; i++){
             numOfPotentialFreq += 1; // Adds new potential freq.
+            findPossibleFreq = true;
 
             // Checks if the unvestigated freq could be a multiple of another freq.
             if (check_if_freqs_were_lost(freqsDecomposition[numOfFirstZeroElem + string][i]) == false){ // It can be real freq.
@@ -234,15 +236,18 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
                     if (stringParams->sixStringFreqs[j] != 0){
                         investigatedFreqAbs = freqsDecomposition[numOfFirstZeroElem + string][i] /
                                               stringParams->sixStringFreqs[j];
-
                         if ((investigatedFreqAbs <= round(investigatedFreqAbs) + FIND_ALL_FREQS_MARGIN) &&
                             (investigatedFreqAbs >= round(investigatedFreqAbs) - FIND_ALL_FREQS_MARGIN)){
                             // The investigated freq is a multiple of some previous one.
                             numOfPotentialFreq -= 1; // Removes potential freq.
+                            findPossibleFreq = false; // It's not a string freq.
                             break;
                         }
-                        potentialFreq = freqsDecomposition[numOfFirstZeroElem + string][i];
+
                     }
+                }
+                if (findPossibleFreq == true){ // If we find possible freq of the string.
+                	potentialFreq = freqsDecomposition[numOfFirstZeroElem + string][i];
                 }
             }
         }
@@ -312,6 +317,7 @@ void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
         freqs_decomposition_by_limits(peaksParams);
         //print_freqs_decomosition();
         find_first_freq(peaksParams, stringParams);
+
         if (stringParams->Error == false){
             find_all_freqs_exept_first(peaksParams, stringParams);
         }
