@@ -215,6 +215,7 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
     float potentialFreq, investigatedFreqAbs;
     // If this number is greater than 2, then this is an error.
     uint8_t numOfPotentialFreq;
+    bool findPossibleFreq = true; // Flag to save possible freq.
 
     // Explores all possible strings after the first one found.
     for (uint8_t string = 1; (string < NUM_OF_STRINGS - numOfFirstZeroElem) && !error; string++){
@@ -225,6 +226,7 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
         // Explores all possible freqs for investigated string.
         for (uint8_t i = 0; i < numOfElemInColom[numOfFirstZeroElem + string]; i++){
             numOfPotentialFreq += 1; // Adds new potential freq.
+            findPossibleFreq = true;
 
             // Checks if the unvestigated freq could be a multiple of another freq.
             if (check_if_freqs_were_lost(freqsDecomposition[numOfFirstZeroElem + string][i]) == false){ // It can be real freq.
@@ -239,10 +241,14 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
                             (investigatedFreqAbs >= round(investigatedFreqAbs) - FIND_ALL_FREQS_MARGIN)){
                             // The investigated freq is a multiple of some previous one.
                             numOfPotentialFreq -= 1; // Removes potential freq.
+                            findPossibleFreq = false; // It's not a string freq.
                             break;
                         }
                         potentialFreq = freqsDecomposition[numOfFirstZeroElem + string][i];
                     }
+                }
+                if (findPossibleFreq == true){ // If we find possible freq of the string.
+                	potentialFreq = freqsDecomposition[numOfFirstZeroElem + string][i];
                 }
             }
         }
