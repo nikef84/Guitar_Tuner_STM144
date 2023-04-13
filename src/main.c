@@ -26,6 +26,8 @@ static inline void testRoutines(void) {
     servo_simple_test();
 #elif(PROGRAM_ROUTINE == SERVO_WITH_MICRO_TEST)
     servo_with_micro_test();
+#elif(PROGRAM_ROUTINE == INDICATION_TEST)
+    indication_test();
 #endif
 }
 

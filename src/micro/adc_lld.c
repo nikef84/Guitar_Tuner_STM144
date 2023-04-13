@@ -23,9 +23,9 @@ static const GPTConfig tim5_conf = {
  *
  * @note    ADC1 is used.
  *
- * @note    The channel 0 from the ADC1 is used.
+ * @note    The channel 10 from the ADC1 is used.
  */
-static ADCConversionGroup adc0_conf = {
+static ADCConversionGroup adc1_conf_10 = {
     .circular = false, // Non-continuous mode.
 
     .num_channels = 1, // Used only one channel.
@@ -85,7 +85,7 @@ void adcSimpleUninit(void){
  *                                This number is equal to lenght of input array (buf).
  */
 void adcSimpleRead(uint16_t *buf, uint16_t numberOfSamples){
-    adcConvert(ADC_1, &adc0_conf, buf, numberOfSamples);
+    adcConvert(ADC_1, &adc1_conf_10, buf, numberOfSamples);
 }
 
 

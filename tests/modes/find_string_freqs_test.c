@@ -17,6 +17,7 @@ void find_string_freqs_test(void) {
     chSysInit();
     debugStreamInit();
     adcSimpleInit();
+
     dbgPrintf("Start\r\n");
     while (true) {
         findStringParams(&stringParams);

@@ -49,7 +49,9 @@ typedef struct{
 #define ONE_STRING_MODE                     1
 
 // The current operating mode of the program.
-#define MODE                                SIX_STRING_MODE
+#define MODE                         		SIX_STRING_MODE
+
+#define NUM_OF_STRING						6
 
 // Number of strings.
 #define NUM_OF_STRINGS                      6
