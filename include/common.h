@@ -23,6 +23,7 @@
 #define MAILBOX_TEST                		9
 #define SERVO_CONTROL_TEST                	10
 #define SERVO_SIMPLE_TEST                   11
+#define SERVO_WITH_MICRO_TEST               12
 
 
 

@@ -12,7 +12,7 @@ static stringFreqsParams stringParams = {
 };
 
 
-void servo_control_test(void) {
+void servo_with_micro_test(void) {
 
     halInit();
     chSysInit();

@@ -6,11 +6,12 @@
 static stringFreqsParams stringParams = {
     .oneStringFreq = 0,
     .Error = false,
-    .result = {340, 0, 200, 0, 0, 70}
+    .result = {311, 0, 0, 0, 0, 0}
 };
 
 
 void servo_control_test(void) {
+
 
     halInit();
     chSysInit();
