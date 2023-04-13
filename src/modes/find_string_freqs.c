@@ -1,7 +1,5 @@
 #include "find_string_freqs.h"
 
-// An array that stores the values of the main signal.
-static uint16_t mainSignalBuf[MAIN_SIGNAL_LENGTH] = {0};
 // An array that stores the spectrum values of the main signal.
 static float specBuf[SPEC_LENGTH] = {0};
 
@@ -13,8 +11,7 @@ static peaksAllParams peaksParams = {
 };
 
 /*
- * @brief   Records the signal from the sensor, finds its spectrum and uses it
- *          to find the real freqs of the strings.
+ * @brief   Finds siganl spectrum and uses it to find the real freqs of the strings.
  *
  * @note    ADC1 is used. GPTD5 is used.
  *
@@ -23,17 +20,16 @@ static peaksAllParams peaksParams = {
  * @note    If the "stringParams->sixStringFreq" is {0} or
  *                  stringParams->oneStringFreq" is  0, then we had an error.
  *
- * @param[in]   stringParams    The pointer to the structure in which all data of strings are stored.
- *
+ * @param[in]   mainSignalBuf       An array in which data will be write from the adc.
+ * 				stringParams    	The pointer to the structure in which all data of strings are stored.
  */
-void findStringParams(stringFreqsParams *stringParams){
-    recordMainSignal(mainSignalBuf); // Records the signal from the sensor.
+void findStringParams(uint16_t *mainSignalBuf, stringFreqsParams *stringParams){
     fft(specBuf, mainSignalBuf); // Finds the spectrum of the signal.
     stringParams->Error = searchForRequiredPeaks(specBuf, &peaksParams); // Finds all possible peaks.
     // Finds real string freqs.
     if (stringParams->Error == false){
-        if (MODE == SIX_STRING_MODE) sixStringMode(&peaksParams, stringParams);
-        else if (MODE == ONE_STRING_MODE) oneStringMode(&peaksParams, stringParams);
+        if (getOperatingMode() == SIX_STRING_MODE) sixStringMode(&peaksParams, stringParams);
+        else if (getOperatingMode() == ONE_STRING_MODE) oneStringMode(&peaksParams, stringParams);
     }
     else{
         stringParams->oneStringFreq = 0;

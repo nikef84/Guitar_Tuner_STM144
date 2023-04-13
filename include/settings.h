@@ -49,7 +49,7 @@ typedef struct{
 #define ONE_STRING_MODE                     1
 
 // The current operating mode of the program.
-#define MODE                         		SIX_STRING_MODE
+
 
 #define NUM_OF_STRING						6
 
@@ -65,6 +65,6 @@ typedef struct{
 #define STRING_6							6
 
 // The string that we are tuning in ONE_STRING_MODE.
-#define STRING								STRING_2
+
 
 #endif /* INCLUDE_SETTINGS_H_ */

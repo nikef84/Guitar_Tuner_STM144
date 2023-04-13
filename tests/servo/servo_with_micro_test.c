@@ -1,6 +1,7 @@
 #include "servo_control.h"
 #include "find_string_freqs.h"
 #include "terminal_write.h"
+#include "signal_recording.h"
 #include "tests.h"
 
 
@@ -11,6 +12,8 @@ static stringFreqsParams stringParams = {
 	.result = {0}
 };
 
+// An array that stores the values of the main signal.
+static uint16_t mainSignalBuf[MAIN_SIGNAL_LENGTH] = {0};
 
 void servo_with_micro_test(void) {
 
@@ -19,12 +22,15 @@ void servo_with_micro_test(void) {
     debugStreamInit();
 	dbgPrintf("Start\r\n");
 	adcSimpleInit();
+	setOperatingMode(SIX_STRING_MODE);
+	setCurrentString(0);
 	servoInit();
     while (true) {
-        findStringParams(&stringParams);
+    	recordMainSignal(mainSignalBuf);
+        findStringParams(mainSignalBuf, &stringParams);
         dbgPrintf("Error = %d\r\n", stringParams.Error);
-        if (MODE == SIX_STRING_MODE) dbgPrintf("Six strings mode\r\n");
-        else if (MODE == ONE_STRING_MODE) dbgPrintf("One string mode\r\n");
+        if (getOperatingMode() == SIX_STRING_MODE) dbgPrintf("Six strings mode\r\n");
+        else if (getOperatingMode() == ONE_STRING_MODE) dbgPrintf("One string mode\r\n");
 
         for (uint8_t i = 0; i < 6; i++) dbgPrintf("%d     %0.3f\r\n", i + 1, stringParams.result[i]);
 
