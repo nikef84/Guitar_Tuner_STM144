@@ -6,6 +6,8 @@
 static float separationsLimitMin;
 // It is added to investigated frequency to find if they are located nearby. In Hz.
 static uint8_t nearestFreqRange;
+// Current operating mode.
+static uint8_t operatingMode;
 
 /*
  * @brief   Splits the spectrum into groups, which has its own limit.
@@ -112,11 +114,11 @@ void peak_data_init(float *spectrum, peaksAllParams *peaksParams){
     for (uint16_t i = SPEC_LENGTH; i * SPEC_DF > 800; i--) spectrum[i] = 0;
 
     // Finds minimum of separation limits depending on the operating mode.
-    if (MODE == SIX_STRING_MODE) {
+    if (operatingMode == SIX_STRING_MODE) {
         separationsLimitMin = find_min_limit(sixStrSeparation);
         nearestFreqRange = NEAREST_FREQS_RANGE_SIX_STR;
     }
-    else if (MODE == ONE_STRING_MODE) {
+    else if (operatingMode == ONE_STRING_MODE) {
         separationsLimitMin = find_min_limit(oneStrSeparation);
         nearestFreqRange = NEAREST_FREQS_RANGE_ONE_STR;
     }
@@ -312,10 +314,11 @@ void delete_nearest_freqs(peaksAllParams *peaksParams){
  *              false - Everything is OK. We found less peaks than it should be.
  */
 bool searchForRequiredPeaks(float *spectrum, peaksAllParams *peaksParams){
+	operatingMode = getOperatingMode();
     bool flag;
     peak_data_init(spectrum, peaksParams);
-    if (MODE == SIX_STRING_MODE) flag = find_indices_of_peaks(spectrum, peaksParams, sixStrSeparation);
-    else if (MODE == ONE_STRING_MODE) flag = find_indices_of_peaks(spectrum, peaksParams, oneStrSeparation);
+    if (operatingMode == SIX_STRING_MODE) flag = find_indices_of_peaks(spectrum, peaksParams, sixStrSeparation);
+    else if (operatingMode == ONE_STRING_MODE) flag = find_indices_of_peaks(spectrum, peaksParams, oneStrSeparation);
 
     if (flag == false){
         sort_amps_by_freqs(peaksParams);

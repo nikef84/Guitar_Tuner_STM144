@@ -151,7 +151,7 @@ void find_real_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParams
  */
 static void write_to_result(stringFreqsParams *stringParams){
 	if (stringParams->Error == false){
-		stringParams->result[STRING - 1] = stringParams->oneStringFreq;
+		stringParams->result[getCurrentString() - 1] = stringParams->oneStringFreq;
 	}
 }
 

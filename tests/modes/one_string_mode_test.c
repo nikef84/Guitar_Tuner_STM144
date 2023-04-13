@@ -18,6 +18,7 @@ void one_string_mode_test(void) {
     halInit();
     chSysInit();
     debugStreamInit();
+    setCurrentString(STRING_4);
     oneStringMode(&peaksParams, &stringParams);
     while (true) {
         dbgPrintf("%d    %0.3f\r\n", stringParams.Error, stringParams.oneStringFreq);

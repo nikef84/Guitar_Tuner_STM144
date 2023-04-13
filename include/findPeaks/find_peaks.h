@@ -2,7 +2,7 @@
 #define INCLUDE_FINDPEAKS_FIND_PEAKS_H_
 
 #include "common.h"
-
+#include "indication.h"
 
 // The beginning and the end of the spectrum. In Hz.
 #define SPEC_FREQ_MAX                   (GPT_CONFIG_FREQUENCY / GPT_PERIOD) / 2

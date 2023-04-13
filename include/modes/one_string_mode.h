@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "six_string_mode.h"
-
+#include "indication.h"
 
 #define DIFF_FREQS_LENGTH               PEAKS_MAX_LENGTH - 1
 // Margins to check if some value is in some range.

@@ -17,6 +17,7 @@ void find_peaks_test(void) {
     chSysInit();
     debugStreamInit();
     dbgPrintf("Start\r\n");
+    setOperatingMode(SIX_STRING_MODE);
     for (uint8_t i = 0; i < 30; i++) spec[1000 + i] = 60 + i;
     for (uint8_t i = 0; i < 30; i++) spec[3000 - i] = 50 - i;
     searchForRequiredPeaks(spec, &testParam);

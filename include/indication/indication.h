@@ -84,11 +84,25 @@ void setPotentPermission(bool permission);
 bool getPotentPermission(void);
 
 /*
+ * @brief	Sets new value of the operating mode.
+ *
+ * @param[in]	newOperatingMode	New value of the operating mode.
+ */
+void setOperatingMode(uint8_t newOperatingMode);
+
+/*
  * @brief	Gets the current value of the operating mode.
  *
  * @param[out]		The current value of the operating mode.
  */
 uint8_t getOperatingMode(void);
+
+/*
+ * @brief	Sets new value of the string that we want to tune.
+ *
+ * @param[in]	newCurrentString	New value of the string that we want to tune.
+ */
+void setCurrentString(uint8_t newCurrentString);
 
 /*
  * @brief	Gets the current value of the string that we want to tune.
