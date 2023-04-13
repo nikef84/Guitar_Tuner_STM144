@@ -19,7 +19,10 @@ void one_string_mode_test(void);
 void six_string_mode_test(void);
 
 //servo:
+void mailbox_test(void);
+void servo_control_test(void);
 void servo_simple_test(void);
+void servo_with_micro_test(void);
 
 
 #endif /* INCLUDE_TESTS_H_ */

@@ -8,6 +8,8 @@ PROJECT_CSRC 	= 	src/main.c \
 					src/modes/find_string_freqs.c \
 					src/modes/one_string_mode.c \
 					src/modes/six_string_mode.c \
+					src/servo/servo_control.c \
+					src/servo/servo_lld.c \
 					src/terminal_write/terminal_write.c \
 					
 					
@@ -21,7 +23,11 @@ TESTSRC 	= 		tests/findPeaks/fft_test.c \
 					tests/modes/labview_test.c \
 					tests/modes/one_string_mode_test.c \
 					tests/modes/six_string_mode_test.c \
+					tests/servo/mailbox_test.c \
+					tests/servo/servo_control_test.c \
 					tests/servo/servo_simple_test.c \
+					tests/servo/servo_with_micro_test.c \
+					
 					
 					
 

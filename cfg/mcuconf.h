@@ -187,7 +187,7 @@
 /*
  * GPT driver system settings.
  */
-#define STM32_GPT_USE_TIM1                  FALSE
+#define STM32_GPT_USE_TIM1                  TRUE
 #define STM32_GPT_USE_TIM2                  FALSE
 #define STM32_GPT_USE_TIM3                  FALSE
 #define STM32_GPT_USE_TIM4                  FALSE
@@ -265,10 +265,10 @@
  * PWM driver system settings.
  */
 #define STM32_PWM_USE_ADVANCED              FALSE
-#define STM32_PWM_USE_TIM1                  TRUE
+#define STM32_PWM_USE_TIM1                  FALSE
 #define STM32_PWM_USE_TIM2                  FALSE
 #define STM32_PWM_USE_TIM3                  TRUE
-#define STM32_PWM_USE_TIM4                  FALSE
+#define STM32_PWM_USE_TIM4                  TRUE
 #define STM32_PWM_USE_TIM5                  FALSE
 #define STM32_PWM_USE_TIM8                  FALSE
 #define STM32_PWM_USE_TIM9                  FALSE

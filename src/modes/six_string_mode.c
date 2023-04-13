@@ -66,6 +66,7 @@ void init_params_six_string(stringFreqsParams *stringParams){
         numOfElemInColom[string] = 0;
         tempLimits[string].lowerLimit = 0;
         tempLimits[string].upperLimit = 0;
+        stringParams->result[string] = 0;
     }
 }
 
@@ -301,6 +302,24 @@ void print_freqs_decomosition(void){
 }
 
 /*
+ * @brief	Writes data from sixStringFreqs to result.
+ *
+ * @note 	Just to make it easier to control servos. Because of ONE_STRING_MODE.
+ *
+ * @param[in]   stringParams        The pointer to the structure in which all data of strings are stored.
+ *
+ * @notapi
+ */
+static void write_to_result(stringFreqsParams *stringParams){
+	if (stringParams->Error == false){
+		for (uint8_t string = 0; string < NUM_OF_STRINGS; string++){
+			// Reverse it.
+			stringParams->result[string] = stringParams->sixStringFreqs[NUM_OF_STRINGS - (string + 1)];
+		}
+	}
+}
+
+/*
  * @brief   Checks if the received data is correct and finds real freqs of six strings.
  *
  * @note    If the "stringParams->sixStringFreq" is {0}, then we had an error.
@@ -320,6 +339,7 @@ void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
 
         if (stringParams->Error == false){
             find_all_freqs_exept_first(peaksParams, stringParams);
+            write_to_result(stringParams);
         }
         else writes_zeros_to_six_string_array(stringParams);
     }

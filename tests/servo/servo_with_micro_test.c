@@ -1,24 +1,25 @@
-#include "tests.h"
+#include "servo_control.h"
 #include "find_string_freqs.h"
 #include "terminal_write.h"
-
+#include "tests.h"
 
 
 static stringFreqsParams stringParams = {
-	.result = {0},
     .oneStringFreq = 0,
     .Error = false,
-    .sixStringFreqs = {0}
+    .sixStringFreqs = {0},
+	.result = {0}
 };
 
 
-void find_string_freqs_test(void) {
+void servo_with_micro_test(void) {
+
     halInit();
     chSysInit();
     debugStreamInit();
-    adcSimpleInit();
-
-    dbgPrintf("Start\r\n");
+	dbgPrintf("Start\r\n");
+	adcSimpleInit();
+	servoInit();
     while (true) {
         findStringParams(&stringParams);
         dbgPrintf("Error = %d\r\n", stringParams.Error);
@@ -26,6 +27,10 @@ void find_string_freqs_test(void) {
         else if (MODE == ONE_STRING_MODE) dbgPrintf("One string mode\r\n");
 
         for (uint8_t i = 0; i < 6; i++) dbgPrintf("%d     %0.3f\r\n", i + 1, stringParams.result[i]);
+
+        if (stringParams.Error == false){
+			servoControl(&stringParams);
+		}
 
         chThdSleepMilliseconds(10000);
     }
