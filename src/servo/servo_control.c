@@ -209,7 +209,7 @@ static THD_FUNCTION(servo_6, arg){
 /*
  * @brief	Inits servo threads, mailboxes, pwms and sets legs.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD3 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  * @param[out]		All threads, mailboxes and pwms have been started.

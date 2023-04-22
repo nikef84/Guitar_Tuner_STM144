@@ -7,9 +7,9 @@
  *
  * @note    PWM_CONFIG_FREQUENCY / PWM_CONFIG_PERIOD = 50 Hz.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  */
-static PWMConfig pwm3cfg = {
+static PWMConfig pwm1cfg = {
     .frequency = PWM_CONFIG_FREQUENCY,
     .period    = PWM_CONFIG_PERIOD,
     .callback  = NULL,
@@ -49,19 +49,19 @@ static PWMConfig pwm4cfg = {
 /*
  * @brief   Inits pwms and sets legs to the operating mode.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  */
 void servoSimpleInit(void){
-    palSetLineMode(PWM3_LINE_CH1,  PWM3_MODE_CH1); // PB4  - SERVO_1
-    palSetLineMode(PWM3_LINE_CH2,  PWM3_MODE_CH2); // PB5  - SERVO_2
-    palSetLineMode(PWM3_LINE_CH3,  PWM3_MODE_CH3); // PB0  - SERVO_3
-    palSetLineMode(PWM3_LINE_CH4,  PWM3_MODE_CH4); // PB1  - SERVO_4
+    palSetLineMode(PWM1_LINE_CH1,  PWM1_MODE_CH1); // PE9  - SERVO_1
+    palSetLineMode(PWM1_LINE_CH2,  PWM1_MODE_CH2); // PE11 - SERVO_2
+    palSetLineMode(PWM1_LINE_CH3,  PWM1_MODE_CH3); // PE13 - SERVO_3
+    palSetLineMode(PWM1_LINE_CH4,  PWM1_MODE_CH4); // PE14 - SERVO_4
     palSetLineMode(PWM4_LINE_CH1,  PWM4_MODE_CH1); // PD12 - SERVO_5
     palSetLineMode(PWM4_LINE_CH2,  PWM4_MODE_CH2); // PD13 - SERVO_6
 
-    pwmStart(PWMD3, &pwm3cfg);
+    pwmStart(PWMD1, &pwm1cfg);
     pwmStart(PWMD4, &pwm4cfg);
 }
 
@@ -73,7 +73,7 @@ void servoSimpleInit(void){
  *              Counterclockwise rotation   - (min = 770; max = 790).
  *          These values may differ for defferent servos.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  * @param[in]    numOfServo  The number of the servo to which we want
@@ -87,7 +87,7 @@ void servoSimpleInit(void){
 void servoSetVoltage(uint8_t numOfServo, int16_t voltage){
     // Control of the first four servos.
     if (numOfServo <= PWM_MAX_CHANNEL && numOfServo > 0) {
-        pwmEnableChannel(PWMD3, numOfServo - 1, voltage);
+        pwmEnableChannel(PWMD1, numOfServo - 1, voltage);
     }
     // Control of the last two servos.
     else if (numOfServo <= NUM_OF_STRINGS){
@@ -98,7 +98,7 @@ void servoSetVoltage(uint8_t numOfServo, int16_t voltage){
 /*
  * @brief   Stops the servo.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  * @param[in]   numOfServo  The number of the servo to which we want
@@ -108,7 +108,7 @@ void servoSetVoltage(uint8_t numOfServo, int16_t voltage){
 void servoStop(uint8_t numOfServo){
     // Control of the first four servos.
     if (numOfServo <= PWM_MAX_CHANNEL && numOfServo > 0) {
-        pwmDisableChannel(PWMD3, numOfServo - 1);
+        pwmDisableChannel(PWMD1, numOfServo - 1);
     }
     // Control of the last two servos.
     else if (numOfServo <= NUM_OF_STRINGS){
@@ -119,7 +119,7 @@ void servoStop(uint8_t numOfServo){
 /*
  * @brief   Stops all servos.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  */
 void servoAllStop(void){
@@ -129,21 +129,21 @@ void servoAllStop(void){
 /*
  * @brief   Stops all servos and PWMs.
  *
- * @note   Setting a safe state for used leg.
+ * @note   	Setting a safe state for used leg.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  */
 void servoSimpleUninit(void){
     servoAllStop();
-    pwmStop(PWMD3);
+    pwmStop(PWMD1);
     pwmStop(PWMD4);
 
-    palSetLineMode(PWM3_LINE_CH1,  PAL_MODE_UNCONNECTED);
-    palSetLineMode(PWM3_LINE_CH2,  PAL_MODE_UNCONNECTED);
-    palSetLineMode(PWM3_LINE_CH3,  PAL_MODE_UNCONNECTED);
-    palSetLineMode(PWM3_LINE_CH4,  PAL_MODE_UNCONNECTED);
+    palSetLineMode(PWM1_LINE_CH1,  PAL_MODE_UNCONNECTED);
+    palSetLineMode(PWM1_LINE_CH2,  PAL_MODE_UNCONNECTED);
+    palSetLineMode(PWM1_LINE_CH3,  PAL_MODE_UNCONNECTED);
+    palSetLineMode(PWM1_LINE_CH4,  PAL_MODE_UNCONNECTED);
     palSetLineMode(PWM4_LINE_CH1,  PAL_MODE_UNCONNECTED);
     palSetLineMode(PWM4_LINE_CH2,  PAL_MODE_UNCONNECTED);
 }

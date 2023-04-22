@@ -4,7 +4,7 @@
 #include "common.h"
 
 // Which timers the PWM uses.
-#define PWMD3                       &PWMD3 // TIM3
+#define PWMD1                       &PWMD1 // TIM1
 #define PWMD4                       &PWMD4 // TIM4
 
 // PWMs configuration. PWMd3 and PWMD4 have the same conf.
@@ -12,17 +12,17 @@
 #define PWM_CONFIG_PERIOD           10000
 
 // Legs and modes which are used to control servos.
-#define PWM3_LINE_CH1               PAL_LINE(GPIOB, 4)  // SERVO_1
-#define PWM3_LINE_CH2               PAL_LINE(GPIOB, 5)  // SERVO_2
-#define PWM3_LINE_CH3               PAL_LINE(GPIOB, 0)  // SERVO_3
-#define PWM3_LINE_CH4               PAL_LINE(GPIOB, 1)  // SERVO_4
+#define PWM1_LINE_CH1               PAL_LINE(GPIOE, 9)  // SERVO_1
+#define PWM1_LINE_CH2               PAL_LINE(GPIOE, 11) // SERVO_2
+#define PWM1_LINE_CH3               PAL_LINE(GPIOE, 13) // SERVO_3
+#define PWM1_LINE_CH4               PAL_LINE(GPIOE, 14) // SERVO_4
 #define PWM4_LINE_CH1               PAL_LINE(GPIOD, 12) // SERVO_5
 #define PWM4_LINE_CH2               PAL_LINE(GPIOD, 13) // SERVO_6
 
-#define PWM3_MODE_CH1               PAL_MODE_ALTERNATE(2) // SERVO_1
-#define PWM3_MODE_CH2               PAL_MODE_ALTERNATE(2) // SERVO_2
-#define PWM3_MODE_CH3               PAL_MODE_ALTERNATE(2) // SERVO_3
-#define PWM3_MODE_CH4               PAL_MODE_ALTERNATE(2) // SERVO_4
+#define PWM1_MODE_CH1               PAL_MODE_ALTERNATE(1) // SERVO_1
+#define PWM1_MODE_CH2               PAL_MODE_ALTERNATE(1) // SERVO_2
+#define PWM1_MODE_CH3               PAL_MODE_ALTERNATE(1) // SERVO_3
+#define PWM1_MODE_CH4               PAL_MODE_ALTERNATE(1) // SERVO_4
 #define PWM4_MODE_CH1               PAL_MODE_ALTERNATE(2) // SERVO_5
 #define PWM4_MODE_CH2               PAL_MODE_ALTERNATE(2) // SERVO_6
 
@@ -35,7 +35,7 @@
 /*
  * @brief   Inits pwms and sets legs to the operating mode.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  */
@@ -49,7 +49,7 @@ void servoSimpleInit(void);
  *              Counterclockwise rotation   - (min = 770; max = 790).
  *          These values may differ for defferent servos.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  * @param[in]    numOfServo  The number of the servo to which we want
@@ -65,7 +65,7 @@ void servoSetVoltage(uint8_t numOfServo, int16_t voltage);
 /*
  * @brief   Stops the servo.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  * @param[in]   numOfServo  The number of the servo to which we want
@@ -77,7 +77,7 @@ void servoStop(uint8_t numOfServo);
 /*
  * @brief   Stops all servos.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  */
 void servoAllStop(void);
@@ -87,7 +87,7 @@ void servoAllStop(void);
  *
  * @note   Setting a safe state for used leg.
  *
- * @note    PWMD3 is used (TIM3).
+ * @note    PWMD1 is used (TIM1).
  *          PWMD4 is used (TIM4).
  *
  */
