@@ -11,6 +11,9 @@ static float servosCoefTime[NUM_OF_STRINGS] = {0.13, 0.06, 0.11, 0.075, 0.11, 0.
 static uint16_t servosSpeed	[2][NUM_OF_STRINGS] = {{820, 870, 910, 950, 950, 970},
 												   {660, 610, 570, 530, 530, 510}};
 
+// The maximum possible differences to light the green color of the string.
+static float maxFreqsDiff[NUM_OF_STRINGS] = {10, 8, 8, 7, 5, 4};
+
 // Mailboxes for each servo. Because each servo has its own thread.
 static mailbox_t mb_servo_1, mb_servo_2, mb_servo_3,
 				 mb_servo_4, mb_servo_5, mb_servo_6;
@@ -112,6 +115,12 @@ void rotate_servo(uint8_t numOfServo, mailbox_t *numOfMailBox){
 
 			// Stops the servo.
 			servoStop(numOfServo);
+
+			// Sends msg to indication thread.
+			if (fabs(trueFreqs[numOfServo - 1] - stringFreq) < maxFreqsDiff[numOfServo - 1]){
+				setStringLeds(LED_GREEN_LIGHT, numOfServo);
+			}
+			else setStringLeds(LED_RED_LIGHT, numOfServo);
 		}
 	}
 }

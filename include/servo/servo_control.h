@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "servo_lld.h"
+#include "indication.h"
 
 // Direction of rotation of the servo.
 #define SET_FREQ_HIGHER				0 // Counterclockwise.

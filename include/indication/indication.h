@@ -16,7 +16,7 @@
 // Potentiometer ADC.
 #define POTENT_LINE						PAL_LINE(GPIOC, 3)
 #define POTENT_ADC_BUF					1
-#define POTENT_MB_BUF					1
+#define POTENT_MB_BUF					10
 
 //The period for reading values from the potentiometer.
 #define POTENT_READ_PERIOD				100 // ms.
@@ -58,7 +58,7 @@
 #define RED								1
 
 // The period for checking new msgs in the mailbox.
-#define INDICATION_PERIOD				100
+#define INDICATION_PERIOD				10
 
 /*
  * @brief	Inits indication.
@@ -118,7 +118,7 @@ uint8_t getCurrentString(void);
  *
  * @param[in]	newValue	New values to the string LEDs
  */
-void setStringLeds(uint8_t *newValue);
+void setStringLeds(uint8_t newValue, uint8_t numOfString);
 
 /*
  * @brief	Resets the string LEDs to inital values.

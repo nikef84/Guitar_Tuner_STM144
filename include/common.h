@@ -29,7 +29,7 @@
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE SERVO_CONTROL_TEST
+#define PROGRAM_ROUTINE INDICATION_TEST
 
 
 #endif /* INCLUDE_COMMON_H_ */

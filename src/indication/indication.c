@@ -91,6 +91,9 @@ void set_not_active_state(void){
 	for (uint8_t i = 0; i < NUM_OF_LEDS; i++){
 		ledBuf[i] = LED_NOT_ACTIVE;
 	}
+	for (uint8_t i = 0; i < NUM_OF_STRINGS; i++){
+		ledNewString[i] = LED_NOT_ACTIVE;
+	}
 }
 
 /*
@@ -203,6 +206,7 @@ static THD_FUNCTION(indication, arg){
 				operatingMode = ONE_STRING_MODE;
 
 				ledBuf[result] = LED_RED_LIGHT;
+				ledNewString[result] = LED_RED_LIGHT;
 				currentString = result + 1;
 			}
 			else {
@@ -211,6 +215,7 @@ static THD_FUNCTION(indication, arg){
 				case LED_SIX_STRING_MODE:
 					for (uint8_t i = 0; i < NUM_OF_STRING; i++){
 						ledBuf[i] = LED_RED_LIGHT;
+						ledNewString[i] = LED_RED_LIGHT;
 					}
 					ledBuf[LED_ONE_STRING_MODE] = LED_NOT_ACTIVE;
 					ledBuf[LED_SIX_STRING_MODE] = LED_GREEN_LIGHT;
@@ -220,18 +225,19 @@ static THD_FUNCTION(indication, arg){
 
 				// If we have new values for the LEDs.
 				case LED_NEW_STRING_VALUE:
-					if (operatingMode == SIX_STRING_MODE){
-						for (uint8_t i = 0; i < NUM_OF_STRING; i++){
-							if (ledBuf[i] != LED_GREEN_LIGHT){
-								ledBuf[i] = ledNewString[i];
-							}
-						}
-					}
-					else if (operatingMode == ONE_STRING_MODE){
-						for (uint8_t i = 0; i < NUM_OF_STRING; i++){
+					for (uint8_t i = 0; i < NUM_OF_STRING; i++){
+						if (ledBuf[i] != LED_GREEN_LIGHT){
 							ledBuf[i] = ledNewString[i];
 						}
 					}
+//					if (operatingMode == SIX_STRING_MODE){
+//
+//					}
+//					else if (operatingMode == ONE_STRING_MODE){
+//						for (uint8_t i = 0; i < NUM_OF_STRING; i++){
+//							ledBuf[i] = ledNewString[i];
+//						}
+//					}
 					break;
 
 				// If we want to reset LEDs. Turns of all green lights.
@@ -239,13 +245,16 @@ static THD_FUNCTION(indication, arg){
 					if (operatingMode == SIX_STRING_MODE){
 						for (uint8_t i = 0; i < NUM_OF_STRING; i++){
 							ledBuf[i] = LED_RED_LIGHT;
+							ledNewString[i] = LED_RED_LIGHT;
 						}
 					}
 					else if (operatingMode == ONE_STRING_MODE){
 						for (uint8_t i = 0; i < NUM_OF_STRING; i++){
 							ledBuf[i] = LED_NOT_ACTIVE;
+							ledNewString[i] = LED_NOT_ACTIVE;
 						}
 						ledBuf[currentString] = LED_RED_LIGHT;
+						ledNewString[currentString] = LED_RED_LIGHT;
 					}
 					break;
 
@@ -262,7 +271,7 @@ static THD_FUNCTION(indication, arg){
 
 			light_diodes();
 		}
-		chThdSleepMilliseconds(INDICATION_PERIOD);
+		//chThdSleepMilliseconds(INDICATION_PERIOD);
 	}
 	chThdExit(MSG_OK);
 }
@@ -356,12 +365,12 @@ uint8_t getCurrentString(void){
  *
  * @note 	Sends the msg to the mailbox that we have new values for LEDs.
  *
- * @param[in]	newValue	New values to the string LEDs
+ * @param[in]	newValue		New value to the string LED.
+ * 				numOfString		The string number of which we need to change the value.
  */
-void setStringLeds(uint8_t *newValue){
-	for (uint8_t i = 0; i < NUM_OF_STRING; i++){
-		ledNewString[i] = newValue[i];
-	}
+void setStringLeds(uint8_t newValue, uint8_t numOfString){
+	if (operatingMode == ONE_STRING_MODE && newValue == LED_RED_LIGHT) newValue = LED_NOT_ACTIVE;
+	ledNewString[numOfString - 1] = newValue;
 	chMBPostTimeout(&mb_indication, (msg_t) LED_NEW_STRING_VALUE, TIME_IMMEDIATE);
 }
 
