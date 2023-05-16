@@ -25,11 +25,12 @@
 #define SERVO_SIMPLE_TEST                   11
 #define SERVO_WITH_MICRO_TEST               12
 #define INDICATION_TEST						13
+#define MAIN_TEST							14
 
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE INDICATION_TEST
+#define PROGRAM_ROUTINE ONE_STRING_MODE_TEST
 
 
 #endif /* INCLUDE_COMMON_H_ */

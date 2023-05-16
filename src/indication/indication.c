@@ -1,4 +1,5 @@
 #include "indication.h"
+#include "terminal_write.h"
 
 // Permission to get new values to the potentiometer.
 static bool potentPermission = true;
@@ -55,11 +56,11 @@ static uint32_t ledLegs [2][NUM_OF_STRING] = {{STRING_1_GREEN_LINE, STRING_2_GRE
 /*
  * @brief   Setting the adc configuration (potentiometer).
  *
- * @note    ADC1 is used.
+ * @note    ADC2 is used.
  *
- * @note    The channel 13 from the ADC1 is used.
+ * @note    The channel 13 from the ADC2 is used.
  */
-ADCConversionGroup adc1_conf_13 = {
+ADCConversionGroup adc2_conf_13 = {
 
     .circular = FALSE, // Non-continuous mode.
 
@@ -158,7 +159,7 @@ static THD_FUNCTION(potentiometer, arg){
 	uint8_t potent_mode_current;
 	while (!chThdShouldTerminateX()){
 		if (potentPermission == true){ // If it is allowed to read a new data.
-			adcConvert(ADC_1, &adc1_conf_13, adc_buffer, POTENT_ADC_BUF);
+			adcConvert(ADC_2, &adc2_conf_13, adc_buffer, POTENT_ADC_BUF);
 			// Divides the value from the potentiometer into 7 values.
 			for (uint8_t i = 0; i < POTENT_NUM_OF_MODES; i++){
 				if (adc_buffer[0] >= i * POTENT_MODE_ADC_STEP &&
@@ -196,6 +197,7 @@ static THD_FUNCTION(indication, arg){
 	while (!chThdShouldTerminateX()){
 		// Wait for the msg.
 		msg_t msgError = chMBFetchTimeout(&mb_indication, &msgResult, TIME_INFINITE);
+//		dbgPrintf("143\r\n");
 		if (msgError == MSG_OK){
 			uint8_t result = (uint8_t) msgResult;
 			// If we have changed the string we want to tune. Only from the potentiometer!
@@ -253,8 +255,8 @@ static THD_FUNCTION(indication, arg){
 							ledBuf[i] = LED_NOT_ACTIVE;
 							ledNewString[i] = LED_NOT_ACTIVE;
 						}
-						ledBuf[currentString] = LED_RED_LIGHT;
-						ledNewString[currentString] = LED_RED_LIGHT;
+						ledBuf[currentString - 1] = LED_RED_LIGHT;
+						ledNewString[currentString - 1] = LED_RED_LIGHT;
 					}
 					break;
 
@@ -281,7 +283,7 @@ static THD_FUNCTION(indication, arg){
  *
  * @note	Sets legs, starts ADC, mailbox and threads.
  *
- * @note 	ADC1 CH13 is used.
+ * @note 	ADC2 CH13 is used.
  */
 void indicationInit(void){
 	// Sets the leg for the potentiometer..
@@ -296,10 +298,11 @@ void indicationInit(void){
     palSetLineMode(ONE_STRING_MODE_LINE, PAL_MODE_OUTPUT_PUSHPULL);
 
     // Start ADC.
-    adcStart(ADC_1, NULL);
+    adcStart(ADC_2, NULL);
 
     // Inits the mailbox.
     chMBObjectInit(&mb_indication, mb_indication_buf, 1);
+
 
     //Starts threads.
 	tp_potentiometer = chThdCreateStatic(wa_potentiometer, sizeof(wa_potentiometer), NORMALPRIO, potentiometer, NULL);

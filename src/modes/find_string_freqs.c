@@ -26,6 +26,9 @@ static peaksAllParams peaksParams = {
 void findStringParams(uint16_t *mainSignalBuf, stringFreqsParams *stringParams){
     fft(specBuf, mainSignalBuf); // Finds the spectrum of the signal.
     stringParams->Error = searchForRequiredPeaks(specBuf, &peaksParams); // Finds all possible peaks.
+    for (uint8_t i = 0; i < peaksParams.lengthOfArrays; i++){
+    	dbgPrintf("%0.3f\r\n", peaksParams.freqs[i]);
+    }
     // Finds real string freqs.
     if (stringParams->Error == false){
         if (getOperatingMode() == SIX_STRING_MODE) sixStringMode(&peaksParams, stringParams);

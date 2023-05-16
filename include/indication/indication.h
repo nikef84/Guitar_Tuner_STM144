@@ -6,6 +6,7 @@
 
 // Potentiometer.
 // To divide adc value to groups (modes).
+#define ADC_2							&ADCD2
 #define POTENT_MODE_ADC_STEP			586
 #define POTENT_MODE_ADC_MIN				0
 #define POTENT_MODE_ADC_MAX				4096
@@ -65,7 +66,7 @@
  *
  * @note	Sets legs, starts ADC, mailbox and threads.
  *
- * @note 	ADC1 CH13 is used.
+ * @note 	ADC2 CH13 is used.
  */
 void indicationInit(void);
 

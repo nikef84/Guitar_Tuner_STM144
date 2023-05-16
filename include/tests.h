@@ -24,5 +24,7 @@ void servo_control_test(void);
 void servo_simple_test(void);
 void servo_with_micro_test(void);
 
+void main_test(void);
+
 
 #endif /* INCLUDE_TESTS_H_ */

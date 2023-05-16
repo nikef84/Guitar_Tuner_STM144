@@ -25,14 +25,15 @@ void main_test(void) {
     indicationInit();
     servoInit();
 
-    chThdSleepMilliseconds(100);
+    chThdSleepMilliseconds(1000);
 
     dbgPrintf("Start\r\n");
 
     while (true) {
     	setPotentPermission(true);
-
+    	dbgPrintf("ok\r\n");
     	recordMainSignal(mainSignalBuf);
+    	dbgPrintf("okeeeeee\r\n");
     	setPotentPermission(false);
     	chThdSleepMilliseconds(500);
 

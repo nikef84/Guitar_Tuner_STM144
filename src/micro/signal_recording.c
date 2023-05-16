@@ -16,13 +16,14 @@ static uint16_t waitSignaBuf[WAIT_SIGNAL_SAMPLES] = {0};
  */
 void waiting_for_main_signal(uint16_t *buf, uint16_t numberOfSamples){
     msg_t flag = MSG_TIMEOUT; // Shows if it catch a high amplitude.
-
     while (flag == MSG_TIMEOUT){
         adcSimpleRead(buf, numberOfSamples); // Record the short signal.
 
         // Cheak the recorded signal for a high amplitude.
         for (uint8_t i = 0; i < numberOfSamples; i++){
-            if (buf[i] > WAIT_SIGNAL_UPPER_LIMIT || buf[i] < WAIT_SIGNAL_LOWER_LIMIT) flag = MSG_OK;
+            if (buf[i] > WAIT_SIGNAL_UPPER_LIMIT || buf[i] < WAIT_SIGNAL_LOWER_LIMIT) {
+            	flag = MSG_OK;
+            }
         }
     }
 }
@@ -36,6 +37,5 @@ void waiting_for_main_signal(uint16_t *buf, uint16_t numberOfSamples){
  */
 void recordMainSignal(uint16_t *mainSignalBuf){
     waiting_for_main_signal(waitSignaBuf, WAIT_SIGNAL_SAMPLES); // Waits a high amlitude.
-
     adcSimpleRead(mainSignalBuf, MAIN_SIGNAL_LENGTH); // Records the main signal.
 }

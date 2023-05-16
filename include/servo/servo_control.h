@@ -14,7 +14,7 @@
 
 // The max and min time interval during which we will control the servo.
 #define ROTATE_TIME_LIM_MAX 		3000 // ms
-#define ROTATE_TIME_LIM_MIN 		100  // ms
+#define ROTATE_TIME_LIM_MIN 		30  // ms
 
 
 /*

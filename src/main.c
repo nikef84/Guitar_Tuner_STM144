@@ -28,6 +28,8 @@ static inline void testRoutines(void) {
     servo_with_micro_test();
 #elif(PROGRAM_ROUTINE == INDICATION_TEST)
     indication_test();
+#elif(PROGRAM_ROUTINE == MAIN_TEST)
+    main_test();
 #endif
 }
 

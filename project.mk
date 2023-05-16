@@ -27,6 +27,7 @@ TESTSRC 	= 		tests/findPeaks/fft_test.c \
 					tests/servo/servo_control_test.c \
 					tests/servo/servo_simple_test.c \
 					tests/servo/servo_with_micro_test.c \
+					tests/main_test.c \
 					
 					
 					

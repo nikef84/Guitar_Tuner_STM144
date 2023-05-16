@@ -36,13 +36,16 @@ void multiplicity_check_one_string(peaksAllParams *peaksParams, stringFreqsParam
     float investigatedFreqAbs;
     for (uint8_t i = 1; i < peaksParams->lengthOfArrays; i++){
         investigatedFreqAbs = peaksParams->freqs[i] / halfOfFirstPeak;
+        dbgPrintf("%f\r\n", investigatedFreqAbs);
         if (investigatedFreqAbs <= (round(investigatedFreqAbs) + MULT_CHECK_ONE_STR_MARGIN) &&
             investigatedFreqAbs >= (round(investigatedFreqAbs) - MULT_CHECK_ONE_STR_MARGIN)){
             stringParams->Error = false; // Evrything is OK.
         }
         else {
             stringParams->Error = true; // Found some extra peaks.
-            break;
+            dbgPrintf("%d\r\n", i);
+
+            //break;
         }
     }
 }
