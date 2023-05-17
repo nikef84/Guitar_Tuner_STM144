@@ -34,18 +34,15 @@ void init_params_one_string(stringFreqsParams *stringParams){
 void multiplicity_check_one_string(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     float halfOfFirstPeak = peaksParams->freqs[0] / 2;
     float investigatedFreqAbs;
-    for (uint8_t i = 1; i < peaksParams->lengthOfArrays; i++){
+    for (uint8_t i = 1; (i < peaksParams->lengthOfArrays) && (i <= 4); i++){
         investigatedFreqAbs = peaksParams->freqs[i] / halfOfFirstPeak;
-        dbgPrintf("%f\r\n", investigatedFreqAbs);
         if (investigatedFreqAbs <= (round(investigatedFreqAbs) + MULT_CHECK_ONE_STR_MARGIN) &&
             investigatedFreqAbs >= (round(investigatedFreqAbs) - MULT_CHECK_ONE_STR_MARGIN)){
             stringParams->Error = false; // Evrything is OK.
         }
         else {
             stringParams->Error = true; // Found some extra peaks.
-            dbgPrintf("%d\r\n", i);
-
-            //break;
+            break;
         }
     }
 }
@@ -155,6 +152,7 @@ void find_real_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParams
 static void write_to_result(stringFreqsParams *stringParams){
 	if (stringParams->Error == false){
 		stringParams->result[getCurrentString() - 1] = stringParams->oneStringFreq;
+
 	}
 }
 

@@ -3,8 +3,8 @@
 #include "terminal_write.h"
 
 static peaksAllParams peaksParams = {
-    .lengthOfArrays = 10,
-    .freqs = {78.125, 156.25, 235.839, 312.988, 392.089, 472.167, 551.757, 631.347, 710.449, 791.503}
+    .lengthOfArrays = 6,
+    .freqs = {83.496, 166.503, 250.488, 333.007, 585.937, 668.457}
 };
 
 static stringFreqsParams stringParams = {
@@ -18,7 +18,7 @@ void one_string_mode_test(void) {
     halInit();
     chSysInit();
     debugStreamInit();
-    setCurrentString(STRING_6);
+    setCurrentString(STRING_4);
     dbgPrintf("Start\r\n");
     oneStringMode(&peaksParams, &stringParams);
     while (true) {

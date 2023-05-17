@@ -23,6 +23,7 @@ void waiting_for_main_signal(uint16_t *buf, uint16_t numberOfSamples){
         for (uint8_t i = 0; i < numberOfSamples; i++){
             if (buf[i] > WAIT_SIGNAL_UPPER_LIMIT || buf[i] < WAIT_SIGNAL_LOWER_LIMIT) {
             	flag = MSG_OK;
+            	break;
             }
         }
     }

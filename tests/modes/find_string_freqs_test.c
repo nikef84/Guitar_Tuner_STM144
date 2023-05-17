@@ -20,8 +20,8 @@ void find_string_freqs_test(void) {
     chSysInit();
     debugStreamInit();
     adcSimpleInit();
-    setOperatingMode(SIX_STRING_MODE);
-    setCurrentString(0);
+    setOperatingMode(ONE_STRING_MODE);
+    setCurrentString(4);
     dbgPrintf("Start\r\n");
     while (true) {
     	recordMainSignal(mainSignalBuf);

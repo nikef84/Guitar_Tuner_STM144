@@ -17,7 +17,7 @@
  *
  *              300 / 100 = 3 > 2.1 then 100 - a multiply noise.
  */
-#define MULTIPLY_NOISE_CHECK_LIMIT      2.1 // Abs
+#define MULTIPLY_NOISE_CHECK_LIMIT      3.1 // Abs
 
 
 

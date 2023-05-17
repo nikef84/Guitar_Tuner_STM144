@@ -27,8 +27,8 @@ void servo_simple_test(void)
 
     uint16_t speed = SPEED1;
     dbgPrintf("speed = %d\r\n", speed);
-    servoSetVoltage(2, speed);
-    servoSetVoltage(1, speed);
+    servoSetVoltage(5, speed);
+    servoSetVoltage(6, speed);
     while (true){
         if (flag == true){
             if (speed == SPEED1) {

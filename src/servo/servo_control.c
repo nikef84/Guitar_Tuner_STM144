@@ -5,7 +5,7 @@
 static float trueFreqs[NUM_OF_STRINGS] = {329.63, 246.94, 196, 146.83, 110, 82.4};
 
 // These coefficients are multiplied by the rotation time of each servo. They are selected by experiment.
-static float servosCoefTime[NUM_OF_STRINGS] = {0.13, 0.06, 0.11, 0.075, 0.11, 0.16};
+static float servosCoefTime[NUM_OF_STRINGS] = {0.25, 0.1, 0.2, 0.11, 0.18, 0.12};
 
 // The rotational speed of each servo. First string - to higher, second - to lower.
 // Clocwise(lower): min = 710, max = 510; Counterclockwise: min = 770, max = 970.
@@ -97,17 +97,19 @@ void rotate_servo(uint8_t numOfServo, mailbox_t *numOfMailBox){
 	if (msgError == MSG_OK && stringFreq != 0){
 		// Counts the time that will rotate the servo.
 		uint16_t time = roundf((servosCoefTime[numOfServo - 1] * fabs(trueFreqs[numOfServo - 1] - stringFreq)) *1000);
-		dbgPrintf("time = %d\r\n", time);
+
 		// If the calculated time is greater than the maximum rotation time.
 		if (time >= ROTATE_TIME_LIM_MAX) time = ROTATE_TIME_LIM_MAX;
 
 		// If we need to rotate the servo to tune the string.
 		if (time >= ROTATE_TIME_LIM_MIN){
-			time = time + 70;
+			time += 300;
+			dbgPrintf("time = %d\r\n", time);
 			// Tune to lower.
 			if (trueFreqs[numOfServo - 1] - stringFreq > 0){
 				servoSetVoltage(numOfServo, servosSpeed[SET_FREQ_LOWER][numOfServo - 1]);
 			}
+
 			// Tune to higher.
 			else {
 				servoSetVoltage(numOfServo, servosSpeed[SET_FREQ_HIGHER][numOfServo - 1]);
