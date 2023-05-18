@@ -15,6 +15,7 @@ static uint8_t diffFreqsLength = 0;
  */
 void init_params_one_string(stringFreqsParams *stringParams){
     for (uint8_t i = 0; i < (DIFF_FREQS_LENGTH); i++) diffFreqs[i] = 0;
+    diffFreqsLength = 0;
     writes_zeros_to_six_string_array(stringParams);
     for (uint8_t string; string < NUM_OF_STRINGS; string++){
     	stringParams->result[string] = 0;

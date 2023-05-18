@@ -6,8 +6,8 @@
 #include "indication.h"
 
 // Direction of rotation of the servo.
-#define SET_FREQ_HIGHER				0 // Counterclockwise.
-#define SET_FREQ_LOWER				1 // Clockwise.
+#define SET_FREQ_HIGHER				1 // Counterclockwise.
+#define SET_FREQ_LOWER				0 // Clockwise.
 
 // The size of mailbox buffers.
 #define SIZE_OF_MB_BUF				1

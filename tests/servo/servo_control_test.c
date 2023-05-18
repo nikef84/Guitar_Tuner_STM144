@@ -6,7 +6,7 @@
 static stringFreqsParams stringParams = {
     .oneStringFreq = 0,
     .Error = false,
-    .result = {311, 0, 0, 0, 0, 0}
+    .result = {333.496, 0, 0, 0, 0, 0}
 };
 
 
@@ -18,7 +18,7 @@ void servo_control_test(void) {
     debugStreamInit();
 	dbgPrintf("Start\r\n");
 	servoInit();
-	chThdSleepMilliseconds(5000);
+	chThdSleepMilliseconds(100);
 
     if (stringParams.Error == false){
     	servoControl(&stringParams);

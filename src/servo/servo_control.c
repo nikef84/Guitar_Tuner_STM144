@@ -5,15 +5,27 @@
 static float trueFreqs[NUM_OF_STRINGS] = {329.63, 246.94, 196, 146.83, 110, 82.4};
 
 // These coefficients are multiplied by the rotation time of each servo. They are selected by experiment.
-static float servosCoefTime[NUM_OF_STRINGS] = {0.25, 0.1, 0.2, 0.11, 0.18, 0.12};
+static float servosCoefHigher[NUM_OF_STRINGS][3] = {{-14.81276, 9421.73923, -1495971.56509},
+													{-3.01849 , 1361.30340, -152022.90502 },
+													{-14.88996, 5536.74906, -512982.26531 },
+													{-3.72993 , 954.93919 , -59578.53864  },
+													{-10.58758, 2082.19376, -100855.24118 },
+													{-9.68525 , 1415.53411, -50890.84301  }};
 
-// The rotational speed of each servo. First string - to higher, second - to lower.
-// Clocwise(lower): min = 710, max = 510; Counterclockwise: min = 770, max = 970.
+static float servosCoefLower[NUM_OF_STRINGS][3] = {{-30.68271, 20729.82440, -3499280.68018},
+												   {-7.01272 , 3629.52024 , -468585.55105 },
+												   {-14.87158, 6081.77191 , -620603.08086 },
+												   {-11.86021, 3672.94617 , -283528.02896 },
+												   {-8.61084 , 2089.55273 , -125585.22171 },
+												   {-5.14717 , 979.67215  , -45751.14716  }};
+
+// The rotational speed of each servo. First string - to lower, second - to higher.
+// Clocwise(lower): min = 710, max = 510; Counterclockwise: min = 770, max = 1000.
 static uint16_t servosSpeed	[2][NUM_OF_STRINGS] = {{820, 870, 910, 950, 950, 1000},
 												   {660, 610, 570, 530, 530, 510}};
 
 // The maximum possible differences to light the green color of the string.
-static float maxFreqsDiff[NUM_OF_STRINGS] = {10, 8, 8, 7, 5, 2};
+static float maxFreqsDiff[NUM_OF_STRINGS] = {5, 5, 3, 3, 3, 1.5};
 
 // Mailboxes for each servo. Because each servo has its own thread.
 static mailbox_t mb_servo_1, mb_servo_2, mb_servo_3,
@@ -88,44 +100,58 @@ msg_t float2msg(float num){
  */
 void rotate_servo(uint8_t numOfServo, mailbox_t *numOfMailBox){
 	msg_t msgResult; // A msg from the mailbox.
+	uint16_t timeOfRotation; // A time of rotation of the servo.
+	float speedOfRotation;
 
 	// Get a msg from the mailbox.
 	msg_t msgError = chMBFetchTimeout(numOfMailBox, &msgResult, TIME_INFINITE);
 	float stringFreq = msg2float(msgResult); // Converts a msg from the mailbox to float.
 
+
 	// If we have a msg and it doesn't equal to 0.
 	if (msgError == MSG_OK && stringFreq != 0){
 		// Counts the time that will rotate the servo.
-		uint16_t time = roundf((servosCoefTime[numOfServo - 1] * fabs(trueFreqs[numOfServo - 1] - stringFreq)) *1000);
+		// To higher.
+		if (trueFreqs[numOfServo - 1] - stringFreq > 0){
+			speedOfRotation = servosSpeed[SET_FREQ_HIGHER][numOfServo - 1];
+			timeOfRotation = roundf((servosCoefHigher[numOfServo - 1][0] * stringFreq * stringFreq) +
+									(servosCoefHigher[numOfServo - 1][1] * stringFreq) +
+									(servosCoefHigher[numOfServo - 1][2]));
+		}
+		// To lower.
+		else {
+
+			speedOfRotation = servosSpeed[SET_FREQ_LOWER][numOfServo - 1];
+			timeOfRotation = roundf((servosCoefLower[numOfServo - 1][0] * stringFreq * stringFreq) +
+									(servosCoefLower[numOfServo - 1][1] * stringFreq) +
+									(servosCoefLower[numOfServo - 1][2]));
+//			dbgPrintf("1 = %0.3f\r\n", servosCoefHigher[numOfServo - 1][0] * stringFreq * stringFreq);
+//			dbgPrintf("2 = %0.3f\r\n", servosCoefHigher[numOfServo - 1][1] * stringFreq);
+//			dbgPrintf("3 = %0.3f\r\n", servosCoefHigher[numOfServo - 1][2]);
+		}
+//		dbgPrintf("time = %d\r\n", timeOfRotation);
+//		dbgPrintf("speed = %0.3f\r\n", speedOfRotation);
 
 		// If the calculated time is greater than the maximum rotation time.
-		if (time >= ROTATE_TIME_LIM_MAX) time = ROTATE_TIME_LIM_MAX;
+		if (timeOfRotation >= ROTATE_TIME_LIM_MAX) timeOfRotation = ROTATE_TIME_LIM_MAX;
 
 		// If we need to rotate the servo to tune the string.
-		if (time >= ROTATE_TIME_LIM_MIN){
-			time += 300;
-			dbgPrintf("time = %d\r\n", time);
-			// Tune to lower.
-			if (trueFreqs[numOfServo - 1] - stringFreq > 0){
-				servoSetVoltage(numOfServo, servosSpeed[SET_FREQ_LOWER][numOfServo - 1]);
-			}
+		if (fabs(trueFreqs[numOfServo - 1] - stringFreq) > 0.3){
+			servoSetVoltage(numOfServo, speedOfRotation);
 
-			// Tune to higher.
-			else {
-				servoSetVoltage(numOfServo, servosSpeed[SET_FREQ_HIGHER][numOfServo - 1]);
-			}
-			dbgPrintf("servo rotate\r\n");
 			// Rotate the servo for a certain period of time.
-			chThdSleepMilliseconds(time);
+			chThdSleepMilliseconds(timeOfRotation);
 
 			// Stops the servo.
 			servoStop(numOfServo);
+			// Sends msg to indication thread.
+			if (fabs(trueFreqs[numOfServo - 1] - stringFreq) < maxFreqsDiff[numOfServo - 1]){
+				setStringLeds(LED_GREEN_LIGHT, numOfServo);
+			}
+			else setStringLeds(LED_RED_LIGHT, numOfServo);
 		}
-		// Sends msg to indication thread.
-		if (fabs(trueFreqs[numOfServo - 1] - stringFreq) < maxFreqsDiff[numOfServo - 1]){
-			setStringLeds(LED_GREEN_LIGHT, numOfServo);
-		}
-		else setStringLeds(LED_RED_LIGHT, numOfServo);
+		else setStringLeds(LED_GREEN_LIGHT, numOfServo);
+
 	}
 }
 

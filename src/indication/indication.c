@@ -372,7 +372,6 @@ uint8_t getCurrentString(void){
  * 				numOfString		The string number of which we need to change the value.
  */
 void setStringLeds(uint8_t newValue, uint8_t numOfString){
-	if (operatingMode == ONE_STRING_MODE && newValue == LED_RED_LIGHT) newValue = LED_NOT_ACTIVE;
 	ledNewString[numOfString - 1] = newValue;
 	chMBPostTimeout(&mb_indication, (msg_t) LED_NEW_STRING_VALUE, TIME_IMMEDIATE);
 }

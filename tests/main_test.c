@@ -26,6 +26,7 @@ void main_test(void) {
     servoInit();
 
     chThdSleepMilliseconds(1000);
+    dbgPrintf("%d\r\n", getCurrentString());
 
     dbgPrintf("Start\r\n");
 
