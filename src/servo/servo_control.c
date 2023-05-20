@@ -5,24 +5,24 @@
 static float trueFreqs[NUM_OF_STRINGS] = {329.63, 246.94, 196, 146.83, 110, 82.4};
 
 // These coefficients are multiplied by the rotation time of each servo. They are selected by experiment.
-static float servosCoefHigher[NUM_OF_STRINGS][3] = {{-14.81276, 9421.73923, -1495971.56509},
-													{-3.01849 , 1361.30340, -152022.90502 },
-													{-14.88996, 5536.74906, -512982.26531 },
-													{-3.72993 , 954.93919 , -59578.53864  },
-													{-12.37356, 2491.93311, -124186.26668 },
+static float servosCoefHigher[NUM_OF_STRINGS][3] = {{-8.96282 , 5590.04439, -868444.28271 },
+													{-1.42526 , 590.92349 , -58888.28755  },
+													{-11.84091, 4418.83954, -410839.97327 },
+													{-6.52610 , 1777.95508, -119951.73807 },
+													{-15.91128, 3256.30727, -165510.83695 },
 													{-5.49025 , 779.82973 , -26810.52007  }};
 
-static float servosCoefLower[NUM_OF_STRINGS][3] = {{-30.68271, 20729.82440, -3499280.68018},
-												   {-7.01272 , 3629.52024 , -468585.55105 },
-												   {-14.87158, 6081.77191 , -620603.08086 },
-												   {-11.86021, 3672.94617 , -283528.02896 },
-												   {-11.32860 , 2667.14900 , -156154.79293 },
-												   {-4.20502 , 793.20842  , -36632.44901  }};
+static float servosCoefLower[NUM_OF_STRINGS][3] = {{-13.76836, 9415.78265, -1607476.40430},
+												   {-9.45670 , 4830.40236, -616054.15732 },
+												   {-14.86832, 6041.15841, -612674.91539 },
+												   {-11.86021, 3672.94617, -283528.02896 },
+												   {-32.33988, 7403.72227, -423102.88013 },
+												   {-4.20502 , 793.20842 , -36632.44901  }};
 
 // The rotational speed of each servo. First string - to lower, second - to higher.
 // Clocwise(lower): min = 710, max = 510; Counterclockwise: min = 770, max = 1000.
 static uint16_t servosSpeed	[2][NUM_OF_STRINGS] = {{820, 870, 920, 960, 950, 1000},
-												   {660, 610, 550, 510, 530, 510}};
+												   {660, 610, 550, 520, 530, 510}};
 
 // The maximum possible differences to light the green color of the string.
 static float maxFreqsDiff[NUM_OF_STRINGS] = {5, 5, 3, 3, 3, 1.5};
@@ -129,8 +129,8 @@ void rotate_servo(uint8_t numOfServo, mailbox_t *numOfMailBox){
 //			dbgPrintf("2 = %0.3f\r\n", servosCoefHigher[numOfServo - 1][1] * stringFreq);
 //			dbgPrintf("3 = %0.3f\r\n", servosCoefHigher[numOfServo - 1][2]);
 		}
-//		dbgPrintf("time = %d\r\n", timeOfRotation);
-//		dbgPrintf("speed = %0.3f\r\n", speedOfRotation);
+		dbgPrintf("time = %d\r\n", timeOfRotation);
+		dbgPrintf("speed = %0.3f\r\n", speedOfRotation);
 
 		// If the calculated time is greater than the maximum rotation time.
 		if (timeOfRotation >= ROTATE_TIME_LIM_MAX) timeOfRotation = ROTATE_TIME_LIM_MAX;

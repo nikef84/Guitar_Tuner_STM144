@@ -4,7 +4,7 @@
 
 static peaksAllParams peaksParams = {
     .lengthOfArrays = 6,
-    .freqs = {83.496, 166.503, 250.488, 333.007, 585.937, 668.457}
+    .freqs = {140.136, 280.761, 421.386, 562.011, 702.636, 736.328}
 };
 
 static stringFreqsParams stringParams = {

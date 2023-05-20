@@ -35,8 +35,9 @@ void init_params_one_string(stringFreqsParams *stringParams){
 void multiplicity_check_one_string(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     float halfOfFirstPeak = peaksParams->freqs[0] / 2;
     float investigatedFreqAbs;
-    for (uint8_t i = 1; (i < peaksParams->lengthOfArrays) && (i <= 4); i++){
+    for (uint8_t i = 1; i < peaksParams->lengthOfArrays; i++){
         investigatedFreqAbs = peaksParams->freqs[i] / halfOfFirstPeak;
+        dbgPrintf("invest = %0.3f, freq = %0.3f\r\n", investigatedFreqAbs, peaksParams->freqs[i]);
         if (investigatedFreqAbs <= (round(investigatedFreqAbs) + MULT_CHECK_ONE_STR_MARGIN) &&
             investigatedFreqAbs >= (round(investigatedFreqAbs) - MULT_CHECK_ONE_STR_MARGIN)){
             stringParams->Error = false; // Evrything is OK.
@@ -166,8 +167,8 @@ static void write_to_result(stringFreqsParams *stringParams){
  *              stringParams    The pointer to the structure in which all data of strings are stored.
  */
 void oneStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
-    if (peaksParams->lengthOfArrays > 1){
-        init_params_one_string(stringParams);
+	init_params_one_string(stringParams);
+	if (peaksParams->lengthOfArrays > 1){
         multiplicity_check_one_string(peaksParams, stringParams);
         nearest_freqs_diff(peaksParams, stringParams);
         multiply_noise_check(peaksParams, stringParams);

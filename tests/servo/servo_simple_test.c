@@ -9,7 +9,8 @@ void palcb_button(void* args){
     flag = true;
 }
 
-#define SPEED1          900
+// Clocwise(lower): min = 710, max = 510; Counterclockwise: min = 770, max = 1000.
+#define SPEED1          510
 #define SPEED2          0
 
 
@@ -64,12 +65,11 @@ void servo_simple_test(void)
 
     uint16_t speed = SPEED1;
     dbgPrintf("speed = %d\r\n", speed);
-    servoSetVoltage(6, speed);
+    servoSetVoltage(4, speed);
     while (true){
 
-			servoSetVoltage(6, speed);
 			chThdSleepMilliseconds(500);
-			servoStop(6);
+			//servoStop(6);
 
 
 
