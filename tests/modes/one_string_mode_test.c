@@ -10,7 +10,8 @@ static peaksAllParams peaksParams = {
 static stringFreqsParams stringParams = {
     .oneStringFreq = 0,
     .Error = false,
-    .sixStringFreqs = {0}
+    .sixStringFreqs = {0},
+    .result = {0}
 };
 
 

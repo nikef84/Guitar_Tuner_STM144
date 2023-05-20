@@ -39,6 +39,7 @@ typedef struct{
 
 typedef struct{
     float sixStringFreqs[6];
+    float result[6];
     float oneStringFreq;
     bool Error;
 } stringFreqsParams;

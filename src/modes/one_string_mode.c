@@ -15,7 +15,11 @@ static uint8_t diffFreqsLength = 0;
  */
 void init_params_one_string(stringFreqsParams *stringParams){
     for (uint8_t i = 0; i < (DIFF_FREQS_LENGTH); i++) diffFreqs[i] = 0;
+    diffFreqsLength = 0;
     writes_zeros_to_six_string_array(stringParams);
+    for (uint8_t string; string < NUM_OF_STRINGS; string++){
+    	stringParams->result[string] = 0;
+    }
     stringParams->oneStringFreq = 0;
     stringParams->Error = false;
 }
@@ -138,6 +142,22 @@ void find_real_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParams
 }
 
 /*
+ * @brief	Writes data from oneStringFreq to result.
+ *
+ * @note 	Just to make it easier to control servos. Because of ONE_STRING_MODE.
+ *
+ * @param[in]   stringParams        The pointer to the structure in which all data of strings are stored.
+ *
+ * @notapi
+ */
+static void write_to_result(stringFreqsParams *stringParams){
+	if (stringParams->Error == false){
+		//stringParams->result[getCurrentString() - 1] = stringParams->oneStringFreq;
+
+	}
+}
+
+/*
  * @brief   Checks if the received data is correct and finds a real freq of one string.
  *
  * @note    If the "stringParams->oneStringFreq" is "0", then we had an error.
@@ -146,12 +166,13 @@ void find_real_freq(peaksAllParams *peaksParams, stringFreqsParams *stringParams
  *              stringParams    The pointer to the structure in which all data of strings are stored.
  */
 void oneStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
-    if (peaksParams->lengthOfArrays > 1){
-        init_params_one_string(stringParams);
+	init_params_one_string(stringParams);
+	if (peaksParams->lengthOfArrays > 1){
         multiplicity_check_one_string(peaksParams, stringParams);
         nearest_freqs_diff(peaksParams, stringParams);
         multiply_noise_check(peaksParams, stringParams);
         find_real_freq(peaksParams, stringParams);
+        write_to_result(stringParams);
     }
     else {
         stringParams->Error = true;

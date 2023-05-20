@@ -66,6 +66,7 @@ void init_params_six_string(stringFreqsParams *stringParams){
         numOfElemInColom[string] = 0;
         tempLimits[string].lowerLimit = 0;
         tempLimits[string].upperLimit = 0;
+        stringParams->result[string] = 0;
     }
 }
 
@@ -212,10 +213,10 @@ bool check_if_freqs_were_lost(float investigatedFreq){
  */
 void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
     bool error = false; // If we need to stop a search.
+    bool findPossibleFreq = true; // Flag to save possible freq.
     float potentialFreq, investigatedFreqAbs;
     // If this number is greater than 2, then this is an error.
     uint8_t numOfPotentialFreq;
-    bool findPossibleFreq = true; // Flag to save possible freq.
 
     // Explores all possible strings after the first one found.
     for (uint8_t string = 1; (string < NUM_OF_STRINGS - numOfFirstZeroElem) && !error; string++){
@@ -236,7 +237,6 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
                     if (stringParams->sixStringFreqs[j] != 0){
                         investigatedFreqAbs = freqsDecomposition[numOfFirstZeroElem + string][i] /
                                               stringParams->sixStringFreqs[j];
-
                         if ((investigatedFreqAbs <= round(investigatedFreqAbs) + FIND_ALL_FREQS_MARGIN) &&
                             (investigatedFreqAbs >= round(investigatedFreqAbs) - FIND_ALL_FREQS_MARGIN)){
                             // The investigated freq is a multiple of some previous one.
@@ -244,7 +244,7 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
                             findPossibleFreq = false; // It's not a string freq.
                             break;
                         }
-                        potentialFreq = freqsDecomposition[numOfFirstZeroElem + string][i];
+
                     }
                 }
                 if (findPossibleFreq == true){ // If we find possible freq of the string.
@@ -269,8 +269,9 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
                 stringParams->sixStringFreqs[numOfFirstZeroElem + string] = potentialFreq;
             }
             else { // We found a noise or we lost some necessary freqs.
-                writes_zeros_to_six_string_array(stringParams);
-                error = true;
+            	// Adds a limit in which we might delete multiple freqs.
+				tempLimits[tempLimitsLength] = sixStringLimits[numOfFirstZeroElem + string];
+				tempLimitsLength += 1;
             }
             break;
         default: // We found more than 2 potential freqs. We found a noise.
@@ -302,6 +303,24 @@ void print_freqs_decomosition(void){
 }
 
 /*
+ * @brief	Writes data from sixStringFreqs to result.
+ *
+ * @note 	Just to make it easier to control servos. Because of ONE_STRING_MODE.
+ *
+ * @param[in]   stringParams        The pointer to the structure in which all data of strings are stored.
+ *
+ * @notapi
+ */
+static void write_to_result(stringFreqsParams *stringParams){
+	if (stringParams->Error == false){
+		for (uint8_t string = 0; string < NUM_OF_STRINGS; string++){
+			// Reverse it.
+			stringParams->result[string] = stringParams->sixStringFreqs[NUM_OF_STRINGS - (string + 1)];
+		}
+	}
+}
+
+/*
  * @brief   Checks if the received data is correct and finds real freqs of six strings.
  *
  * @note    If the "stringParams->sixStringFreq" is {0}, then we had an error.
@@ -318,8 +337,10 @@ void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
         freqs_decomposition_by_limits(peaksParams);
         //print_freqs_decomosition();
         find_first_freq(peaksParams, stringParams);
+
         if (stringParams->Error == false){
             find_all_freqs_exept_first(peaksParams, stringParams);
+            write_to_result(stringParams);
         }
         else writes_zeros_to_six_string_array(stringParams);
     }

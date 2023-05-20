@@ -1,7 +1,7 @@
 #include "find_peaks.h"
 
 // @brief   The size of the "separations" array.
-#define SEPARATIONS_LENGTH              6
+#define SEPARATIONS_LENGTH              9
 // @brief   The smallest "limit" value in the "separations".
 static float separationsLimitMin;
 // It is added to investigated frequency to find if they are located nearby. In Hz.
@@ -17,13 +17,16 @@ static uint8_t nearestFreqRange;
  *          limit       The minimum value of the limit for finding a peak in a given group.
  */
 static findPeaksSeparat oneStrSeparation[] = {
-    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 95           , .limit = 50 },
+    {.minFreq = SPEC_FREQ_MIN, .maxFreq = 95           , .limit = 110},
     {.minFreq = 95           , .maxFreq = 215          , .limit = 60 },
-    {.minFreq = 215          , .maxFreq = 270          , .limit = 30 },
+    {.minFreq = 215          , .maxFreq = 268          , .limit = 30 },
+	{.minFreq = 268          , .maxFreq = 300          , .limit = 45 },
+	{.minFreq = 300          , .maxFreq = 360          , .limit = 30 },
     // Just for length(oneStrSeparation) = length(sixStrSeparationing)
-    {.minFreq = 270          , .maxFreq = 700          , .limit = 30 },
-    {.minFreq = 700          , .maxFreq = 800          , .limit = 30 },
-    {.minFreq = 800          , .maxFreq = SPEC_FREQ_MAX, .limit = 30 } //35
+    {.minFreq = 360          , .maxFreq = 462          , .limit = 100},
+    {.minFreq = 462          , .maxFreq = 600          , .limit = 30 },
+	{.minFreq = 600          , .maxFreq = 650          , .limit = 50 },
+    {.minFreq = 650          , .maxFreq = SPEC_FREQ_MAX, .limit = 150} //35
 };
 
 /*
@@ -37,11 +40,14 @@ static findPeaksSeparat oneStrSeparation[] = {
  */
 static findPeaksSeparat sixStrSeparation[] = {
     {.minFreq = SPEC_FREQ_MIN, .maxFreq = 95           , .limit = 40 },
-    {.minFreq = 95           , .maxFreq = 180          , .limit = 80 },
+    {.minFreq = 95           , .maxFreq = 180          , .limit = 60 },
     {.minFreq = 180          , .maxFreq = 220          , .limit = 40 },
     {.minFreq = 220          , .maxFreq = 280          , .limit = 25 },
     {.minFreq = 280          , .maxFreq = 450          , .limit = 40 },
-    {.minFreq = 450          , .maxFreq = SPEC_FREQ_MAX, .limit = 50 }
+    {.minFreq = 450          , .maxFreq = 550		   , .limit = 50 },
+    {.minFreq = 550          , .maxFreq = 650		   , .limit = 50 },
+    {.minFreq = 650          , .maxFreq = 750		   , .limit = 50 },
+    {.minFreq = 750          , .maxFreq = SPEC_FREQ_MAX, .limit = 50 }
 };
 
 /*
@@ -305,6 +311,7 @@ void delete_nearest_freqs(peaksAllParams *peaksParams){
     }
 }
 
+#include "terminal_write.h"
 /*
  * @brief   Finds all required peaks in the spectrum.
  *
