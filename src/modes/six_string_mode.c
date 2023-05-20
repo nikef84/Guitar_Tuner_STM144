@@ -269,8 +269,9 @@ void find_all_freqs_exept_first(peaksAllParams *peaksParams, stringFreqsParams *
                 stringParams->sixStringFreqs[numOfFirstZeroElem + string] = potentialFreq;
             }
             else { // We found a noise or we lost some necessary freqs.
-                writes_zeros_to_six_string_array(stringParams);
-                error = true;
+            	// Adds a limit in which we might delete multiple freqs.
+				tempLimits[tempLimitsLength] = sixStringLimits[numOfFirstZeroElem + string];
+				tempLimitsLength += 1;
             }
             break;
         default: // We found more than 2 potential freqs. We found a noise.
@@ -345,3 +346,11 @@ void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
     }
     else writes_zeros_to_six_string_array(stringParams);
 }
+
+float getSixStringUpperLimit(uint8_t num_of_string){
+	return sixStringLimits[num_of_string - 1].upperLimit;
+};
+
+float getSixStringLowerLimit(uint8_t num_of_string){
+	return sixStringLimits[num_of_string - 1].lowerLimit;
+};

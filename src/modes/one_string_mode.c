@@ -37,7 +37,6 @@ void multiplicity_check_one_string(peaksAllParams *peaksParams, stringFreqsParam
     float investigatedFreqAbs;
     for (uint8_t i = 1; i < peaksParams->lengthOfArrays; i++){
         investigatedFreqAbs = peaksParams->freqs[i] / halfOfFirstPeak;
-        dbgPrintf("invest = %0.3f, freq = %0.3f\r\n", investigatedFreqAbs, peaksParams->freqs[i]);
         if (investigatedFreqAbs <= (round(investigatedFreqAbs) + MULT_CHECK_ONE_STR_MARGIN) &&
             investigatedFreqAbs >= (round(investigatedFreqAbs) - MULT_CHECK_ONE_STR_MARGIN)){
             stringParams->Error = false; // Evrything is OK.
@@ -181,3 +180,34 @@ void oneStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams)
     }
 }
 
+
+void oneStringModeForSixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams){
+    // Init nessesary params.
+	for (uint8_t i = 0; i < (DIFF_FREQS_LENGTH); i++) diffFreqs[i] = 0;
+    diffFreqsLength = 0;
+    stringParams->oneStringFreq = 0;
+	stringParams->Error = false;
+	// Check if we have only one string in the spec.
+	if (peaksParams->lengthOfArrays > 1){
+        multiplicity_check_one_string(peaksParams, stringParams);
+        nearest_freqs_diff(peaksParams, stringParams);
+        multiply_noise_check(peaksParams, stringParams);
+        find_real_freq(peaksParams, stringParams);
+    }
+    else {
+        stringParams->Error = true;
+        stringParams->oneStringFreq = 0;
+    }
+
+	// Write the ans to the result.
+	if (stringParams->Error == false){
+		for (uint8_t i = 1; i <= NUM_OF_STRINGS; i++){
+			if ((stringParams->oneStringFreq >= getSixStringLowerLimit(i)) &&
+				(stringParams->oneStringFreq <  getSixStringUpperLimit(i))){
+				if (stringParams->result[NUM_OF_STRINGS - i] == 0) {
+					stringParams->result[NUM_OF_STRINGS - i] = stringParams->oneStringFreq;
+				}
+			}
+		}
+	}
+}

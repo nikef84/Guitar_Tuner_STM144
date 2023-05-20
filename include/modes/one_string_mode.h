@@ -31,4 +31,6 @@
  */
 void oneStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams);
 
+void oneStringModeForSixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams);
+
 #endif /* INCLUDE_MODES_ONE_STRING_MODE_H_ */

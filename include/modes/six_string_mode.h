@@ -43,4 +43,8 @@ void writes_zeros_to_six_string_array(stringFreqsParams *stringParams);
  */
 void sixStringMode(peaksAllParams *peaksParams, stringFreqsParams *stringParams);
 
+float getSixStringUpperLimit(uint8_t num_of_string);
+
+float getSixStringLowerLimit(uint8_t num_of_string);
+
 #endif /* INCLUDE_MODES_SIX_STRING_MODE_H_ */

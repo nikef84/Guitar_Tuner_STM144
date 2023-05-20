@@ -3,8 +3,8 @@
 #include "terminal_write.h"
 
 static peaksAllParams peaksParams = {
-    .lengthOfArrays = 14,
-    .freqs = {82.03, 110.352, 146.48, 164.062, 195.8, 220.2, 293.95, 328.11, 391.1, 440.43, 486.816, 586.914, 730.469, 782.715}
+    .lengthOfArrays = 12,
+    .freqs = {80.566, 107.421, 161.132, 196.289, 214.843, 236.816, 291.992, 390.136, 437.5, 585.449, 668.457, 709.472}
 };
 
 static stringFreqsParams stringParams = {

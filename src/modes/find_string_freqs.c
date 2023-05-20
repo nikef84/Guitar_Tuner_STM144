@@ -31,7 +31,10 @@ void findStringParams(uint16_t *mainSignalBuf, stringFreqsParams *stringParams){
     }
     // Finds real string freqs.
     if (stringParams->Error == false){
-        if (getOperatingMode() == SIX_STRING_MODE) sixStringMode(&peaksParams, stringParams);
+        if (getOperatingMode() == SIX_STRING_MODE) {
+        	sixStringMode(&peaksParams, stringParams);
+        	if (stringParams->Error == true) oneStringModeForSixStringMode(&peaksParams, stringParams);
+        }
         else if (getOperatingMode() == ONE_STRING_MODE) oneStringMode(&peaksParams, stringParams);
     }
     else{
