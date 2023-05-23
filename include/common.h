@@ -30,7 +30,7 @@
 
 
 // Selection of program to run
-#define PROGRAM_ROUTINE SIX_STRING_MODE_TEST
+#define PROGRAM_ROUTINE MAIN_TEST
 
 
 
